@@ -1,33 +1,36 @@
-package cz.cvut.fel.omo.semestral.device;
+package cz.cvut.fel.omo.semestral.entity.devices.appliances;
 
-public abstract class Sensor implements IDevice {
+import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
+import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
+import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
+import cz.cvut.fel.omo.semestral.entity.devices.IDeviceCommand;
+import lombok.Getter;
+
+import java.util.UUID;
+
+@Getter
+public abstract class Appliance implements IDevice, IDeviceCommand {
+
+    private UUID serialNumber;
     private DeviceState state;
     private int totalWear;
     private double powerConsumption;
 
-    public Sensor() {
+    public Appliance(UUID serialNumber) {
+        this.serialNumber = serialNumber;
         this.state = DeviceState.OFF;
         this.totalWear = 0;
         this.powerConsumption = 0;
     }
 
-    public Sensor(DeviceState state, int totalWear, double powerConsumption) {
+    public Appliance(UUID serialNumber, DeviceState state, int totalWear, double powerConsumption) {
+        this.serialNumber = serialNumber;
         this.state = state;
         this.totalWear = totalWear;
         this.powerConsumption = powerConsumption;
     }
 
-    public double getPowerConsumption() {
-        return powerConsumption;
-    }
-
-    public DeviceState getState() {
-        return state;
-    }
-
-    public int getTotalWear() {
-        return totalWear;
-    }
+    public abstract void executeCommand(DeviceCommand command);
 
     public void setState(DeviceState state) {
         this.state = state;
@@ -64,4 +67,5 @@ public abstract class Sensor implements IDevice {
     public void decreaseTotalWear(int wear) {
         this.totalWear -= wear;
     }
+
 }

@@ -1,4 +1,6 @@
-package cz.cvut.fel.omo.semestral.device;
+package cz.cvut.fel.omo.semestral.entity.devices;
+
+import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 
 public interface IDevice {
     double getPowerConsumption();
