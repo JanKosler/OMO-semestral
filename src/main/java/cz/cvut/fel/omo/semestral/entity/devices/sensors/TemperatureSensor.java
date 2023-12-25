@@ -3,6 +3,9 @@ package cz.cvut.fel.omo.semestral.entity.devices.sensors;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import lombok.Getter;
 
+/**
+ * Measures and reports temperature changes in the smart home environment.
+ */
 @Getter
 public class TemperatureSensor extends Sensor {
     private double currentTemperature;

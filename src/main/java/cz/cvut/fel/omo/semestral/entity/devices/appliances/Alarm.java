@@ -6,6 +6,10 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+/**
+ * Represents an Alarm system in the smart home environment. This class models
+ * the behavior of a security alarm, including the ability to be armed and disarmed.
+ */
 @Getter
 public class Alarm extends Appliance {
 

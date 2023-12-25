@@ -6,6 +6,14 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+/**
+ * Represents a Heating, Ventilation, and Air Conditioning (HVAC) system
+ * in the smart home environment. This class models the behavior of an HVAC
+ * unit, capable of switching between different states such as heating, cooling,
+ * and ventilation. State changes are executed through specific commands, allowing
+ * for dynamic control of the home's climate. The HVAC system starts in an 'off' state
+ * and transitions to other states based on received commands.
+ */
 @Getter
 public class HVAC extends Appliance {
 
@@ -16,7 +24,7 @@ public class HVAC extends Appliance {
         this.currentState = new OffState(); // Default state is off
     }
 
-    public void setState(HVACState newState) {
+    protected void setState(HVACState newState) {
         this.currentState = newState;
     }
 

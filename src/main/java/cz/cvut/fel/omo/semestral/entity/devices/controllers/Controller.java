@@ -6,6 +6,15 @@ import cz.cvut.fel.omo.semestral.entity.devices.IDeviceObserver;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import lombok.Getter;
 
+/**
+ * Abstract base class for Controllers in the smart home system. Controllers
+ * act as intermediaries between sensors and appliances, processing sensor
+ * inputs and making decisions to control various appliances. Each specific
+ * controller implementation is responsible for responding to sensor updates
+ * and managing a particular aspect of the home environment, such as temperature,
+ * lighting, or security. Controllers maintain their operational state, wear,
+ * and power consumption.
+ */
 @Getter
 public abstract class Controller implements IDevice, IDeviceObserver {
 

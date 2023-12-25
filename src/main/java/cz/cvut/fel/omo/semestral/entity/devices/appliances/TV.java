@@ -6,6 +6,14 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+/**
+ * Represents a Television (TV) in the smart home system. This class provides
+ * functionalities for turning the TV on and off, adjusting volume, and changing
+ * channels. The state of the TV (on or off), current volume level, and channel
+ * are managed through specific commands. The TV starts with a default channel and
+ * volume level, and its operational status is indicated by its state within the
+ * smart home environment.
+ */
 @Getter
 public class TV extends Appliance {
 

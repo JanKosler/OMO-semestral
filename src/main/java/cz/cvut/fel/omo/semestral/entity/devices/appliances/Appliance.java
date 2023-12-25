@@ -8,6 +8,14 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+/**
+ * Abstract base class for appliances in the smart home system. This class
+ * serves as a foundation for various types of home appliances, providing
+ * common attributes such as serial number, state, wear, and power consumption.
+ * Each specific appliance type extends this class and implements its own
+ * behavior through the executeCommand method, allowing for dynamic control
+ * of appliance actions such as turning on or off and adjusting settings.
+ */
 @Getter
 public abstract class Appliance implements IDevice, IDeviceCommand {
 

@@ -8,6 +8,10 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Abstract base for various sensors in the smart home system, capable of monitoring
+ * specific conditions and notifying observers about changes.
+ */
 @Getter
 public abstract class Sensor implements IDevice {
 
@@ -15,7 +19,7 @@ public abstract class Sensor implements IDevice {
     private int totalWear;
     private double powerConsumption;
 
-    private List<IDeviceObserver> observers = new ArrayList<>();
+    private final List<IDeviceObserver> observers = new ArrayList<>();
 
     public Sensor() {
         this.state = DeviceState.OFF;

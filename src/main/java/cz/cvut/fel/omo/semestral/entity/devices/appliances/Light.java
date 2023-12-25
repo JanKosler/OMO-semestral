@@ -6,19 +6,20 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+/**
+ * Represents a Light in the smart home system. This class provides
+ * basic functionalities to turn on and off the light. The state of the light
+ * (on or off) is managed through specific commands. The light starts in an
+ * 'off' state and can be toggled to 'on' or vice versa, reflecting its
+ * operational status in the smart home environment.
+ */
 @Getter
 public class Light extends Appliance {
 
-    private boolean isDimmable;
-
-    private int brightnessLevel; // Range from 0 (off) to 100 (full brightness)
     private boolean isOn;
 
-    public Light(UUID serialNumber, boolean isDimmable) {
+    public Light(UUID serialNumber) {
         super(serialNumber);
-        this.isDimmable = isDimmable;
-        // Lights start off and at full brightness (if they're dimmable) by default
-        this.brightnessLevel = 100;
         this.isOn = false;
     }
 
@@ -30,12 +31,6 @@ public class Light extends Appliance {
                 break;
             case TURN_OFF:
                 turnOff();
-                break;
-            case INCREASE_BRIGHTNESS:
-                changeBrightness(10); // Assuming each call increases brightness by 10%
-                break;
-            case DECREASE_BRIGHTNESS:
-                changeBrightness(-10); // Assuming each call decreases brightness by 10%
                 break;
             default:
                 System.out.println("Command not recognized for Light.");
@@ -57,14 +52,5 @@ public class Light extends Appliance {
         System.out.println("Light turned off.");
     }
 
-    // Method to change brightness; increase or decrease based on the value
-    private void changeBrightness(int change) {
-        if (isDimmable) {
-            brightnessLevel += change;
-            // Ensure the brightness level stays within the 0-100 range
-            brightnessLevel = Math.max(0, Math.min(brightnessLevel, 100));
-            System.out.println("Light brightness set to " + brightnessLevel + "%");
-        }
-    }
 }
 

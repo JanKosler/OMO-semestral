@@ -4,7 +4,10 @@ import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
 import lombok.Getter;
 
 import java.util.UUID;
-
+/**
+ * Fridge is an appliance that can be turned on and off and its internal
+ * temperature can be adjusted.
+ */
 @Getter
 public class Fridge extends Appliance {
 

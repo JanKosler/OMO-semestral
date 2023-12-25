@@ -3,6 +3,9 @@ package cz.cvut.fel.omo.semestral.entity.devices.sensors;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import lombok.Getter;
 
+/**
+ * Detects motion in the smart home, triggering automated responses in connected devices.
+ */
 @Getter
 public class MotionSensor extends Sensor {
     private boolean motionDetected;

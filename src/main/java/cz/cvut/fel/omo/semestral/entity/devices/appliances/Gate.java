@@ -6,6 +6,12 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+/**
+ * Represents a Gate within the smart home system. This class provides
+ * functionalities to open, close, and toggle the state of the gate. The
+ * gate can be controlled through specific commands, and its state is
+ * reflected by whether it is open (active state) or closed (idle state).
+ */
 @Getter
 public class Gate extends Appliance {
 
@@ -19,11 +25,8 @@ public class Gate extends Appliance {
     @Override
     public void executeCommand(DeviceCommand command) {
         switch (command) {
-            case OPEN_GATE:
-                openGate();
-                break;
-            case CLOSE_GATE:
-                closeGate();
+            case TOGGLE_GATE:
+                toggleGate();
                 break;
             default:
                 System.out.println("Command not recognized for Gate.");
