@@ -9,13 +9,12 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.TemperatureSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 
 /**
- * Manages the HVAC system in response to indoor and outdoor temperature readings,
- * as well as user input for desired target temperature. This controller ensures
- * optimal indoor climate control by adjusting the HVAC's operational state.
- * It decides whether to heat, cool, or ventilate based on the difference between
- * the indoor temperature and the target temperature, taking into account the
- * outdoor temperature. Specifically, if outdoor temperature is lower than indoor,
- * it opts for ventilation; otherwise, it initiates cooling.
+ * Controller responsible for managing the HVAC system in the smart home, taking into account both
+ * indoor and outdoor temperatures as well as user-defined target temperatures.
+ * The TemperatureController dynamically adjusts the operation of the HVAC system
+ * to maintain comfortable indoor conditions, choosing the appropriate action (heating, cooling, or ventilating)
+ * based on the comparison of indoor temperature with the target, and considering the outdoor temperature.
+ * When outdoor temperatures are lower than indoor, it opts for ventilation; otherwise, it engages cooling.
  */
 public class TemperatureController extends Controller {
 
@@ -27,6 +26,14 @@ public class TemperatureController extends Controller {
     private double indoorTemp;
     private double outdoorTemp;
 
+    /**
+     * Constructs a TemperatureController with specific temperature sensors and HVAC system.
+     *
+     * @param internalSensor  The sensor monitoring indoor temperature.
+     * @param externalSensor  The sensor monitoring outdoor temperature.
+     * @param hvac            The HVAC system to control.
+     * @param userInputSensor The sensor for receiving user inputs regarding target temperature.
+     */
     public TemperatureController(TemperatureSensor internalSensor, TemperatureSensor externalSensor, HVAC hvac, UserInputSensor userInputSensor) {
         this.internalSensor = internalSensor;
         this.externalSensor = externalSensor;
@@ -37,6 +44,12 @@ public class TemperatureController extends Controller {
         this.userInputSensor.addObserver(this);
     }
 
+    /**
+     * Responds to updates from the connected sensors.
+     * Adjusts the HVAC system based on temperature readings and user inputs.
+     *
+     * @param device The device (sensor) reporting a change.
+     */
     @Override
     public void update(IDevice device) {
         if (device instanceof TemperatureSensor) {
@@ -49,11 +62,21 @@ public class TemperatureController extends Controller {
         }
     }
 
+    /**
+     * Sets the target temperature for indoor climate control.
+     * Triggers the process to adjust the HVAC system towards this temperature.
+     *
+     * @param targetTemp The desired target temperature set by the user.
+     */
     private void setTargetTemperature(double targetTemp) {
         this.targetTemperature = targetTemp;
         handleTemperature(); // React to new target temperature
     }
 
+    /**
+     * Handles temperature control based on current readings from sensors.
+     * Decides the mode of HVAC operation (heating, cooling, ventilation) as required.
+     */
     @Override
     protected void respondToSensor(Sensor sensor) {
         if (sensor == internalSensor) {
@@ -64,6 +87,11 @@ public class TemperatureController extends Controller {
         }
     }
 
+    /**
+     * Handles the logic for adjusting the HVAC system based on the current and target temperatures.
+     * This involves deciding whether to heat, cool, or ventilate the home to achieve the target temperature.
+     * If the outdoor temperature is lower than the indoor temperature, the system will opt for ventilation.
+     */
     private void handleTemperature() {
         if (Math.abs(indoorTemp - targetTemperature) > 1.0) {
             if (indoorTemp < targetTemperature) {

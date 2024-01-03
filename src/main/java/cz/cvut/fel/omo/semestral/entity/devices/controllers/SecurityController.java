@@ -9,8 +9,11 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 
 /**
- * Manages home security by responding to SecuritySensor alerts and user inputs.
- * Activates an Alarm in case of security breaches and allows users to disarm it.
+ * Controller for managing home security by interfacing with security sensors and alarms.
+ * It reacts to alerts from SecuritySensor indicating potential security breaches
+ * and handles user inputs to control the Alarm system. This controller is capable of
+ * activating the Alarm in response to security threats and allows users to disarm the Alarm
+ * through user input.
  */
 public class SecurityController extends Controller {
 
@@ -18,6 +21,13 @@ public class SecurityController extends Controller {
     private final UserInputSensor userInputSensor;
     private final Alarm alarm;
 
+    /**
+     * Constructs a SecurityController with a security sensor, user input sensor, and an alarm.
+     *
+     * @param securitySensor   The SecuritySensor that detects potential breaches.
+     * @param userInputSensor  The UserInputSensor for receiving disarm commands for the alarm.
+     * @param alarm            The Alarm system to be controlled.
+     */
     public SecurityController(SecuritySensor securitySensor, UserInputSensor userInputSensor, Alarm alarm) {
         this.securitySensor = securitySensor;
         this.userInputSensor = userInputSensor;
@@ -26,6 +36,12 @@ public class SecurityController extends Controller {
         this.userInputSensor.addObserver(this);
     }
 
+    /**
+     * Responds to updates from connected sensors (security or user input).
+     * Determines whether to activate or disarm the alarm based on sensor inputs.
+     *
+     * @param device The device (either security sensor or user input sensor) reporting a change.
+     */
     @Override
     public void update(IDevice device) {
         if (device instanceof SecuritySensor || device instanceof UserInputSensor) {
@@ -33,6 +49,12 @@ public class SecurityController extends Controller {
         }
     }
 
+    /**
+     * Handles sensor updates for security detection and user inputs.
+     * Activates the alarm on security threats and disarms it based on user commands.
+     *
+     * @param sensor The sensor reporting a change in security status or user input.
+     */
     @Override
     protected void respondToSensor(Sensor sensor) {
         if (sensor == securitySensor) {

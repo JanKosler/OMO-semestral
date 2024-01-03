@@ -2,6 +2,7 @@ package cz.cvut.fel.omo.semestral.entity.livingSpace;
 
 
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
+import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 import lombok.Getter;
 
 import java.util.List;
@@ -20,5 +21,10 @@ public class Floor implements ILivingSpace {
     @Override
     public List<IDevice> getAllDevices() {
         return rooms.stream().flatMap(room -> room.getAllDevices().stream()).toList();
+    }
+
+    @Override
+    public List<DeviceSystem> getAllDeviceSystems() {
+        return rooms.stream().flatMap(room -> room.getAllDeviceSystems().stream()).toList();
     }
 }

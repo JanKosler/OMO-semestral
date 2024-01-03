@@ -1,15 +1,21 @@
 package cz.cvut.fel.omo.semestral.entity.systems;
 
+import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Alarm;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.SecurityController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.SecuritySensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import lombok.Getter;
 
+import java.util.List;
+
+@Getter
 public class SecuritySystem extends DeviceSystem {
     public final Alarm alarm;
     public final SecuritySensor securitySensor;
     public final SecurityController controller;
     public final UserInputSensor userInputSensor; // For user inputs like arming/disarming the system
+    private final List<UserInputType> allowedUserInputTypes = List.of(UserInputType.ALARM_DISARM);
 
     public SecuritySystem(Alarm alarm, SecuritySensor securitySensor, SecurityController controller, UserInputSensor userInputSensor) {
         this.alarm = alarm;

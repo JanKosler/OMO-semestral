@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Controller for managing Light appliances in the smart home system.
- * This controller can control multiple lights and responds to both motion
- * sensor inputs and user inputs. When the motion sensor detects movement,
- * it can automatically turn on the lights. Additionally, user inputs
- * through a UserInputSensor can be used to manually toggle the lights on or off.
+ * Controller responsible for managing multiple Light appliances within the smart home system.
+ * It can interact with lights based on both motion detection and user inputs.
+ * When a connected MotionSensor detects movement, it can trigger the lights to turn on automatically.
+ * Additionally, user commands through a UserInputSensor allow for manual control of the lights,
+ * enabling users to turn them on or off as desired.
  */
 @Getter
 public class LightController extends Controller {
@@ -26,6 +26,13 @@ public class LightController extends Controller {
     private final MotionSensor motionSensor;
     private final UserInputSensor userInputSensor;
 
+    /**
+     * Constructs a LightController with the specified lights, motion sensor, and user input sensor.
+     *
+     * @param lights          The list of Light appliances to be controlled.
+     * @param motionSensor    The MotionSensor that can trigger the lights.
+     * @param userInputSensor The UserInputSensor for receiving user commands related to the lights.
+     */
     public LightController(List<Light> lights, MotionSensor motionSensor, UserInputSensor userInputSensor) {
         this.lights = lights;
         this.motionSensor = motionSensor;
@@ -38,6 +45,12 @@ public class LightController extends Controller {
         }
     }
 
+    /**
+     * Responds to updates from connected sensors (motion or user input).
+     * Determines whether to turn the lights on or off based on sensor inputs.
+     *
+     * @param device The sensor (either motion or user input) reporting the change.
+     */
     @Override
     public void update(IDevice device) {
         if (device instanceof MotionSensor || device instanceof UserInputSensor) {
@@ -45,6 +58,13 @@ public class LightController extends Controller {
         }
     }
 
+    /**
+     * Handles sensor updates for motion detection and user inputs.
+     * Automatically turns on the lights upon motion detection, or toggles them
+     * based on user commands.
+     *
+     * @param sensor The sensor reporting the change.
+     */
     @Override
     protected void respondToSensor(Sensor sensor) {
         if (sensor == motionSensor) {

@@ -1,16 +1,22 @@
 package cz.cvut.fel.omo.semestral.entity.systems;
 
+import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.HVAC;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.TemperatureController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.TemperatureSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import lombok.Getter;
 
+import java.util.List;
+
+@Getter
 public class HVACSystem extends DeviceSystem {
     public final HVAC hvac;
     public final TemperatureController controller;
     public final TemperatureSensor internalSensor;
     public final TemperatureSensor externalSensor;
     public final UserInputSensor userInputSensor;
+    private final List<UserInputType> allowedUserInputTypes = List.of(UserInputType.HVAC_TEMPERATURE);
 
     public HVACSystem(HVAC hvac, TemperatureController controller, TemperatureSensor internalSensor, TemperatureSensor externalSensor, UserInputSensor userInputSensor) {
         this.hvac = hvac;

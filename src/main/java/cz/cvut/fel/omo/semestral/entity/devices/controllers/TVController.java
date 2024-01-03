@@ -8,21 +8,35 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 
 /**
- * Controls a TV appliance based on user inputs. Manages power state, volume adjustments,
- * and channel changes. Responds to user inputs for turning the TV on/off, modifying volume,
- * and navigating channels.
+ * Controller responsible for managing a TV appliance in the smart home system.
+ * It handles user inputs to control various TV functionalities such as power state,
+ * volume level, and channel selection. This controller listens to a UserInputSensor
+ * and interprets the user commands to turn the TV on or off, adjust volume, and
+ * switch channels.
  */
 public class TVController extends Controller {
 
     private final TV tv;
     private final UserInputSensor userInputSensor;
 
+    /**
+     * Constructs a TVController with a specific TV appliance and user input sensor.
+     *
+     * @param tv              The TV appliance to be controlled.
+     * @param userInputSensor The sensor that captures user inputs for the TV.
+     */
     public TVController(TV tv, UserInputSensor userInputSensor) {
         this.tv = tv;
         this.userInputSensor = userInputSensor;
         this.userInputSensor.addObserver(this);
     }
 
+    /**
+     * Responds to updates from the connected UserInputSensor.
+     * Processes user commands to control the TV's functionalities.
+     *
+     * @param device The device (sensor) that has detected a change in user input.
+     */
     @Override
     public void update(IDevice device) {
         if (device instanceof UserInputSensor) {
@@ -30,6 +44,10 @@ public class TVController extends Controller {
         }
     }
 
+    /**
+     * Processes the inputs detected by the UserInputSensor and executes corresponding commands on the TV.
+     * This method handles inputs for turning the TV on/off, changing volume, and selecting channels.
+     */
     @Override
     protected void respondToSensor(Sensor sensor) {
         if (sensor == userInputSensor) {
@@ -37,6 +55,10 @@ public class TVController extends Controller {
         }
     }
 
+    /**
+     * Processes the specific user input received for the TV.
+     * Executes the appropriate command on the TV based on the user input type and value.
+     */
     private void processTVInput() {
         UserInputType inputType = userInputSensor.getInputType();
         Object inputValue = userInputSensor.getInputValue();
@@ -61,6 +83,12 @@ public class TVController extends Controller {
         }
     }
 
+    /**
+     * Adjusts the TV's volume to a specified level.
+     * The method incrementally changes the volume until it reaches the desired level.
+     *
+     * @param newVolume The target volume level.
+     */
     private void adjustTVVolume(int newVolume) {
         // Assuming the newVolume is the desired volume level
         int currentVolume = tv.getVolumeLevel();
@@ -75,6 +103,12 @@ public class TVController extends Controller {
         }
     }
 
+    /**
+     * Changes the TV channel to a specified channel number.
+     * The method switches channels one at a time until it reaches the target channel.
+     *
+     * @param newChannel The target channel number.
+     */
     private void changeTVChannel(int newChannel) {
         // Assuming the newChannel is the desired channel
         int currentChannel = tv.getCurrentChannel();

@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestral.entity.livingSpace;
 
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
+import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface ILivingSpace {
      * @return List of devices.
      */
     List<IDevice> getAllDevices();
+
+    List<DeviceSystem> getAllDeviceSystems();
 }
