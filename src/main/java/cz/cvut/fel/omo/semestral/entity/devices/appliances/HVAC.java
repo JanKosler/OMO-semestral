@@ -24,7 +24,7 @@ public class HVAC extends Appliance {
         this.currentState = new OffState(); // Default state is off
     }
 
-    protected void setState(HVACState newState) {
+    public void setState(HVACState newState) {
         this.currentState = newState;
     }
 

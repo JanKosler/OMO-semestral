@@ -1,4 +1,4 @@
-package cz.cvut.fel.omo.semestral.entity.devices.livingSpace;
+package cz.cvut.fel.omo.semestral.entity.livingSpace;
 
 
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;

@@ -12,12 +12,10 @@ import java.util.UUID;
 public class Fridge extends Appliance {
 
     private double internalTemperature;
-    private int capacity; // in liters
 
-    public Fridge(UUID serialNumber, int capacity) {
+    public Fridge(UUID serialNumber) {
         super(serialNumber);
         this.internalTemperature = 4.0; // Default temperature in Celsius
-        this.capacity = capacity;
     }
 
     @Override

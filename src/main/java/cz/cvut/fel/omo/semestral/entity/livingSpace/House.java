@@ -1,9 +1,8 @@
-package cz.cvut.fel.omo.semestral.entity.devices.livingSpace;
+package cz.cvut.fel.omo.semestral.entity.livingSpace;
 
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
