@@ -43,6 +43,10 @@ public class House implements ILivingSpace {
         return floors.get(floorNumber);
     }
 
+    /**
+     * Gets all devices in the house.
+     * @return List of devices.
+     */
     @Override
     public List<IDevice> getAllDevices() {
         return floors.entrySet().stream()
@@ -50,6 +54,10 @@ public class House implements ILivingSpace {
                 .toList();
     }
 
+    /**
+     * Gets all device systems in the house.
+     * @return List of device systems.
+     */
     @Override
     public List<DeviceSystem> getAllDeviceSystems() {
         return floors.entrySet().stream()
