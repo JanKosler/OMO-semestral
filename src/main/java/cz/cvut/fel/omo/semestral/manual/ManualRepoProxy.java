@@ -2,6 +2,8 @@ package cz.cvut.fel.omo.semestral.manual;
 
 /**
  * Proxy for the manual repo.
+ *
+ * TODO : check if this is the right way to do it
  */
 public class ManualRepoProxy implements ManualRepo {
     private ManualRepo manualRepo;

@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Abstract class representing a generic device system in the smart home simulation.
  * This class serves as a base for specific types of device systems, providing common functionalities and properties.
+ * The purpose of device system is to aggregate devices and sensors that are related to each other.
  */
 public abstract class DeviceSystem {
 
