@@ -33,9 +33,6 @@ public class HouseFacade {
     /** List of all device systems in the house. */
     private List<DeviceSystem> deviceSystems;
 
-    /** Generates a report about the house configuration. */
-    private ReportGenerator reportGenerator;
-
     /**
      * Starts the simulation.
      */

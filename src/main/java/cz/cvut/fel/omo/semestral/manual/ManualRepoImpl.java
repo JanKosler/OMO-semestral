@@ -4,9 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
+
 @Slf4j
 public class ManualRepoImpl implements ManualRepo {
     private final OfflineManualDatabase database;
+    // TODO : cache all manuals, on get
     private Manual manual;
 
     /**

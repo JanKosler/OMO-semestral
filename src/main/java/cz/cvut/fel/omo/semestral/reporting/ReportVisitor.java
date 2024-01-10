@@ -1,6 +1,8 @@
 package cz.cvut.fel.omo.semestral.reporting;
 
 import cz.cvut.fel.omo.semestral.entity.beings.Being;
+import cz.cvut.fel.omo.semestral.entity.beings.Human;
+import cz.cvut.fel.omo.semestral.entity.beings.Pet;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Appliance;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.Controller;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
@@ -13,10 +15,11 @@ import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
  */
 public interface ReportVisitor {
     // TODO: this seems okay
-    Report visit(Appliance appliance);
-    Report visit(Sensor sensor);
-    Report visit(Controller controller);
-    Report visit(DeviceSystem deviceSystem);
-    Report visit(Being being);
-    Report visit(House house);
+    Report visitAppliance(Appliance appliance);
+    Report visitSensor(Sensor sensor);
+    Report visitController(Controller controller);
+    Report visitDeviceSystem(DeviceSystem deviceSystem);
+    Report visitHuman(Human human);
+    Report visitPet(Pet pet);
+    Report visitHouse(House house);
 }
