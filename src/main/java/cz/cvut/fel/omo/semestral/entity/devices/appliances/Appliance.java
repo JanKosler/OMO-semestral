@@ -96,6 +96,7 @@ public abstract class Appliance implements IDevice, IDeviceCommand, Tickable {
             if (this.totalWear >= wearCapacity) {
                 this.setState(DeviceState.MALFUNCTION);
                 notifyMalfunctionObservers();
+                System.out.println("Device " + this.getClass().getSimpleName() + " with serial number " + this.getSerialNumber() + " is broken.");
             }
         }
     }

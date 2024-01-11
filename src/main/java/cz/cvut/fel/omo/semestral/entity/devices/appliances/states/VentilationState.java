@@ -13,7 +13,7 @@ public class VentilationState implements HVACState {
 
     private final double powerConsumptionPerTick = 10;
     private final int wearPerTick = 5;
-    private final double tempChangePerTick = -0.2;
+    private final double tempChangePerTick = -0.5;
 
     /**
      * Maintains the current state when the HVAC is already in ventilation mode.

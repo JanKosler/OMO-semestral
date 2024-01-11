@@ -39,27 +39,30 @@ public class HVACSystem extends DeviceSystem {
 
     @Override
     public void turnOn() {
-        userInputSensor.turnOn();
+
         internalSensor.turnOn();
         externalSensor.turnOn();
+        userInputSensor.turnOn();
         controller.turnOn();
         hvac.turnOn();
     }
 
     @Override
     public void turnOff() {
-        userInputSensor.turnOff();
+
         internalSensor.turnOff();
         externalSensor.turnOff();
+        userInputSensor.turnOff();
         controller.turnOff();
         hvac.turnOff();
     }
 
     @Override
     public void onTick() {
-        userInputSensor.onTick();
+
         internalSensor.onTick();
         externalSensor.onTick();
+        userInputSensor.onTick();
         controller.onTick();
         hvac.onTick();
     }

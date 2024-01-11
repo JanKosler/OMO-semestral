@@ -90,17 +90,27 @@ public class HVACSystemTest {
         userInputSensor.detectInput(UserInputType.HVAC_TEMPERATURE, 25.0); // Target temperature
 
         // Simulate multiple ticks
-        int numberOfTicks = 8; // Example number of ticks
+        int numberOfTicks = 6; // Example number of ticks
         for (int i = 0; i < numberOfTicks; i++) {
             hvacSystem.onTick();
         }
 
-        // Assuming that the HVAC in heating mode increases the internal temperature
-        // Check if the internal temperature has increased
-        assertTrue(internalTemperature.getTemperature() > initialInternalTemp);
+        userInputSensor.detectInput(UserInputType.HVAC_TEMPERATURE, 20.0);
+
+        for (int j = 0; j < numberOfTicks; j++) {
+            hvacSystem.onTick();
+        }
+
+        externalTemperature.setTemperature(25.0);
+
+        for (int k = 0; k < 10; k++) {
+            hvacSystem.onTick();
+        }
+
+        System.out.println("Total consumption: " + hvac.getTotalPowerConsumption());
 
         // Additionally, you can check if the temperature is approaching the target temperature
         // This assertion depends on the rate at which your HVAC system changes the temperature
-        assertEquals(25.0, internalTemperature.getTemperature(), 0.0);
+        assertEquals(20.0, internalTemperature.getTemperature(), 0.0);
     }
 }

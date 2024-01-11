@@ -24,7 +24,7 @@ public class HVAC extends Appliance {
     private final Temperature internalTemperature;
 
     public HVAC(UUID serialNumber, Temperature internalTemperature) {
-        super(serialNumber, 100);
+        super(serialNumber, 5000);
         this.currentState = new OffState(); // Default state is off
         this.internalTemperature = internalTemperature;
     }
@@ -53,17 +53,6 @@ public class HVAC extends Appliance {
                 System.out.println("Command not recognized for HVAC.");
                 break;
         }
-    }
-
-    @Override
-    public void turnOn() {
-        currentState.turnOn(this);
-        this.state = DeviceState.ON;
-    }
-
-    @Override
-    public void turnOff() {
-        currentState.turnOff(this);
     }
 
     @Override

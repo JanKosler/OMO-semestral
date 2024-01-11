@@ -5,6 +5,10 @@ import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.HVAC;
+import cz.cvut.fel.omo.semestral.entity.devices.appliances.states.CoolingState;
+import cz.cvut.fel.omo.semestral.entity.devices.appliances.states.HVACState;
+import cz.cvut.fel.omo.semestral.entity.devices.appliances.states.HeatingState;
+import cz.cvut.fel.omo.semestral.entity.devices.appliances.states.VentilationState;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.TemperatureSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
@@ -110,14 +114,16 @@ public class TemperatureController extends Controller {
      */
     private void handleTemperature() {
         if (Math.abs(indoorTemp - targetTemperature) > 0.0) {
-            if (indoorTemp < targetTemperature) {
+            if (indoorTemp < targetTemperature && !(hvac.getCurrentState() instanceof HeatingState)) {
                 hvac.addtoActionPlan(DeviceCommand.SWITCH_TO_HEATING);
                 System.out.println("Switching to heating, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
             } else if (indoorTemp > targetTemperature) {
                 if (outdoorTemp > targetTemperature) {
-                    hvac.addtoActionPlan(DeviceCommand.SWITCH_TO_COOLING);
-                    System.out.println("Switching to cooling, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
-                } else {
+                    if (!(hvac.getCurrentState() instanceof CoolingState)){
+                        hvac.addtoActionPlan(DeviceCommand.SWITCH_TO_COOLING);
+                        System.out.println("Switching to cooling, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
+                    }
+                } else if (!(hvac.getCurrentState() instanceof VentilationState)) {
                     hvac.addtoActionPlan(DeviceCommand.SWITCH_TO_VENTILATION);
                     System.out.println("Switching to ventilation, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
                 }
