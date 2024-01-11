@@ -1,10 +1,16 @@
 package cz.cvut.fel.omo.semestral.entity.devices.controllers;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
+import cz.cvut.fel.omo.semestral.entity.devices.DeviceMalfunctionObserver;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.IDeviceObserver;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
+import cz.cvut.fel.omo.semestral.tick.Tickable;
 import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents an abstract base class for controllers in the smart home system.
@@ -16,19 +22,23 @@ import lombok.Getter;
  * indicating its dual role in responding to sensor updates and managing device states.
  */
 @Getter
-public abstract class Controller implements IDevice, IDeviceObserver {
+@Setter
+public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
 
     private DeviceState state;
     private int totalWear;
-    private double powerConsumption;
+    private double totalPowerConsumption;
+    private int wearCapacity;
+    private List<DeviceMalfunctionObserver> malfunctionObservers = new ArrayList<>();
 
     /**
      * Constructs a Controller with default settings.
      */
-    public Controller() {
+    public Controller(int wearCapacity) {
         this.state = DeviceState.OFF;
         this.totalWear = 0;
-        this.powerConsumption = 0;
+        this.totalPowerConsumption = 0;
+        this.wearCapacity = wearCapacity;
     }
 
     /**
@@ -36,12 +46,13 @@ public abstract class Controller implements IDevice, IDeviceObserver {
      *
      * @param state            The initial state of the controller.
      * @param totalWear        The initial total wear of the controller.
-     * @param powerConsumption The initial power consumption of the controller.
+     * @param totalPowerConsumption The initial power consumption of the controller.
      */
-    public Controller(DeviceState state, int totalWear, double powerConsumption) {
+    public Controller(DeviceState state, int totalWear, double totalPowerConsumption, int wearCapacity) {
         this.state = state;
         this.totalWear = totalWear;
-        this.powerConsumption = powerConsumption;
+        this.totalPowerConsumption = totalPowerConsumption;
+        this.wearCapacity = wearCapacity;
     }
 
     /**
@@ -66,7 +77,9 @@ public abstract class Controller implements IDevice, IDeviceObserver {
     }
 
     public void setState(DeviceState state) {
-        this.state = state;
+        if (this.state != state) {
+            this.state = state;
+        }
     }
 
     public void turnOn() {
@@ -77,28 +90,33 @@ public abstract class Controller implements IDevice, IDeviceObserver {
         this.state = DeviceState.OFF;
     }
 
-    public void setTotalWear(int totalWear) {
-        this.totalWear = totalWear;
-    }
-
-    public void setPowerConsumption(double powerConsumption) {
-        this.powerConsumption = powerConsumption;
-    }
-
-    public void increaseTotalWear(int wear) {
+    public void updatePowerConsumption(double powerConsumption){
+        this.totalPowerConsumption += powerConsumption;
+    };
+    public void updateWear(int wear){
         this.totalWear += wear;
+    };
+
+    @Override
+    public void addMalfunctionObserver(DeviceMalfunctionObserver observer) {
+        malfunctionObservers.add(observer);
     }
 
-    public void increasePowerConsumption(double powerConsumption) {
-        this.powerConsumption += powerConsumption;
+    @Override
+    public void notifyMalfunctionObservers() {
+        for (DeviceMalfunctionObserver observer : malfunctionObservers) {
+            observer.onDeviceMalfunction(this);
+        }
     }
 
-    public void decreasePowerConsumption(double powerConsumption) {
-        this.powerConsumption -= powerConsumption;
+    public void checkIfBroken() {
+        if (this.getState() != DeviceState.MALFUNCTION) {
+            if (this.totalWear >= wearCapacity) {
+                this.setState(DeviceState.MALFUNCTION);
+                notifyMalfunctionObservers();
+            }
+        }
     }
-
-    public void decreaseTotalWear(int wear) {
-        this.totalWear -= wear;
-    }
+    public abstract void onTick();
 
 }

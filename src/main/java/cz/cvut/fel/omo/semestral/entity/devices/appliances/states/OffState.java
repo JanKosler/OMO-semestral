@@ -1,12 +1,18 @@
 package cz.cvut.fel.omo.semestral.entity.devices.appliances.states;
 
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.HVAC;
+import lombok.Getter;
 
 /**
  * Represents the off state of an HVAC system.
  * In this state, the HVAC system is not actively heating, cooling, or ventilating.
  */
+@Getter
 public class OffState implements HVACState {
+
+    private final double powerConsumptionPerTick = 3;
+    private final int wearPerTick = 1;
+    private final double tempChangePerTick = 0;
 
     /**
      * Transitions the HVAC system from the off state to a default operating state.

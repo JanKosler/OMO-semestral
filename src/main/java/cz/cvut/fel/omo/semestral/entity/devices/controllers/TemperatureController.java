@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestral.entity.devices.controllers;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
+import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.HVAC;
@@ -26,6 +27,8 @@ public class TemperatureController extends Controller {
     private double indoorTemp;
     private double outdoorTemp;
 
+    private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
+
     /**
      * Constructs a TemperatureController with specific temperature sensors and HVAC system.
      *
@@ -35,6 +38,7 @@ public class TemperatureController extends Controller {
      * @param userInputSensor The sensor for receiving user inputs regarding target temperature.
      */
     public TemperatureController(TemperatureSensor internalSensor, TemperatureSensor externalSensor, HVAC hvac, UserInputSensor userInputSensor) {
+        super(100);
         this.internalSensor = internalSensor;
         this.externalSensor = externalSensor;
         this.hvac = hvac;
@@ -42,6 +46,9 @@ public class TemperatureController extends Controller {
         this.internalSensor.addObserver(this);
         this.externalSensor.addObserver(this);
         this.userInputSensor.addObserver(this);
+        this.targetTemperature = internalSensor.getCurrentTemperature();
+        this.indoorTemp = internalSensor.getCurrentTemperature();
+        this.outdoorTemp = externalSensor.getCurrentTemperature();
     }
 
     /**
@@ -59,6 +66,15 @@ public class TemperatureController extends Controller {
             if (input instanceof Double) {
                 setTargetTemperature((Double) input);
             }
+        }
+    }
+
+    @Override
+    public void onTick() {
+        if (this.getState() == DeviceState.ON) {
+            updateWear(1);
+            updatePowerConsumption(powerConsumptionPerTick);
+            checkIfBroken();
         }
     }
 
@@ -93,18 +109,22 @@ public class TemperatureController extends Controller {
      * If the outdoor temperature is lower than the indoor temperature, the system will opt for ventilation.
      */
     private void handleTemperature() {
-        if (Math.abs(indoorTemp - targetTemperature) > 1.0) {
+        if (Math.abs(indoorTemp - targetTemperature) > 0.0) {
             if (indoorTemp < targetTemperature) {
-                hvac.executeCommand(DeviceCommand.SWITCH_TO_HEATING);
+                hvac.addtoActionPlan(DeviceCommand.SWITCH_TO_HEATING);
+                System.out.println("Switching to heating, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
             } else if (indoorTemp > targetTemperature) {
-                if (outdoorTemp > indoorTemp) {
-                    hvac.executeCommand(DeviceCommand.SWITCH_TO_COOLING);
+                if (outdoorTemp > targetTemperature) {
+                    hvac.addtoActionPlan(DeviceCommand.SWITCH_TO_COOLING);
+                    System.out.println("Switching to cooling, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
                 } else {
-                    hvac.executeCommand(DeviceCommand.SWITCH_TO_VENTILATION);
+                    hvac.addtoActionPlan(DeviceCommand.SWITCH_TO_VENTILATION);
+                    System.out.println("Switching to ventilation, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
                 }
             }
         } else {
-            hvac.executeCommand(DeviceCommand.TURN_OFF);
+            hvac.addtoActionPlan(DeviceCommand.TURN_OFF);
+            System.out.println("Turning off HVAC, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
         }
     }
 

@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestral.entity.devices.controllers;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
+import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Alarm;
@@ -21,6 +22,8 @@ public class SecurityController extends Controller {
     private final UserInputSensor userInputSensor;
     private final Alarm alarm;
 
+    private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
+
     /**
      * Constructs a SecurityController with a security sensor, user input sensor, and an alarm.
      *
@@ -29,6 +32,7 @@ public class SecurityController extends Controller {
      * @param alarm            The Alarm system to be controlled.
      */
     public SecurityController(SecuritySensor securitySensor, UserInputSensor userInputSensor, Alarm alarm) {
+        super(100);
         this.securitySensor = securitySensor;
         this.userInputSensor = userInputSensor;
         this.alarm = alarm;
@@ -49,6 +53,15 @@ public class SecurityController extends Controller {
         }
     }
 
+    @Override
+    public void onTick() {
+        if (this.getState() == DeviceState.ON) {
+            updateWear(1);
+            updatePowerConsumption(powerConsumptionPerTick);
+            checkIfBroken();
+        }
+    }
+
     /**
      * Handles sensor updates for security detection and user inputs.
      * Activates the alarm on security threats and disarms it based on user commands.
@@ -66,12 +79,12 @@ public class SecurityController extends Controller {
 
     private void handleSecuritySensor() {
         if (securitySensor.isBreachDetected()) {
-            alarm.executeCommand(DeviceCommand.TURN_ON); // Activate the alarm
+            alarm.addtoActionPlan(DeviceCommand.TURN_ON); // Activate the alarm
         }
     }
 
     private void disarmAlarm() {
-        alarm.executeCommand(DeviceCommand.TURN_OFF); // Disarm the alarm
+        alarm.addtoActionPlan(DeviceCommand.TURN_OFF); // Disarm the alarm
     }
 }
 

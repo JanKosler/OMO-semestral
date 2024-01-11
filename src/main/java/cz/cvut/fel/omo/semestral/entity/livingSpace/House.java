@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestral.entity.livingSpace;
 
+import cz.cvut.fel.omo.semestral.common.enums.Temperature;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,9 @@ public class House implements ILivingSpace {
 
     /** List of floors in the house. */
     private Map<Integer, Floor> floors;
+
+    private Temperature internalTemperature;
+    private Temperature externalTemperature;
 
     /**
      * Adds a floor to the house.

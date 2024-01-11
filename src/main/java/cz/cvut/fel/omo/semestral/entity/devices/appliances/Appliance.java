@@ -2,10 +2,17 @@ package cz.cvut.fel.omo.semestral.entity.devices.appliances;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
+import cz.cvut.fel.omo.semestral.entity.actions.Action;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.IDeviceCommand;
+import cz.cvut.fel.omo.semestral.entity.devices.DeviceMalfunctionObserver;
+import cz.cvut.fel.omo.semestral.tick.Tickable;
 import lombok.Getter;
+import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 import java.util.UUID;
 
 /**
@@ -17,31 +24,42 @@ import java.util.UUID;
  * of appliance actions such as turning on or off and adjusting settings.
  */
 @Getter
-public abstract class Appliance implements IDevice, IDeviceCommand {
+@Setter
+public abstract class Appliance implements IDevice, IDeviceCommand, Tickable {
 
     private UUID serialNumber;
-    private DeviceState state;
+    protected DeviceState state;
     private int totalWear;
-    private double powerConsumption;
+    private double totalPowerConsumption;
+    private int wearCapacity;
+    private List<DeviceMalfunctionObserver> malfunctionObservers = new ArrayList<>();
 
-    public Appliance(UUID serialNumber) {
+    protected Queue<DeviceCommand> actionPlan;
+
+    public Appliance(UUID serialNumber, int wearCapacity) {
         this.serialNumber = serialNumber;
         this.state = DeviceState.OFF;
         this.totalWear = 0;
-        this.powerConsumption = 0;
+        this.totalPowerConsumption = 0;
+        this.wearCapacity = wearCapacity;
+        this.actionPlan = new java.util.LinkedList<>();
     }
 
-    public Appliance(UUID serialNumber, DeviceState state, int totalWear, double powerConsumption) {
+    public Appliance(UUID serialNumber, DeviceState state, int totalWear, double totalPowerConsumption, int wearCapacity) {
         this.serialNumber = serialNumber;
         this.state = state;
         this.totalWear = totalWear;
-        this.powerConsumption = powerConsumption;
+        this.totalPowerConsumption = totalPowerConsumption;
+        this.wearCapacity = wearCapacity;
+        this.actionPlan = new java.util.LinkedList<>();
     }
 
     public abstract void executeCommand(DeviceCommand command);
 
     public void setState(DeviceState state) {
-        this.state = state;
+        if (this.state != state) {
+            this.state = state;
+        }
     }
 
     public void turnOn() {
@@ -52,28 +70,47 @@ public abstract class Appliance implements IDevice, IDeviceCommand {
         this.state = DeviceState.OFF;
     }
 
-    public void setTotalWear(int totalWear) {
-        this.totalWear = totalWear;
-    }
+    public void setIdle() {this.state = DeviceState.IDLE;}
 
-    public void setPowerConsumption(double powerConsumption) {
-        this.powerConsumption = powerConsumption;
-    }
-
-    public void increaseTotalWear(int wear) {
+    public void updatePowerConsumption(double powerConsumption){
+        this.totalPowerConsumption += powerConsumption;
+    };
+    public void updateWear(int wear){
         this.totalWear += wear;
+    };
+
+    @Override
+    public void addMalfunctionObserver(DeviceMalfunctionObserver observer) {
+        malfunctionObservers.add(observer);
     }
 
-    public void increasePowerConsumption(double powerConsumption) {
-        this.powerConsumption += powerConsumption;
+    @Override
+    public void notifyMalfunctionObservers() {
+        for (DeviceMalfunctionObserver observer : malfunctionObservers) {
+            observer.onDeviceMalfunction(this);
+        }
     }
 
-    public void decreasePowerConsumption(double powerConsumption) {
-        this.powerConsumption -= powerConsumption;
+    public void checkIfBroken() {
+        if (this.getState() != DeviceState.MALFUNCTION) {
+            if (this.totalWear >= wearCapacity) {
+                this.setState(DeviceState.MALFUNCTION);
+                notifyMalfunctionObservers();
+            }
+        }
     }
 
-    public void decreaseTotalWear(int wear) {
-        this.totalWear -= wear;
+    public abstract void onTick();
+
+    public void addtoActionPlan(DeviceCommand command) {
+        actionPlan.add(command);
+    }
+
+    public void performNextAction() {
+        if (!actionPlan.isEmpty()) {
+            DeviceCommand command = actionPlan.poll();
+            executeCommand(command);
+        }
     }
 
 }

@@ -27,6 +27,7 @@ public class TVSystem extends DeviceSystem {
         this.tv = tv;
         this.controller = controller;
         this.userInputSensor = userInputSensor;
+        turnOn();
     }
 
     /**
@@ -54,7 +55,7 @@ public class TVSystem extends DeviceSystem {
     public void turnOn() {
         userInputSensor.turnOn();
         controller.turnOn();
-        tv.turnOn();
+        tv.setIdle();
     }
 
     /**
@@ -65,5 +66,15 @@ public class TVSystem extends DeviceSystem {
         userInputSensor.turnOff();
         controller.turnOff();
         tv.turnOff();
+    }
+
+    /**
+     * Performs a tick on the whole TV system.
+     */
+    @Override
+    public void onTick() {
+        userInputSensor.onTick();
+        controller.onTick();
+        tv.onTick();
     }
 }

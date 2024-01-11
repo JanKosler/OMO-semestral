@@ -16,9 +16,12 @@ import java.util.UUID;
 public class Gate extends Appliance {
 
     private boolean isOpen;
+    private final int wearCapacity = 100;
+    private final double powerConsumptionPerTick_IDLE = 5;
+    private final double powerConsumptionPerTick_ACTIVE = 15;
 
     public Gate(UUID serialNumber) {
-        super(serialNumber);
+        super(serialNumber, 100);
         this.isOpen = false; // Gates are closed by default
     }
 
@@ -34,10 +37,23 @@ public class Gate extends Appliance {
         }
     }
 
+    @Override
+    public void onTick() {
+        DeviceState currentState = this.getState();
+        if (currentState != DeviceState.OFF && currentState != DeviceState.MALFUNCTION) {
+            performNextAction();
+            updateWear(1);
+            updatePowerConsumption(powerConsumptionPerTick_IDLE);
+            checkIfBroken();
+        }
+    }
+
     private void openGate() {
         if (!isOpen) {
             this.isOpen = true;
             this.setState(DeviceState.ACTIVE);
+            updateWear(10);
+            updatePowerConsumption(powerConsumptionPerTick_ACTIVE);
             System.out.println("Opening gate...");
         }
     }
@@ -46,6 +62,8 @@ public class Gate extends Appliance {
         if (isOpen) {
             this.isOpen = false;
             this.setState(DeviceState.IDLE);
+            updatePowerConsumption(powerConsumptionPerTick_ACTIVE);
+            updateWear(10);
             System.out.println("Closing gate...");
         }
     }

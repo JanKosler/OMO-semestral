@@ -20,6 +20,7 @@ public class FridgeSystem extends DeviceSystem {
         this.fridge = fridge;
         this.controller = controller;
         this.userInputSensor = userInputSensor;
+        turnOn();
     }
 
     @Override
@@ -44,6 +45,13 @@ public class FridgeSystem extends DeviceSystem {
         userInputSensor.turnOff();
         controller.turnOff();
         fridge.turnOff();
+    }
+
+    @Override
+    public void onTick() {
+        userInputSensor.onTick();
+        controller.onTick();
+        fridge.onTick();
     }
 
 }

@@ -1,9 +1,12 @@
 package cz.cvut.fel.omo.semestral.entity.devices.sensors;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
+import cz.cvut.fel.omo.semestral.entity.devices.DeviceMalfunctionObserver;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.IDeviceObserver;
+import cz.cvut.fel.omo.semestral.tick.Tickable;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,21 +16,25 @@ import java.util.List;
  * This class implements the {@link IDevice} interface, providing common functionalities for different types of sensors.
  */
 @Getter
-public abstract class Sensor implements IDevice {
+@Setter
+public abstract class Sensor implements IDevice, Tickable {
 
     private DeviceState state;
     private int totalWear;
-    private double powerConsumption;
+    private double totalPowerConsumption;
+    private int wearCapacity;
+    private List<DeviceMalfunctionObserver> malfunctionObservers = new ArrayList<>();
 
     private final List<IDeviceObserver> observers = new ArrayList<>();
 
     /**
      * Constructs a Sensor with default settings.
      */
-    public Sensor() {
+    public Sensor(int wearCapacity) {
         this.state = DeviceState.OFF;
         this.totalWear = 0;
-        this.powerConsumption = 0;
+        this.totalPowerConsumption = 0;
+        this.wearCapacity = wearCapacity;
     }
 
     /**
@@ -35,12 +42,13 @@ public abstract class Sensor implements IDevice {
      *
      * @param state The initial state of the sensor.
      * @param totalWear The initial total wear of the sensor.
-     * @param powerConsumption The initial power consumption of the sensor.
+     * @param totalPowerConsumption The initial power consumption of the sensor.
      */
-    public Sensor(DeviceState state, int totalWear, double powerConsumption) {
+    public Sensor(DeviceState state, int totalWear, double totalPowerConsumption, int wearCapacity) {
         this.state = state;
         this.totalWear = totalWear;
-        this.powerConsumption = powerConsumption;
+        this.totalPowerConsumption = totalPowerConsumption;
+        this.wearCapacity = wearCapacity;
     }
 
     /**
@@ -96,23 +104,32 @@ public abstract class Sensor implements IDevice {
         this.state = DeviceState.OFF;
     }
 
-    public void setPowerConsumption(double powerConsumption) {
-        this.powerConsumption = powerConsumption;
-    }
-
-    public void increaseTotalWear(int wear) {
+    public void updatePowerConsumption(double powerConsumption){
+        this.totalPowerConsumption += powerConsumption;
+    };
+    public void updateWear(int wear){
         this.totalWear += wear;
+    };
+
+    @Override
+    public void addMalfunctionObserver(DeviceMalfunctionObserver observer) {
+        malfunctionObservers.add(observer);
     }
 
-    public void increasePowerConsumption(double powerConsumption) {
-        this.powerConsumption += powerConsumption;
+    @Override
+    public void notifyMalfunctionObservers() {
+        for (DeviceMalfunctionObserver observer : malfunctionObservers) {
+            observer.onDeviceMalfunction(this);
+        }
     }
 
-    public void decreasePowerConsumption(double powerConsumption) {
-        this.powerConsumption -= powerConsumption;
+    public void checkIfBroken() {
+        if (this.getState() != DeviceState.MALFUNCTION) {
+            if (this.totalWear >= wearCapacity) {
+                this.setState(DeviceState.MALFUNCTION);
+                notifyMalfunctionObservers();
+            }
+        }
     }
-
-    public void decreaseTotalWear(int wear) {
-        this.totalWear -= wear;
-    }
+    public abstract void onTick();
 }

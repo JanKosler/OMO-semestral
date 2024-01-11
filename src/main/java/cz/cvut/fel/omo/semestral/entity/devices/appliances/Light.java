@@ -16,11 +16,11 @@ import java.util.UUID;
 @Getter
 public class Light extends Appliance {
 
-    private boolean isOn;
+    private final double powerConsumptionPerTick_IDLE = 0.5;
+    private final double powerConsumptionPerTick_ON = 10;
 
     public Light(UUID serialNumber) {
-        super(serialNumber);
-        this.isOn = false;
+        super(serialNumber, 100);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class Light extends Appliance {
                 turnOn();
                 break;
             case TURN_OFF:
-                turnOff();
+                setIdle();
                 break;
             default:
                 System.out.println("Command not recognized for Light.");
@@ -39,17 +39,19 @@ public class Light extends Appliance {
     }
 
     @Override
-    public void turnOn() {
-        this.isOn = true;
-        this.setState(DeviceState.ON);
-        System.out.println("Light turned on.");
-    }
-
-    @Override
-    public void turnOff() {
-        this.isOn = false;
-        this.setState(DeviceState.OFF);
-        System.out.println("Light turned off.");
+    public void onTick() {
+        DeviceState currentState = this.getState();
+        if(currentState != DeviceState.OFF && currentState!= DeviceState.MALFUNCTION) {
+            performNextAction();
+            if (currentState == DeviceState.IDLE) {
+                updatePowerConsumption(powerConsumptionPerTick_IDLE);
+                updateWear(1);
+            } else if (currentState == DeviceState.ON) {
+                updatePowerConsumption(powerConsumptionPerTick_ON);
+                updateWear(5);
+            }
+            checkIfBroken();
+        }
     }
 
 }

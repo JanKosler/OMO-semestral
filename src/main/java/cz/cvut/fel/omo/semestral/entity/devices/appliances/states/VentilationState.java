@@ -1,12 +1,19 @@
 package cz.cvut.fel.omo.semestral.entity.devices.appliances.states;
 
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.HVAC;
+import lombok.Getter;
 
 /**
  * Represents the ventilation state of an HVAC system.
  * In this state, the HVAC system is actively ventilating the environment.
  */
+
+@Getter
 public class VentilationState implements HVACState {
+
+    private final double powerConsumptionPerTick = 10;
+    private final int wearPerTick = 5;
+    private final double tempChangePerTick = -0.2;
 
     /**
      * Maintains the current state when the HVAC is already in ventilation mode.

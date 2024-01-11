@@ -19,6 +19,9 @@ public class GateController extends Controller {
     private final Gate gate;
     private final UserInputSensor userInputSensor;
 
+
+    private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
+
     /**
      * Constructs a GateController with the specified gate and user input sensor.
      *
@@ -26,6 +29,7 @@ public class GateController extends Controller {
      * @param userInputSensor The sensor that detects user inputs for the gate.
      */
     public GateController(Gate gate, UserInputSensor userInputSensor) {
+        super(100);
         this.gate = gate;
         this.userInputSensor = userInputSensor;
         this.userInputSensor.addObserver(this);
@@ -41,6 +45,15 @@ public class GateController extends Controller {
     public void update(IDevice device) {
         if (device instanceof UserInputSensor) {
             respondToSensor((Sensor) device);
+        }
+    }
+
+    @Override
+    public void onTick() {
+        if (this.getState() == DeviceState.ON) {
+            updateWear(1);
+            updatePowerConsumption(powerConsumptionPerTick);
+            checkIfBroken();
         }
     }
 
@@ -61,7 +74,7 @@ public class GateController extends Controller {
      * Toggles the state of the gate - opening it if closed, and closing it if open.
      */
     private void toggleGate() {
-        gate.executeCommand(DeviceCommand.TOGGLE_GATE);
+        gate.addtoActionPlan(DeviceCommand.TOGGLE_GATE);
     }
 }
 

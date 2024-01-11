@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestral.entity.devices.controllers;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
+import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Light;
@@ -26,6 +27,10 @@ public class LightController extends Controller {
     private final MotionSensor motionSensor;
     private final UserInputSensor userInputSensor;
 
+
+    private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
+    private final int wearCapacity = 100;
+
     /**
      * Constructs a LightController with the specified lights, motion sensor, and user input sensor.
      *
@@ -34,6 +39,7 @@ public class LightController extends Controller {
      * @param userInputSensor The UserInputSensor for receiving user commands related to the lights.
      */
     public LightController(List<Light> lights, MotionSensor motionSensor, UserInputSensor userInputSensor) {
+        super(100);
         this.lights = lights;
         this.motionSensor = motionSensor;
         this.userInputSensor = userInputSensor;
@@ -58,6 +64,15 @@ public class LightController extends Controller {
         }
     }
 
+    @Override
+    public void onTick() {
+        if (this.getState() == DeviceState.ON) {
+            updateWear(1);
+            updatePowerConsumption(powerConsumptionPerTick);
+            checkIfBroken();
+        }
+    }
+
     /**
      * Handles sensor updates for motion detection and user inputs.
      * Automatically turns on the lights upon motion detection, or toggles them
@@ -69,15 +84,15 @@ public class LightController extends Controller {
     protected void respondToSensor(Sensor sensor) {
         if (sensor == motionSensor) {
             // Handle motion sensor input, e.g., turn on the lights
-            lights.forEach(light -> light.executeCommand(DeviceCommand.TURN_ON));
+            lights.forEach(light -> light.addtoActionPlan(DeviceCommand.TURN_ON));
         } else if (sensor == userInputSensor && userInputSensor.getInputType() == UserInputType.LIGHT_SWITCH) {
             // Handle user input for lights
             boolean isOn = (boolean) userInputSensor.getInputValue();
             lights.forEach(light -> {
                 if (isOn) {
-                    light.executeCommand(DeviceCommand.TURN_ON);
+                    light.addtoActionPlan(DeviceCommand.TURN_ON);
                 } else {
-                    light.executeCommand(DeviceCommand.TURN_OFF);
+                    light.addtoActionPlan(DeviceCommand.TURN_OFF);
                 }
             });
         }

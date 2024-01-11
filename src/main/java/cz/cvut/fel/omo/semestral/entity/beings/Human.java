@@ -33,11 +33,10 @@ public class Human extends Being implements Tickable {
      * This method simulates the interaction of the human with a device in the smart home.
      *
      * @param deviceSystem The device system to receive the input.
-     * @param inputType    The type of user input.
-     * @param inputValue   The value of the input.
+     * @param action  The type of user action.
      */
-    protected void sendUserInput(DeviceSystem deviceSystem, UserInputType inputType, Object inputValue) {
-        deviceSystem.getUserInputSensor().detectInput(inputType, inputValue);
+    protected void sendUserInput(DeviceSystem deviceSystem, Action action) {
+        deviceSystem.getUserInputSensor().addtoActionPlan(action);
     }
 
     /**
@@ -110,7 +109,7 @@ public class Human extends Being implements Tickable {
                 default:
                     DeviceSystem deviceSystem = findDeviceSystemInRoom(nextAction.getType());
                     if (deviceSystem != null){
-                        sendUserInput(deviceSystem, nextAction.getType(), nextAction.getValue());
+                        sendUserInput(deviceSystem, nextAction);
                     }
                     break;
             }

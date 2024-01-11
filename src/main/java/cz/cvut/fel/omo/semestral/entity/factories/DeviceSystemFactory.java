@@ -6,6 +6,8 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.MotionSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.SecuritySensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.TemperatureSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.House;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import cz.cvut.fel.omo.semestral.entity.systems.*;
 
 import java.util.ArrayList;
@@ -54,13 +56,13 @@ public class DeviceSystemFactory {
      * @param numberOfLights The number of lights to include in the system.
      * @return The assembled LightingSystem.
      */
-    public LightingSystem createLightingSystem(int numberOfLights) {
+    public LightingSystem createLightingSystem(int numberOfLights, Room room) {
         List<Light> lights = new ArrayList<>();
         for (int i = 0; i < numberOfLights; i++) {
             lights.add(new Light(generateUUID()));
         }
 
-        MotionSensor motionSensor = new MotionSensor();
+        MotionSensor motionSensor = new MotionSensor(room);
         UserInputSensor userInputSensor = new UserInputSensor();
         LightController lightController = new LightController(lights, motionSensor, userInputSensor);
 
@@ -73,10 +75,10 @@ public class DeviceSystemFactory {
      * @return The assembled HVACSystem.
      */
     public class HVACSystemFactory {
-        public HVACSystem createHVACSystem() {
-            HVAC hvac = new HVAC(generateUUID());
-            TemperatureSensor internalSensor = new TemperatureSensor();
-            TemperatureSensor externalSensor = new TemperatureSensor();
+        public HVACSystem createHVACSystem(House house) {
+            HVAC hvac = new HVAC(generateUUID(), house.getInternalTemperature());
+            TemperatureSensor internalSensor = new TemperatureSensor(house.getInternalTemperature());
+            TemperatureSensor externalSensor = new TemperatureSensor(house.getExternalTemperature());
             UserInputSensor userInputSensor = new UserInputSensor();
             TemperatureController temperatureController = new TemperatureController(internalSensor, externalSensor, hvac, userInputSensor);
 

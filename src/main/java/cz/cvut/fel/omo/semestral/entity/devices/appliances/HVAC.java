@@ -1,7 +1,10 @@
 package cz.cvut.fel.omo.semestral.entity.devices.appliances;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
+import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
+import cz.cvut.fel.omo.semestral.common.enums.Temperature;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.states.*;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.House;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -18,13 +21,16 @@ import java.util.UUID;
 public class HVAC extends Appliance {
 
     private HVACState currentState;
+    private final Temperature internalTemperature;
 
-    public HVAC(UUID serialNumber) {
-        super(serialNumber);
+    public HVAC(UUID serialNumber, Temperature internalTemperature) {
+        super(serialNumber, 100);
         this.currentState = new OffState(); // Default state is off
+        this.internalTemperature = internalTemperature;
     }
 
     public void setState(HVACState newState) {
+
         this.currentState = newState;
     }
 
@@ -52,11 +58,33 @@ public class HVAC extends Appliance {
     @Override
     public void turnOn() {
         currentState.turnOn(this);
+        this.state = DeviceState.ON;
     }
 
     @Override
     public void turnOff() {
         currentState.turnOff(this);
+    }
+
+    @Override
+    public void onTick() {
+        DeviceState currentState = this.getState();
+        if (currentState != DeviceState.OFF && currentState != DeviceState.MALFUNCTION) {
+            performNextAction();
+            adjustTemperature();
+            updateWear(this.currentState.getWearPerTick());
+            updatePowerConsumption(this.currentState.getPowerConsumptionPerTick());
+            checkIfBroken();
+        }
+    }
+
+    @Override
+    public void setIdle() {
+        this.setState(DeviceState.ON);
+    }
+
+    protected void adjustTemperature(){
+        internalTemperature.adjustTemperature(this.currentState.getTempChangePerTick());
     }
 }
 

@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestral.entity.devices.controllers;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
+import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Fridge;
@@ -19,6 +20,9 @@ public class FridgeController extends Controller {
     private final Fridge fridge;
     private final UserInputSensor userInputSensor;
 
+
+    private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
+
     /**
      * Constructs a FridgeController with a specific fridge and user input sensor.
      *
@@ -26,6 +30,7 @@ public class FridgeController extends Controller {
      * @param userInputSensor The sensor that detects user inputs for the fridge.
      */
     public FridgeController(Fridge fridge, UserInputSensor userInputSensor) {
+        super(100);
         this.fridge = fridge;
         this.userInputSensor = userInputSensor;
         this.userInputSensor.addObserver(this);
@@ -42,6 +47,15 @@ public class FridgeController extends Controller {
     public void update(IDevice device) {
         if (device instanceof UserInputSensor) {
             respondToSensor((Sensor) device);
+        }
+    }
+
+    @Override
+    public void onTick() {
+        if (this.getState() == DeviceState.ON) {
+            updateWear(1);
+            updatePowerConsumption(powerConsumptionPerTick);
+            checkIfBroken();
         }
     }
 
@@ -72,11 +86,11 @@ public class FridgeController extends Controller {
 
         // Calculate the difference and send appropriate commands to adjust temperature
         while (currentTemperature < targetTemperature) {
-            fridge.executeCommand(DeviceCommand.INCREASE_TEMPERATURE);
+            fridge.addtoActionPlan(DeviceCommand.INCREASE_TEMPERATURE);
             currentTemperature++;
         }
         while (currentTemperature > targetTemperature) {
-            fridge.executeCommand(DeviceCommand.DECREASE_TEMPERATURE);
+            fridge.addtoActionPlan(DeviceCommand.DECREASE_TEMPERATURE);
             currentTemperature--;
         }
     }

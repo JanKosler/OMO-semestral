@@ -1,12 +1,18 @@
 package cz.cvut.fel.omo.semestral.entity.devices.appliances.states;
 
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.HVAC;
+import lombok.Getter;
 
 /**
  * Represents the cooling state of an HVAC system.
  * In this state, the HVAC system is actively cooling the environment.
  */
+@Getter
 public class CoolingState implements HVACState {
+
+    private final double powerConsumptionPerTick = 40;
+    private final int wearPerTick = 10;
+    private final double tempChangePerTick = -0.5;
 
     /**
      * Maintains the current state when the HVAC is already in cooling mode.

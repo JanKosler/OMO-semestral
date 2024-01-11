@@ -11,12 +11,24 @@ import lombok.Getter;
 @Getter
 public class SecuritySensor extends Sensor {
     private boolean breachDetected;
+    private final double powerConsumptionPerTick = 1.25; //Consumption in mWh every 10 mins.
+    private final int wearCapacity = 100;
 
     /**
      * Constructs a SecuritySensor with default settings.
      */
     public SecuritySensor() {
-        super(DeviceState.OFF, 0, 0.0);
+        super( 100);
+    }
+
+    @Override
+    public void onTick() {
+        if (this.getState() == DeviceState.ON) {
+            detectBreach(true);
+            updateWear(1);
+            updatePowerConsumption(powerConsumptionPerTick);
+            checkIfBroken();
+        }
     }
 
     /**

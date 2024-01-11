@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestral.entity.devices.controllers;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
+import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.TV;
@@ -18,6 +19,7 @@ public class TVController extends Controller {
 
     private final TV tv;
     private final UserInputSensor userInputSensor;
+    private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
 
     /**
      * Constructs a TVController with a specific TV appliance and user input sensor.
@@ -26,6 +28,7 @@ public class TVController extends Controller {
      * @param userInputSensor The sensor that captures user inputs for the TV.
      */
     public TVController(TV tv, UserInputSensor userInputSensor) {
+        super(100);
         this.tv = tv;
         this.userInputSensor = userInputSensor;
         this.userInputSensor.addObserver(this);
@@ -41,6 +44,15 @@ public class TVController extends Controller {
     public void update(IDevice device) {
         if (device instanceof UserInputSensor) {
             respondToSensor((Sensor) device);
+        }
+    }
+
+    @Override
+    public void onTick() {
+        if (this.getState() == DeviceState.ON) {
+            updateWear(1);
+            updatePowerConsumption(powerConsumptionPerTick);
+            checkIfBroken();
         }
     }
 
@@ -66,9 +78,9 @@ public class TVController extends Controller {
         switch (inputType) {
             case TV_POWER:
                 if ((boolean) inputValue) {
-                    tv.executeCommand(DeviceCommand.TURN_ON);
+                    tv.addtoActionPlan(DeviceCommand.TURN_ON);
                 } else {
-                    tv.executeCommand(DeviceCommand.TURN_OFF);
+                    tv.addtoActionPlan(DeviceCommand.TURN_OFF);
                 }
                 break;
             case TV_VOLUME:
@@ -94,10 +106,10 @@ public class TVController extends Controller {
         int currentVolume = tv.getVolumeLevel();
         while (currentVolume != newVolume) {
             if (currentVolume < newVolume) {
-                tv.executeCommand(DeviceCommand.INCREASE_VOLUME);
+                tv.addtoActionPlan(DeviceCommand.INCREASE_VOLUME);
                 currentVolume++;
             } else {
-                tv.executeCommand(DeviceCommand.DECREASE_VOLUME);
+                tv.addtoActionPlan(DeviceCommand.DECREASE_VOLUME);
                 currentVolume--;
             }
         }
@@ -114,10 +126,10 @@ public class TVController extends Controller {
         int currentChannel = tv.getCurrentChannel();
         while (currentChannel != newChannel) {
             if (currentChannel < newChannel) {
-                tv.executeCommand(DeviceCommand.NEXT_CHANNEL);
+                tv.addtoActionPlan(DeviceCommand.NEXT_CHANNEL);
                 currentChannel++;
             } else {
-                tv.executeCommand(DeviceCommand.PREVIOUS_CHANNEL);
+                tv.addtoActionPlan(DeviceCommand.PREVIOUS_CHANNEL);
                 currentChannel--;
             }
         }

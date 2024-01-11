@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestral.entity.devices.appliances.states;
 
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.HVAC;
+import lombok.Getter;
 
 
 /**
@@ -25,6 +26,11 @@ public interface HVACState {
      * @param heater The HVAC system whose state is being deactivated.
      */
     void turnOff(HVAC heater);
+
+    double getPowerConsumptionPerTick();
+    int getWearPerTick();
+
+    double getTempChangePerTick();
 
 }
 

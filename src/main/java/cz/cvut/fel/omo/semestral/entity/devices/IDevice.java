@@ -1,18 +1,13 @@
 package cz.cvut.fel.omo.semestral.entity.devices;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
+import cz.cvut.fel.omo.semestral.tick.Tickable;
 
 /**
  * Interface representing a general device in the smart home simulation.
  * This interface defines the common functionalities that all devices must implement.
  */
 public interface IDevice {
-    /**
-     * Retrieves the power consumption of the device.
-     *
-     * @return The power consumption value of the device.
-     */
-    double getPowerConsumption();
 
     /**
      * Retrieves the current state of the device.
@@ -28,6 +23,13 @@ public interface IDevice {
      * @return The total wear value of the device.
      */
     int getTotalWear();
+
+    /**
+     * Retrieves the power consumption of the device.
+     *
+     * @return The power consumption value of the device.
+     */
+    double getTotalPowerConsumption();
 
     /**
      * Sets the state of the device.
@@ -47,4 +49,14 @@ public interface IDevice {
      * Implementing classes will define the specific behavior when the device is turned off.
      */
     void turnOff();
+
+    void updatePowerConsumption(double powerConsumption);
+
+    void updateWear(int wear);
+
+    void checkIfBroken();
+
+    void addMalfunctionObserver(DeviceMalfunctionObserver observer);
+    void notifyMalfunctionObservers();
+
 }

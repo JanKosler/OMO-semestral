@@ -19,6 +19,7 @@ public class GateControlSystem extends DeviceSystem {
         this.gate = gate;
         this.controller = controller;
         this.userInputSensor = userInputSensor;
+        turnOn();
     }
 
     @Override
@@ -35,7 +36,7 @@ public class GateControlSystem extends DeviceSystem {
     public void turnOn() {
         userInputSensor.turnOn();
         controller.turnOn();
-        gate.turnOn();
+        gate.setIdle();
     }
 
     @Override
@@ -43,5 +44,12 @@ public class GateControlSystem extends DeviceSystem {
         userInputSensor.turnOff();
         controller.turnOff();
         gate.turnOff();
+    }
+
+    @Override
+    public void onTick() {
+        userInputSensor.onTick();
+        controller.onTick();
+        gate.onTick();
     }
 }

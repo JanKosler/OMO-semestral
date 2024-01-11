@@ -24,6 +24,7 @@ public class HVACSystem extends DeviceSystem {
         this.internalSensor = internalSensor;
         this.externalSensor = externalSensor;
         this.userInputSensor = userInputSensor;
+        turnOn();
     }
 
     @Override
@@ -39,6 +40,8 @@ public class HVACSystem extends DeviceSystem {
     @Override
     public void turnOn() {
         userInputSensor.turnOn();
+        internalSensor.turnOn();
+        externalSensor.turnOn();
         controller.turnOn();
         hvac.turnOn();
     }
@@ -46,7 +49,18 @@ public class HVACSystem extends DeviceSystem {
     @Override
     public void turnOff() {
         userInputSensor.turnOff();
+        internalSensor.turnOff();
+        externalSensor.turnOff();
         controller.turnOff();
         hvac.turnOff();
+    }
+
+    @Override
+    public void onTick() {
+        userInputSensor.onTick();
+        internalSensor.onTick();
+        externalSensor.onTick();
+        controller.onTick();
+        hvac.onTick();
     }
 }

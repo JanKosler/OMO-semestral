@@ -14,9 +14,11 @@ import java.util.UUID;
 public class Alarm extends Appliance {
 
     private boolean isArmed;
+    private final double powerConsumptionPerTick_IDLE = 5;
+    private final double powerConsumptionPerTick_ACTIVE = 15;
 
     public Alarm(UUID serialNumber) {
-        super(serialNumber);
+        super(serialNumber, 100);
         this.isArmed = false; // Alarm is disarmed by default
     }
 
@@ -32,6 +34,22 @@ public class Alarm extends Appliance {
             default:
                 System.out.println("Command not recognized for Alarm.");
                 break;
+        }
+    }
+
+    @Override
+    public void onTick() {
+        DeviceState currentState = this.getState();
+        if(currentState != DeviceState.OFF && currentState!= DeviceState.MALFUNCTION) {
+            performNextAction();
+            if (currentState == DeviceState.IDLE || currentState == DeviceState.ON) {
+                updatePowerConsumption(powerConsumptionPerTick_IDLE);
+                updateWear(1);
+            } else if ( currentState == DeviceState.ACTIVE) {
+                updatePowerConsumption(powerConsumptionPerTick_ACTIVE);
+                updateWear(5);
+            }
+            checkIfBroken();
         }
     }
 

@@ -22,6 +22,7 @@ public class LightingSystem extends DeviceSystem {
             this.controller = controller;
             this.motionSensor = motionSensor;
             this.userInputSensor = userInputSensor;
+            turnOn();
         }
 
         @Override
@@ -38,7 +39,7 @@ public class LightingSystem extends DeviceSystem {
         public void turnOn() {
             userInputSensor.turnOn();
             controller.turnOn();
-            lights.forEach(Light::turnOn);
+            lights.forEach(Light::setIdle);
         }
 
         @Override
@@ -46,5 +47,13 @@ public class LightingSystem extends DeviceSystem {
             userInputSensor.turnOff();
             controller.turnOff();
             lights.forEach(Light::turnOff);
+        }
+
+        @Override
+        public void onTick() {
+            motionSensor.onTick();
+            userInputSensor.onTick();
+            controller.onTick();
+            lights.forEach(Light::onTick);
         }
 }

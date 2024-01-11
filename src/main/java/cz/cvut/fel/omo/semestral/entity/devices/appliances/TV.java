@@ -19,10 +19,11 @@ public class TV extends Appliance {
 
     private int currentChannel;
     private int volumeLevel;
-    private boolean isOn;
+    private final double powerConsumptionPerTick_IDLE = 4;
+    private final double powerConsumptionPerTick_ON = 35;
 
     public TV(UUID serialNumber) {
-        super(serialNumber);
+        super(serialNumber, 100);
         this.currentChannel = 1; // Default channel
         this.volumeLevel = 30;   // Default volume level
     }
@@ -34,7 +35,7 @@ public class TV extends Appliance {
                 turnOn();
                 break;
             case TURN_OFF:
-                turnOff();
+                setIdle();
                 break;
             case INCREASE_VOLUME:
                 adjustVolume(volumeLevel + 10); // Increase volume by 10
@@ -55,17 +56,19 @@ public class TV extends Appliance {
     }
 
     @Override
-    public void turnOn() {
-        this.isOn = true;
-        this.setState(DeviceState.ON);
-        System.out.println("TV turned on.");
-    }
-
-    @Override
-    public void turnOff() {
-        this.isOn = false;
-        this.setState(DeviceState.OFF);
-        System.out.println("TV turned off.");
+    public void onTick() {
+        DeviceState currentState = this.getState();
+        if(currentState != DeviceState.OFF && currentState!= DeviceState.MALFUNCTION) {
+            performNextAction();
+            if (currentState == DeviceState.IDLE) {
+                updatePowerConsumption(powerConsumptionPerTick_IDLE);
+                updateWear(1);
+            } else if (currentState == DeviceState.ON) {
+                updatePowerConsumption(powerConsumptionPerTick_ON);
+                updateWear(10);
+            }
+            checkIfBroken();
+        }
     }
 
     private void adjustVolume(int newVolume) {

@@ -4,6 +4,7 @@ import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Appliance;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import cz.cvut.fel.omo.semestral.tick.Tickable;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * This class serves as a base for specific types of device systems, providing common functionalities and properties.
  * The purpose of device system is to aggregate devices and sensors that are related to each other.
  */
-public abstract class DeviceSystem {
+public abstract class DeviceSystem implements Tickable {
 
 
     private List<UserInputType> allowedUserInputTypes;
@@ -59,5 +60,10 @@ public abstract class DeviceSystem {
      */
     public UserInputSensor getUserInputSensor() {
         return null;
+    }
+
+    @Override
+    public void onTick() {
+        return;
     }
 }

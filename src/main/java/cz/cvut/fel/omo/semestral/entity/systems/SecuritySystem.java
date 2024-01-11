@@ -31,6 +31,7 @@ public class SecuritySystem extends DeviceSystem {
         this.securitySensor = securitySensor;
         this.controller = controller;
         this.userInputSensor = userInputSensor;
+        turnOn();
     }
 
     @Override
@@ -47,7 +48,7 @@ public class SecuritySystem extends DeviceSystem {
     public void turnOn() {
         userInputSensor.turnOn();
         controller.turnOn();
-        alarm.turnOn();
+        alarm.setIdle();
     }
 
     @Override
@@ -55,5 +56,13 @@ public class SecuritySystem extends DeviceSystem {
         userInputSensor.turnOff();
         controller.turnOff();
         alarm.turnOff();
+    }
+
+    @Override
+    public void onTick() {
+        securitySensor.onTick();
+        userInputSensor.onTick();
+        controller.onTick();
+        alarm.onTick();
     }
 }
