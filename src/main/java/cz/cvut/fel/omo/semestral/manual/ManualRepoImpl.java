@@ -2,6 +2,7 @@ package cz.cvut.fel.omo.semestral.manual;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -9,25 +10,23 @@ import java.util.Optional;
 public class ManualRepoImpl implements ManualRepo {
     private final OfflineManualDatabase database;
     // TODO : cache all manuals, on get
-    private Manual manual;
+    private Map<String, Manual> manual;
 
     /**
      * Creates a new manual repo.
      * @param database database to load manual from
-     * @param deviceName name of the device
      */
-    public ManualRepoImpl(OfflineManualDatabase database, String deviceName) {
+    public ManualRepoImpl(OfflineManualDatabase database) {
         this.database = database;
-        loadManual(deviceName);
     }
 
     /**
      * Loads manual from database
      * @param deviceName name of the device
      */
-    private void loadManual(String deviceName) {
+    private Manual loadManualFromDb(String deviceName) {
         log.info("Loading manual from database");
-        manual = database.requestManual(deviceName).orElse(null);
+        return database.requestManual(deviceName).orElse(null);
     }
 
     /**
@@ -36,9 +35,9 @@ public class ManualRepoImpl implements ManualRepo {
      */
     @Override
     public Manual getManual(String deviceName) {
-        if (manual == null) {
-            loadManual(deviceName);
+        if (!manual.containsKey(deviceName)) {
+            manual.put(deviceName, loadManualFromDb(deviceName));
         }
-        return manual;
+        return manual.get(deviceName);
     }
 }

@@ -16,7 +16,7 @@ public class ManualRepoProxy implements ManualRepo {
     @Override
     public Manual getManual(String deviceName) {
         if (manualRepo == null) {
-            manualRepo = new ManualRepoImpl(new OfflineManualDatabase(), deviceName);
+            manualRepo = new ManualRepoImpl(new OfflineManualDatabase());
         }
         return manualRepo.getManual(deviceName);
     }

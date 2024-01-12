@@ -22,11 +22,11 @@ public class OfflineManualDatabase implements ManualDatabase {
      */
     public OfflineManualDatabase() {
         log.info("Creating offline manual database");
-        this.addManual(new Manual(UUID.randomUUID(), "Fridge", "1.0", "This is manual for fridge, manual version 1.0"));
-        this.addManual(new Manual(UUID.randomUUID(), "HVAC", "1.2", "This is manual for HVAC, manual version 1.2"));
-        this.addManual(new Manual(UUID.randomUUID(), "TV", "2.3", "This is manual for TV, manual version 2.3"));
-        this.addManual(new Manual(UUID.randomUUID(), "MotionSensor", "1.0", "This is manual for motion sensor, manual version 1.0"));
-        this.addManual(new Manual(UUID.randomUUID(), "GateController", "0.9", "This is manual for gate controller, manual version 0.9"));
+        this.addManual(new Manual(UUID.randomUUID(), "Fridge", "This is manual for fridge, manual version 1.0"));
+        this.addManual(new Manual(UUID.randomUUID(), "HVAC", "This is manual for HVAC, manual version 1.2"));
+        this.addManual(new Manual(UUID.randomUUID(), "TV", "This is manual for TV, manual version 2.3"));
+        this.addManual(new Manual(UUID.randomUUID(), "MotionSensor", "This is manual for motion sensor, manual version 1.0"));
+        this.addManual(new Manual(UUID.randomUUID(), "GateController", "This is manual for gate controller, manual version 0.9"));
     }
 
     /**

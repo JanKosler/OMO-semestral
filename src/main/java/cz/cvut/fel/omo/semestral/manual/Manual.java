@@ -21,10 +21,6 @@ public class Manual {
      */
     private String deviceName;
     /**
-     * Version of the manual.
-     */
-    private String version;
-    /**
      * Content of the manual.
      */
     private String content;
