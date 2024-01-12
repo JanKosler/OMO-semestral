@@ -1,0 +1,59 @@
+{
+  "House": {
+    "houseID": "1",
+    "houseNumber": "13",
+    "address": "456 Imaginary Lane, Dreamtown, Wonderland"
+  },
+  "Floors": [
+    {
+      "floorID": "1",
+      "floorName": "Ground floor",
+      "floorLevel": "0"
+    },
+    {
+      "floorID": "2",
+      "floorName": "First floor",
+      "floorLevel": "1"
+    }
+  ],
+  "Rooms": [
+    {
+      "roomID": "1",
+      "roomName": "Kitchen",
+      "floorID": "1"
+    },
+    {
+      "roomID": "2",
+      "roomName": "Living Room",
+      "floorID": "1"
+    },
+    {
+      "roomID": "3",
+      "roomName": "Bedroom",
+      "floorID": "2"
+    },
+    {
+      "roomID": "4",
+      "roomName": "Bathroom",
+      "floorID": "2"
+    }
+  ],
+  "People": [
+    {
+      "personID": "1",
+      "personName": "John Doe",
+      "roomID": "1"
+    },
+    {
+      "personID": "2",
+      "personName": "Jane Doe",
+      "roomID": "2"
+    },
+    {
+      "personID": "3",
+      "personName": "James Doe",
+      "roomID": "3"
+    }
+  ]
+}
+

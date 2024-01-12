@@ -9,6 +9,11 @@ import java.util.List;
 
 @Getter
 public class Room implements ILivingSpace {
+    /** Unique ID of the room */
+    private int roomID;
+    /** Name of the room */
+    private String roomName;
+
     /** List of all devices in the room */
     private final List<IDevice> deviceList;
 

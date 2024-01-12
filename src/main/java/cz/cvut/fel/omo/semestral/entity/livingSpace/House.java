@@ -19,6 +19,10 @@ public class House implements ILivingSpace {
     /** Unique ID of the house. */
     @Setter
     private int houseID;
+    /** Number of the house. */
+    private int houseNumber;
+    /** Address of the house. */
+    private String address;
 
     /** List of floors in the house. */
     private Map<Integer, Floor> floors;
@@ -32,10 +36,10 @@ public class House implements ILivingSpace {
      * @throws IllegalArgumentException If a floor with the same number already exists.
      */
     public void addFloor(Floor floor) throws IllegalArgumentException {
-        if (floors.containsKey(floor.getFloorNumber())) {
+        if (floors.containsKey(floor.getFloorLevel())) {
             throw new IllegalArgumentException("Floor with this number already exists.");
         }
-        floors.put(floor.getFloorNumber(), floor);
+        floors.put(floor.getFloorLevel(), floor);
     }
 
     /**

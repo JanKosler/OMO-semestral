@@ -12,8 +12,12 @@ import java.util.List;
  */
 @Getter
 public class Floor implements ILivingSpace {
+    /** Unique ID of the floor */
+    private int floorID;
+    /** Name of the floor */
+    private int floorName;
     /** Floor level number in the house */
-    private int floorNumber;
+    private int floorLevel;
 
     /** List of rooms on the floor */
     private List<Room> rooms;
