@@ -156,7 +156,7 @@ public class HouseInitializationTest {
 
         Floor floor = new Floor(1, "Ground floor", 1, rooms);
         Floor floor2 = new Floor(2, "First floor", 2, rooms);
-        
+
         List<Floor> floors = new ArrayList<>();
         floors.add(floor);
         floors.add(floor2);

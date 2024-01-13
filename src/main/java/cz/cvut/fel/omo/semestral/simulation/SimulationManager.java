@@ -11,11 +11,12 @@ public class SimulationManager {
     /** Generates a report about the house configuration. */
     private ReportGenerator reportGenerator;
 
+    private SimulationConfig simulationConfig;
     /**
      * Initializes the simulation.
      */
-    public void initializeSimulation() {
-        // TODO : check if this needs the simulation config
+    public void initializeSimulation(String configFilename) {
+        SimulationConfig simulationConfig = new SimulationConfig(configFilename);
     }
     /**
      * Starts the simulation.
