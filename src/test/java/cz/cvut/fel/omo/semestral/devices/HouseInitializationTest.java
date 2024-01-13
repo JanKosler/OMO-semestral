@@ -1,10 +1,8 @@
 package cz.cvut.fel.omo.semestral.devices;
 
-import cz.cvut.fel.omo.semestral.common.enums.Temperature;
-import cz.cvut.fel.omo.semestral.entity.actions.Action;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Temperature;
 import cz.cvut.fel.omo.semestral.entity.beings.Being;
 import cz.cvut.fel.omo.semestral.entity.beings.Human;
-import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Alarm;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Appliance;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Gate;

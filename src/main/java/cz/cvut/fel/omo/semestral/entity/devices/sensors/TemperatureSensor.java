@@ -1,7 +1,7 @@
 package cz.cvut.fel.omo.semestral.entity.devices.sensors;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
-import cz.cvut.fel.omo.semestral.common.enums.Temperature;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Temperature;
 import lombok.Getter;
 
 /**

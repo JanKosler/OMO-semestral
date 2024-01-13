@@ -1,12 +1,11 @@
 package cz.cvut.fel.omo.semestral.devices.systems;
 
-import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import cz.cvut.fel.omo.semestral.common.enums.Temperature;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Temperature;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.HVAC;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.TemperatureController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.TemperatureSensor;
@@ -42,8 +41,6 @@ public class HVACSystemTest {
         internalTemperature.setTemperature(30.0); // Set a new external temperature
         hvacSystem.onTick(); // Process the temperature change
 
-        // Check if the HVAC state changes as expected
-        // Assuming the HVAC should switch to cooling mode in this case
         assertEquals("VentilationState", hvac.getCurrentState().getClass().getSimpleName());
     }
 
@@ -64,7 +61,6 @@ public class HVACSystemTest {
         externalTemperature.setTemperature(35.0);
         hvacSystem.onTick();
 
-        // Assuming the system should be in cooling mode under these conditions
         assertEquals("VentilationState", hvac.getCurrentState().getClass().getSimpleName());
     }
 
@@ -107,10 +103,8 @@ public class HVACSystemTest {
             hvacSystem.onTick();
         }
 
-        System.out.println("Total consumption: " + hvac.getTotalPowerConsumption());
+        System.out.println("Total consumption: " + hvac.getTotalPowerConsumption() + " mWh");
 
-        // Additionally, you can check if the temperature is approaching the target temperature
-        // This assertion depends on the rate at which your HVAC system changes the temperature
         assertEquals(20.0, internalTemperature.getTemperature(), 0.0);
     }
 }

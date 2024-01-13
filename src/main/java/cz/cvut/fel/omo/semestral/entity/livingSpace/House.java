@@ -1,13 +1,10 @@
 package cz.cvut.fel.omo.semestral.entity.livingSpace;
 
-import cz.cvut.fel.omo.semestral.common.enums.Temperature;
 import cz.cvut.fel.omo.semestral.entity.beings.Human;
 import cz.cvut.fel.omo.semestral.entity.beings.Pet;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;

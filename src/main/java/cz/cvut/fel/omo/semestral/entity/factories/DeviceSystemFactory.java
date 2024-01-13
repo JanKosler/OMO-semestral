@@ -26,7 +26,7 @@ public class DeviceSystemFactory {
      *
      * @return The assembled FridgeSystem.
      */
-    public FridgeSystem createFridgeSystem() {
+    public FridgeSystem createFridgeSystem(Room room) {
         // Create the components of the FridgeSystem
         Fridge fridge = new Fridge(generateUUID());
         UserInputSensor userInputSensor = new UserInputSensor();
@@ -40,7 +40,7 @@ public class DeviceSystemFactory {
      *
      * @return The assembled SecuritySystem.
      */
-    public SecuritySystem createSecuritySystem() {
+    public SecuritySystem createSecuritySystem(Room room) {
         // Create the components of the SecuritySystem
         Alarm alarm = new Alarm(generateUUID());
         SecuritySensor securitySensor = new SecuritySensor();
@@ -53,12 +53,11 @@ public class DeviceSystemFactory {
     /**
      * Creates and configures a LightingSystem with a specified number of lights.
      *
-     * @param numberOfLights The number of lights to include in the system.
      * @return The assembled LightingSystem.
      */
-    public LightingSystem createLightingSystem(int numberOfLights, Room room) {
+    public LightingSystem createLightingSystem(Room room) {
         List<Light> lights = new ArrayList<>();
-        for (int i = 0; i < numberOfLights; i++) {
+        for (int i = 0; i < 3; i++) {
             lights.add(new Light(generateUUID()));
         }
 
@@ -75,7 +74,7 @@ public class DeviceSystemFactory {
      * @return The assembled HVACSystem.
      */
     public class HVACSystemFactory {
-        public HVACSystem createHVACSystem(House house) {
+        public HVACSystem createHVACSystem(House house, Room room) {
             HVAC hvac = new HVAC(generateUUID(), house.getInternalTemperature());
             TemperatureSensor internalSensor = new TemperatureSensor(house.getInternalTemperature());
             TemperatureSensor externalSensor = new TemperatureSensor(house.getExternalTemperature());
@@ -93,7 +92,7 @@ public class DeviceSystemFactory {
      * @return The assembled TVSystem.
      */
     public class TVSystemFactory {
-        public TVSystem createEntertainmentSystem() {
+        public TVSystem createEntertainmentSystem(Room room) {
             TV tv = new TV(generateUUID());
             UserInputSensor userInputSensor = new UserInputSensor();
             TVController tvController = new TVController(tv, userInputSensor);

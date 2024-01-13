@@ -2,9 +2,8 @@ package cz.cvut.fel.omo.semestral.entity.devices.appliances;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
-import cz.cvut.fel.omo.semestral.common.enums.Temperature;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Temperature;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.states.*;
-import cz.cvut.fel.omo.semestral.entity.livingSpace.House;
 import lombok.Getter;
 
 import java.util.UUID;

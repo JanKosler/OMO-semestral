@@ -54,6 +54,48 @@
       "personName": "James Doe",
       "roomID": "3"
     }
+  ],
+  "Systems": [
+    {
+      "systemID": "1",
+      "systemName": "FridgeSystem",
+      "roomID": "1"
+    },
+    {
+      "systemID": "2",
+      "systemName": "LightingSystem",
+      "roomID": "1"
+    },
+    {
+      "systemID": "3",
+      "systemName": "TVSystem",
+      "roomID": "2"
+    },
+    {
+      "systemID": "4",
+      "systemName": "HVACSystem",
+      "roomID": "2"
+    },
+    {
+      "systemID": "5",
+      "systemName": "SecuritySystem",
+      "roomID": "2"
+    },
+    {
+      "systemID": "6",
+      "systemName": "LightingSystem",
+      "roomID": "2"
+    },
+    {
+      "systemID": "7",
+      "systemName": "LightingSystem",
+      "roomID": "3"
+    },
+    {
+      "systemID": "8",
+      "systemName": "LightingSystem",
+      "roomID": "4"
+    }
   ]
 }
 
