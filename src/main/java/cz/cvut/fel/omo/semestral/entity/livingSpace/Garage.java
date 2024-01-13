@@ -1,7 +1,6 @@
 package cz.cvut.fel.omo.semestral.entity.livingSpace;
 
 import lombok.Getter;
-
 import java.util.Map;
 
 @Getter
@@ -10,12 +9,21 @@ public class Garage extends Room {
     // equipment
     private final Map<SportEquipment, Integer> sportEquipment;
 
+    /**
+     * Creates a new garage.
+     * @param builder Garage builder.
+     */
     public Garage(GarageBuilder builder) {
         super(builder.roomBuilder);
         this.sportEquipment = builder.sportEquipment;
     }
 
-    public static GarageBuilder builder() {
+    /**
+     * Gets the builder for the garage.
+     *
+     * @return Garage builder.
+     */
+    public static GarageBuilder garageBuilder() {
         return new GarageBuilder();
     }
 }

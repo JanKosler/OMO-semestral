@@ -9,6 +9,7 @@ import cz.cvut.fel.omo.semestral.reporting.HouseConfigurationReport;
 import cz.cvut.fel.omo.semestral.reporting.ReportGenerator;
 import lombok.AllArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +33,14 @@ public class HouseFacade {
 
     /** List of all device systems in the house. */
     private List<DeviceSystem> deviceSystems;
+
+
+    public HouseFacade() {
+        pets = new ArrayList<>();
+        humans = new ArrayList<>();
+        devices = new ArrayList<>();
+        deviceSystems = new ArrayList<>();
+    }
 
     /**
      * Starts the simulation.

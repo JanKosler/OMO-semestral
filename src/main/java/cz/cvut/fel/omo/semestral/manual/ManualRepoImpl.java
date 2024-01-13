@@ -17,6 +17,7 @@ public class ManualRepoImpl implements ManualRepo {
      * @param database database to load manual from
      */
     public ManualRepoImpl(OfflineManualDatabase database) {
+        manual = new java.util.HashMap<>();
         this.database = database;
     }
 

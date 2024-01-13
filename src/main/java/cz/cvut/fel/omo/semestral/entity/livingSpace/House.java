@@ -1,6 +1,8 @@
 package cz.cvut.fel.omo.semestral.entity.livingSpace;
 
 import cz.cvut.fel.omo.semestral.common.enums.Temperature;
+import cz.cvut.fel.omo.semestral.entity.beings.Human;
+import cz.cvut.fel.omo.semestral.entity.beings.Pet;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 import lombok.AllArgsConstructor;
@@ -14,22 +16,34 @@ import java.util.Map;
  * Represents a house.
  */
 @Getter
-@AllArgsConstructor
 public class House implements ILivingSpace {
     /** Unique ID of the house. */
-    @Setter
-    private int houseID;
+    private final int houseID;
     /** Number of the house. */
-    private int houseNumber;
+    private final int houseNumber;
     /** Address of the house. */
-    private String address;
+    private final String address;
 
     /** List of floors in the house. */
     private Map<Integer, Floor> floors;
 
-    private Temperature internalTemperature;
-    private Temperature externalTemperature;
+    private final Temperature internalTemperature;
+    private final Temperature externalTemperature;
 
+    public House(int houseID, int houseNumber, String address, Temperature internalTemperature, Temperature externalTemperature) {
+        this.houseID = houseID;
+        this.houseNumber = houseNumber;
+        this.address = address;
+        this.internalTemperature = internalTemperature;
+        this.externalTemperature = externalTemperature;
+        this.floors = new java.util.HashMap<>();
+    }
+    public House(int houseID, int houseNumber, String address, Temperature internalTemperature, Temperature externalTemperature, List<Floor> floors) {
+        this(houseID, houseNumber, address, internalTemperature, externalTemperature);
+        for (Floor floor : floors) {
+            this.addFloor(floor);
+        }
+    }
     /**
      * Adds a floor to the house.
      * @param floor Floor to add.
@@ -70,6 +84,28 @@ public class House implements ILivingSpace {
     public List<DeviceSystem> getAllDeviceSystems() {
         return floors.entrySet().stream()
                 .flatMap(entry -> entry.getValue().getAllDeviceSystems().stream())
+                .toList();
+    }
+
+    /**
+     * Gets all people in the house.
+     * @return List of people.
+     */
+    @Override
+    public List<Human> getAllPeople() {
+        return floors.entrySet().stream()
+                .flatMap(entry -> entry.getValue().getAllPeople().stream())
+                .toList();
+    }
+
+    /**
+     * Gets all pets in the house.
+     * @return List of pets.
+     */
+    @Override
+    public List<Pet> getAllPets() {
+        return floors.entrySet().stream()
+                .flatMap(entry -> entry.getValue().getAllPets().stream())
                 .toList();
     }
 

@@ -10,11 +10,22 @@ import java.util.Map;
 public class GarageBuilder implements IRoomBuilder<Garage> {
     Map<SportEquipment, Integer> sportEquipment;
     RoomBuilder roomBuilder;
+    public GarageBuilder() {
+        this.roomBuilder = new RoomBuilder();
+        sportEquipment = new java.util.HashMap<>();
+    }
+    public GarageBuilder setRoomID(int roomID) {
+        this.roomBuilder.setRoomID(roomID);
+        return this;
+    }
+    public GarageBuilder setRoomName(String roomName) {
+        this.roomBuilder.setRoomName(roomName);
+        return this;
+    }
     public GarageBuilder addDevice(IDevice device) {
         this.roomBuilder.addDevice(device);
         return this;
     }
-
     public GarageBuilder addDeviceSystem(DeviceSystem deviceSystem) {
         this.roomBuilder.addDeviceSystem(deviceSystem);
         return this;
