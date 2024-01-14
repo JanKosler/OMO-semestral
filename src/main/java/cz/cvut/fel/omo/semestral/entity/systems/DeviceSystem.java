@@ -6,6 +6,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.appliances.Appliance;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.TV;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.MotionSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import cz.cvut.fel.omo.semestral.reporting.Report;
 import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
@@ -92,4 +93,8 @@ public abstract class DeviceSystem implements Tickable {
             }
         }
     }
+
+    public void setRooom(Room room){};
+
+    public abstract void setRoom(Room room);
 }

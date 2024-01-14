@@ -6,6 +6,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.appliances.Gate;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.GateController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.MotionSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import lombok.Getter;
 
 import java.util.List;
@@ -55,5 +56,10 @@ public class GateControlSystem extends DeviceSystem {
     @Override
     public String toString() {
         return "GateControlSystem{" + "deviceSystemID=" + deviceSystemID +'}';
+    }
+
+    @Override
+    public void setRoom(Room room) {
+        return;
     }
 }

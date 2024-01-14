@@ -6,6 +6,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.appliances.HVAC;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.TemperatureController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.TemperatureSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import lombok.Getter;
 
 import java.util.List;
@@ -62,5 +63,10 @@ public class HVACSystem extends DeviceSystem {
     @Override
     public String toString() {
         return "HVACSystem{" + "deviceSystemID=" + deviceSystemID + '}';
+    }
+
+    @Override
+    public void setRoom(Room room) {
+        return;
     }
 }

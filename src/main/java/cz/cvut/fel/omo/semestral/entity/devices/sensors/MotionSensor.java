@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.devices.sensors;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ public class MotionSensor extends Sensor {
     private boolean motionDetected;
     private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
     private final int wearCapacity = 100;
+    @Setter
     private Room room;
 
     /**
@@ -49,5 +51,6 @@ public class MotionSensor extends Sensor {
             notifyObservers();
         }
     }
+
 }
 

@@ -5,6 +5,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.TV;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.TVController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import lombok.Getter;
 
 import java.util.List;
@@ -75,5 +76,10 @@ public class TVSystem extends DeviceSystem {
     @Override
     public String toString() {
         return "TVSystem{" + "deviceSystemID=" + deviceSystemID + '}';
+    }
+
+    @Override
+    public void setRoom(Room room) {
+        return;
     }
 }

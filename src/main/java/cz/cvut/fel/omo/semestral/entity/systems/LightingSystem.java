@@ -6,6 +6,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.appliances.Light;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.LightController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.MotionSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -71,4 +72,9 @@ public class LightingSystem extends DeviceSystem {
         public String toString() {
             return "LightingSystem{" + "deviceSystemID=" + deviceSystemID + '}';
         }
+
+    @Override
+    public void setRoom(Room room) {
+        motionSensor.setRoom(room);
+    }
 }

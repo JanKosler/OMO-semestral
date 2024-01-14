@@ -266,12 +266,12 @@ public class SimulationConfig {
         private DeviceSystem createSystemByType(int deviceSystemID, String deviceSystemName, Room room, House house) {
             DeviceSystemFactory factory = new DeviceSystemFactory();
             return switch (deviceSystemName) {
-                case "FridgeSystem" -> factory.createFridgeSystem(deviceSystemID,room);
-                case "GateControlSystem" -> factory.createGateControlSystem(deviceSystemID, room);
-                case "HVACSystem" -> factory.createHVACSystem(deviceSystemID,house, room);
+                case "FridgeSystem" -> factory.createFridgeSystem(deviceSystemID);
+                case "GateControlSystem" -> factory.createGateControlSystem(deviceSystemID);
+                case "HVACSystem" -> factory.createHVACSystem(deviceSystemID,house);
                 case "LightingSystem" -> factory.createLightingSystem(deviceSystemID,room);
-                case "SecuritySystem" -> factory.createSecuritySystem(deviceSystemID,room);
-                case "TVSystem" -> factory.createEntertainmentSystem(deviceSystemID,room);
+                case "SecuritySystem" -> factory.createSecuritySystem(deviceSystemID);
+                case "TVSystem" -> factory.createEntertainmentSystem(deviceSystemID);
                 default -> null;
             };
         }

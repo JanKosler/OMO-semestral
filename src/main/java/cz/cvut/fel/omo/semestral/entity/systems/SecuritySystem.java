@@ -7,6 +7,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.controllers.SecurityController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.MotionSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.SecuritySensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import lombok.Getter;
 
 import java.util.List;
@@ -70,5 +71,10 @@ public class SecuritySystem extends DeviceSystem {
     @Override
     public String toString() {
         return "SecuritySystem{" + "deviceSystemID=" + deviceSystemID + '}';
+    }
+
+    @Override
+    public void setRoom(Room room) {
+        return;
     }
 }
