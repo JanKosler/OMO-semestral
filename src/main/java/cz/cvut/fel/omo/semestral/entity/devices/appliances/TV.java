@@ -25,7 +25,7 @@ public class TV extends Appliance {
     public TV(UUID serialNumber) {
         super(serialNumber, 100);
         this.currentChannel = 1; // Default channel
-        this.volumeLevel = 30;   // Default volume level
+        this.volumeLevel = 5;   // Default volume level
     }
 
     @Override
@@ -38,10 +38,10 @@ public class TV extends Appliance {
                 setIdle();
                 break;
             case INCREASE_VOLUME:
-                adjustVolume(volumeLevel + 10); // Increase volume by 10
+                adjustVolume(volumeLevel + 1);
                 break;
             case DECREASE_VOLUME:
-                adjustVolume(volumeLevel - 10); // Decrease volume by 10
+                adjustVolume(volumeLevel - 1);
                 break;
             case NEXT_CHANNEL:
                 changeChannel(currentChannel + 1);
@@ -50,7 +50,7 @@ public class TV extends Appliance {
                 changeChannel(currentChannel - 1);
                 break;
             default:
-                System.out.println("Command not recognized for TV.");
+                System.out.println("TV: Command not recognized for TV.");
                 break;
         }
     }
@@ -59,7 +59,7 @@ public class TV extends Appliance {
     public void onTick() {
         DeviceState currentState = this.getState();
         if(currentState != DeviceState.OFF && currentState!= DeviceState.MALFUNCTION) {
-            performNextAction();
+            performAllActions();
             if (currentState == DeviceState.IDLE) {
                 updatePowerConsumption(powerConsumptionPerTick_IDLE);
                 updateWear(1);
@@ -71,21 +71,20 @@ public class TV extends Appliance {
         }
     }
 
-    private void adjustVolume(int newVolume) {
-        if (newVolume > 100) {
-            volumeLevel = 100; // Cap the volume at 100
+    public void adjustVolume(int newVolume) {
+        if (newVolume > 10) {
+            volumeLevel = 10; // Cap the volume at 100
         } else if (newVolume < 0) {
             volumeLevel = 0; // Ensure volume doesn't go below 0
         } else {
             volumeLevel = newVolume;
         }
-        System.out.println("TV volume set to " + volumeLevel);
+
     }
 
 
     private void changeChannel(int channel) {
         currentChannel = channel;
-        System.out.println("TV channel set to " + currentChannel);
     }
 }
 

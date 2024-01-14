@@ -92,7 +92,7 @@ public class TVController extends Controller {
                 changeTVChannel((Integer) inputValue);
                 break;
             default:
-                System.out.println("Unrecognized TV input command.");
+                System.out.println("Controller: Unrecognized TV input command.");
                 break;
         }
     }
@@ -106,6 +106,9 @@ public class TVController extends Controller {
     private void adjustTVVolume(int newVolume) {
         // Assuming the newVolume is the desired volume level
         int currentVolume = tv.getVolumeLevel();
+        if(newVolume> 10){newVolume = 10;}
+        else if(newVolume < 0){newVolume = 0;}
+
         while (currentVolume != newVolume) {
             if (currentVolume < newVolume) {
                 tv.addtoActionPlan(DeviceCommand.INCREASE_VOLUME);
@@ -115,6 +118,7 @@ public class TVController extends Controller {
                 currentVolume--;
             }
         }
+        System.out.println("TV volume set to " + newVolume);
     }
 
     /**
@@ -135,6 +139,7 @@ public class TVController extends Controller {
                 currentChannel--;
             }
         }
+        System.out.println("TV channel set to " + newChannel);
     }
 }
 

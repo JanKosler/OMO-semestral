@@ -2,12 +2,9 @@ package cz.cvut.fel.omo.semestral.entity.devices.appliances;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
-import cz.cvut.fel.omo.semestral.entity.actions.Action;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.IDeviceCommand;
 import cz.cvut.fel.omo.semestral.entity.devices.DeviceMalfunctionObserver;
-import cz.cvut.fel.omo.semestral.reporting.Report;
-import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
 import lombok.Getter;
 import lombok.Setter;
@@ -109,8 +106,8 @@ public abstract class Appliance implements IDevice, IDeviceCommand, Tickable {
         actionPlan.add(command);
     }
 
-    public void performNextAction() {
-        if (!actionPlan.isEmpty()) {
+    public void performAllActions() {
+        while (!actionPlan.isEmpty()) {
             DeviceCommand command = actionPlan.poll();
             executeCommand(command);
         }

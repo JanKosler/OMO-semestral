@@ -46,7 +46,7 @@ public class Fridge extends Appliance {
     public void onTick() {
         DeviceState currentState = this.getState();
         if (currentState != DeviceState.OFF && currentState != DeviceState.MALFUNCTION) {
-            performNextAction();
+            performAllActions();
             updateWear(5);
             updatePowerConsumption(powerConsumptionPerTick);
             checkIfBroken();

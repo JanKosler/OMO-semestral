@@ -41,7 +41,7 @@ public class Gate extends Appliance {
     public void onTick() {
         DeviceState currentState = this.getState();
         if (currentState != DeviceState.OFF && currentState != DeviceState.MALFUNCTION) {
-            performNextAction();
+            performAllActions();
             updateWear(1);
             updatePowerConsumption(powerConsumptionPerTick_IDLE);
             checkIfBroken();

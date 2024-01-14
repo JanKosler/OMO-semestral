@@ -42,7 +42,7 @@ public class Light extends Appliance {
     public void onTick() {
         DeviceState currentState = this.getState();
         if(currentState != DeviceState.OFF && currentState!= DeviceState.MALFUNCTION) {
-            performNextAction();
+            performAllActions();
             if (currentState == DeviceState.IDLE) {
                 updatePowerConsumption(powerConsumptionPerTick_IDLE);
                 updateWear(1);

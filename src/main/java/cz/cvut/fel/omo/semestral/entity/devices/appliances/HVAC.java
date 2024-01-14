@@ -58,7 +58,7 @@ public class HVAC extends Appliance {
     public void onTick() {
         DeviceState currentState = this.getState();
         if (currentState != DeviceState.OFF && currentState != DeviceState.MALFUNCTION) {
-            performNextAction();
+            performAllActions();
             adjustTemperature();
             updateWear(this.currentState.getWearPerTick());
             updatePowerConsumption(this.currentState.getPowerConsumptionPerTick());

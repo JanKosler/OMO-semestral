@@ -41,7 +41,7 @@ public class Alarm extends Appliance {
     public void onTick() {
         DeviceState currentState = this.getState();
         if(currentState != DeviceState.OFF && currentState!= DeviceState.MALFUNCTION) {
-            performNextAction();
+            performAllActions();
             if (currentState == DeviceState.IDLE || currentState == DeviceState.ON) {
                 updatePowerConsumption(powerConsumptionPerTick_IDLE);
                 updateWear(1);
