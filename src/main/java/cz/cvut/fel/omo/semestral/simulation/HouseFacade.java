@@ -48,9 +48,13 @@ public class HouseFacade {
      * Run of the simulation
      */
     private void simulate() {
-        log.info("Simulation started");
-        tickPublisher = new TickPublisher();
+        log.info("[SIMULATION] Simulation started");
 
+        // checks if all things house are loaded
+        // logHouseObject();
+
+
+        tickPublisher = new TickPublisher();
         // Subscribe all devices, humans and pets to the tick publisher
         getHumans().forEach(tickPublisher::subscribe);
         getDeviceSystems().forEach(tickPublisher::subscribe);
@@ -107,6 +111,9 @@ public class HouseFacade {
         }
 
     }
+
+
+
 
     /**
      * Initializes the simulation.
@@ -193,4 +200,26 @@ public class HouseFacade {
     public List<IDevice> getDevices(){return house.getAllDevices();}
     public List<Human> getHumans(){return house.getAllPeople();}
     public List<Pet> getPets(){return house.getAllPets();}
+
+    private void logHouseObject() {
+        log.info("Logging house started");
+
+        for (Floor floor : house.getFloors()) {
+            log.info("Floor " + floor.getFloorName() + " has " + floor.getRooms().size() + " rooms");
+        }
+
+        List<Room> rooms = house.getFloors().stream().flatMap(f->f.getRooms().stream()).toList();
+        for (Room room : rooms) {
+            log.info("Room " + room.getRoomName());
+        }
+
+        for (DeviceSystem deviceSystem : house.getAllDeviceSystems()) {
+            log.info("Device system " + deviceSystem.getDeviceSystemID() + " has " + deviceSystem.getDevices().size() + " devices");
+        }
+
+        for (Human human : house.getAllPeople()) {
+            log.info("Human " + human.getName());
+        }
+        log.info("Logging house ended");
+    }
 }

@@ -74,8 +74,10 @@ public class SimulationConfig {
         return createConfiguredHouse();
     }
 
+
+
     private House createConfiguredHouse() {
-        log.info("[CONFIG] Creating configured house...");
+        log.info("[CONFIG][HOUSE] Creating configured house...");
         List<Floor> configuredFloors = new ArrayList<>();
         // create rooms
         for (Floor floor : _floorList) {
@@ -103,18 +105,23 @@ public class SimulationConfig {
                 configuredRooms.computeIfAbsent(floor.getFloorID(), k -> new ArrayList<>())
                         .add(configuredRoomBuilder.build());
             }
+
+            configuredFloors.add(new Floor(floor.getFloorID(), floor.getFloorName(), floor.getFloorLevel(), configuredRooms.get(floor.getFloorID())));
+
         }
-        log.info("[CONFIG] Configured house successfully created.");
+        log.info("[CONFIG][HOUSE] Configured house successfully created.");
         return new House(_house.getHouseID(), _house.getHouseNumber(), _house.getAddress(), _house.getInternalTemperature(), _house.getExternalTemperature(), configuredFloors);
+        // House configuredHouse = new House(_house.getHouseID(), _house.getHouseNumber(), _house.getAddress(), _house.getInternalTemperature(), _house.getExternalTemperature(), configuredFloors);
+        // return configuredHouse;
     }
 
     public void loadConfigIntoConfigMaps() {
-        log.info("Loading configuration from file: " + _configFilename);
+        log.info("[CONFIG][PATH] Loading configuration from file: " + _configFilename);
 
         ObjectMapper mapper = new ObjectMapper();
         // Absolute path to JSON configuration file
-        log.info("Current working directory: " + System.getProperty("user.dir"));
-        log.info("Config path " + System.getProperty("user.dir") + "/config/" + _configFilename);
+        log.info("[CONFIG][PATH] Current working directory: " + System.getProperty("user.dir"));
+        log.info("[CONFIG][PATH] Config path " + System.getProperty("user.dir") + "/config/" + _configFilename);
 
         File file = new File(System.getProperty("user.dir") + "/config/" + _configFilename);
         String absoluteConfigPath = file.getAbsolutePath();
@@ -128,7 +135,7 @@ public class SimulationConfig {
 
         try {
             JsonNode jsonObject = mapper.readTree(new File(absoluteConfigPath));
-            log.info("[CONFIG] Parsing JSON file...");
+            log.info("[CONFIG][PARSING] Parsing JSON file...");
 
             /** CONFIGURATION OF HOUSE */
             // Create house object
@@ -142,7 +149,7 @@ public class SimulationConfig {
             this._externalTemperature = new Temperature(externalTemp);
             this._house = new House(houseID, houseNumber, address, this._internalTemperature, this._externalTemperature);
 
-            log.info("[CONFIG] House successfully initialized.");
+            log.info("[CONFIG][PARSING] House successfully initialized.");
 
             /** CONFIGURATION OF FLOORS */
             // Create floors from config and add them to the config map
@@ -155,7 +162,7 @@ public class SimulationConfig {
                 this._floorList.add(newFloor);
             }
 
-            log.info("[CONFIG] Floors successfully initialized.");
+            log.info("[CONFIG][PARSING] Floors successfully initialized.");
 
             /** CONFIGURATION OF ROOMS */
             // Create rooms from config and add them to the config map
@@ -172,7 +179,7 @@ public class SimulationConfig {
                         .add(tmpRoom);
             }
 
-            log.info("[CONFIG] Rooms successfully initialized.");
+            log.info("[CONFIG][PARSING] Rooms successfully initialized.");
 
             /** CONFIGURATION OF PETS */
             // Create pets from config and add them to the pet config map
@@ -186,7 +193,7 @@ public class SimulationConfig {
                         .add(tmpPet);
             }
 
-            log.info("[CONFIG] Pets successfully initialized.");
+            log.info("[CONFIG][PARSING] Pets successfully initialized.");
 
             /** CONFIGURATION OF HUMANS */
             // Create humans from config and add them to the human config map
@@ -200,7 +207,7 @@ public class SimulationConfig {
                         .add(tmpHuman);
             }
 
-            log.info("[CONFIG] Humans successfully initialized.");
+            log.info("[CONFIG][PARSING] Humans successfully initialized.");
 
             /** CONFIGURATION OF DEVICE SYSTEMS */
             // Create device systems from config and add them to the device system config map
@@ -215,8 +222,8 @@ public class SimulationConfig {
                         .add(this.createSystemByType(deviceSystemID, deviceSystemName, null, _house));
             }
 
-            log.info("[CONFIG] Device systems successfully initialized.");
-            log.info("[CONFIG] Configuration successfully loaded.");
+            log.info("[CONFIG][PARSING] Device systems successfully initialized.");
+            log.info("[CONFIG][PARSING] Configuration successfully loaded.");
 
             isLoaded = true;
 
@@ -227,6 +234,25 @@ public class SimulationConfig {
             return;
         }
     }
+    private void logConfiguration() {
+        log.info("Configuration:");
+        log.info("House: " + _house.toString());
+        log.info("Floors: " + _floorList.toString());
+        log.info("Rooms: " + _roomMap.toString());
+        log.info("Pets: " + _petConfigMap.toString());
+        log.info("Humans: " + _humanConfigMap.toString());
+        log.info("Device systems: " + _deviceSystemConfigMap.toString());
+    }
+
+    private void logConfiguredHouse(House house) {
+        log.info("Configured house: " + house.toString());
+        house.getFloors().forEach(floor -> log.info("Floor: " + floor.toString()));
+        house.getFloors().forEach(floor -> floor.getRooms().forEach(room -> log.info("Room: " + room.toString())));
+        house.getFloors().forEach(floor -> floor.getRooms().forEach(room -> room.getAllPeople().forEach(person -> log.info("Person: " + person.toString()))));
+        house.getFloors().forEach(floor -> floor.getRooms().forEach(room -> room.getAllPets().forEach(pet -> log.info("Pet: " + pet.toString()))));
+        house.getFloors().forEach(floor -> floor.getRooms().forEach(room -> room.getAllDeviceSystems().forEach(deviceSystem -> log.info("Device system: " + deviceSystem.toString()))));
+    }
+
         private DeviceSystem createSystemByType(int deviceSystemID, String deviceSystemName, Room room, House house) {
             DeviceSystemFactory factory = new DeviceSystemFactory();
             return switch (deviceSystemName) {
