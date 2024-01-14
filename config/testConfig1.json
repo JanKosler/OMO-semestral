@@ -40,7 +40,14 @@
       "floorID": "2"
     }
   ],
-  "People": [
+  "Pets": [
+    {
+      "petID": "1",
+      "petName": "Fido",
+      "roomID": "1"
+    }
+  ],
+  "Humans": [
     {
       "personID": "1",
       "personName": "John Doe",

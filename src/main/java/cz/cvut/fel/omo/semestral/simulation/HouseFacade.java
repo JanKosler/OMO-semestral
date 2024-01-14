@@ -34,7 +34,7 @@ public class HouseFacade {
     /**
      * Initializes the simulation and runs it.
      */
-    public void runSimulation(String configFilename) {
+    public void runSimulation(String configFilename) throws SimulationException {
         if (house == null) {
             initSimulation(configFilename);
             house = simulationConfig.getConfiguredHouse();

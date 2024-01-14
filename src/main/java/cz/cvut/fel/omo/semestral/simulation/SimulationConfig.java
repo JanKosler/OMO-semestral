@@ -59,15 +59,23 @@ public class SimulationConfig {
      */
     public SimulationConfig(String configFilename) {
         this._configFilename = configFilename;
+        this._petConfigMap = new HashMap<>();
+        this._humanConfigMap = new HashMap<>();
+        this._deviceSystemConfigMap = new HashMap<>();
+        this._roomMap = new HashMap<>();
+        this._floorList = new ArrayList<>();
     }
 
-    public House getConfiguredHouse() {
+    public House getConfiguredHouse() throws SimulationException {
         if (!isLoaded)
             loadConfigIntoConfigMaps();
+        if (!isLoaded)
+            throw new SimulationException("Configuration not loaded.");
         return createConfiguredHouse();
     }
 
     private House createConfiguredHouse() {
+        log.info("[CONFIG] Creating configured house...");
         List<Floor> configuredFloors = new ArrayList<>();
         // create rooms
         for (Floor floor : _floorList) {
@@ -82,18 +90,21 @@ public class SimulationConfig {
                 RoomBuilder configuredRoomBuilder = Room.roomBuilder()
                         .setRoomID(room.getRoomID())
                         .setRoomName(room.getRoomName());
-                for (Pet pet : pets)
-                    configuredRoomBuilder.addPerson(pet);
-                for (Human human : humans)
-                    configuredRoomBuilder.addPerson(human);
-                for (DeviceSystem deviceSystem : deviceSystems)
-                    configuredRoomBuilder.addDeviceSystem(deviceSystem);
+                if (pets != null)
+                    for (Pet pet : pets)
+                        configuredRoomBuilder.addPerson(pet);
+                if (humans != null)
+                    for (Human human : humans)
+                        configuredRoomBuilder.addPerson(human);
+                if (deviceSystems != null)
+                    for (DeviceSystem deviceSystem : deviceSystems)
+                        configuredRoomBuilder.addDeviceSystem(deviceSystem);
 
                 configuredRooms.computeIfAbsent(floor.getFloorID(), k -> new ArrayList<>())
                         .add(configuredRoomBuilder.build());
             }
         }
-
+        log.info("[CONFIG] Configured house successfully created.");
         return new House(_house.getHouseID(), _house.getHouseNumber(), _house.getAddress(), _house.getInternalTemperature(), _house.getExternalTemperature(), configuredFloors);
     }
 
@@ -102,7 +113,10 @@ public class SimulationConfig {
 
         ObjectMapper mapper = new ObjectMapper();
         // Absolute path to JSON configuration file
-        File file = new File("ConfigsJSON/" + _configFilename);
+        log.info("Current working directory: " + System.getProperty("user.dir"));
+        log.info("Config path " + System.getProperty("user.dir") + "/config/" + _configFilename);
+
+        File file = new File(System.getProperty("user.dir") + "/config/" + _configFilename);
         String absoluteConfigPath = file.getAbsolutePath();
 
         if (!file.exists()) {
@@ -114,7 +128,7 @@ public class SimulationConfig {
 
         try {
             JsonNode jsonObject = mapper.readTree(new File(absoluteConfigPath));
-            System.out.println("[Config] JSON parsed...");
+            log.info("[CONFIG] Parsing JSON file...");
 
             /** CONFIGURATION OF HOUSE */
             // Create house object
@@ -128,6 +142,8 @@ public class SimulationConfig {
             this._externalTemperature = new Temperature(externalTemp);
             this._house = new House(houseID, houseNumber, address, this._internalTemperature, this._externalTemperature);
 
+            log.info("[CONFIG] House successfully initialized.");
+
             /** CONFIGURATION OF FLOORS */
             // Create floors from config and add them to the config map
             JsonNode floors = jsonObject.get("Floors");
@@ -138,6 +154,8 @@ public class SimulationConfig {
                 Floor newFloor = new Floor(floorID, floorName, floorLevel, null);
                 this._floorList.add(newFloor);
             }
+
+            log.info("[CONFIG] Floors successfully initialized.");
 
             /** CONFIGURATION OF ROOMS */
             // Create rooms from config and add them to the config map
@@ -154,6 +172,8 @@ public class SimulationConfig {
                         .add(tmpRoom);
             }
 
+            log.info("[CONFIG] Rooms successfully initialized.");
+
             /** CONFIGURATION OF PETS */
             // Create pets from config and add them to the pet config map
             JsonNode pets = jsonObject.get("Pets");
@@ -165,6 +185,8 @@ public class SimulationConfig {
                 this._petConfigMap.computeIfAbsent(petRoomID, k -> new ArrayList<>())
                         .add(tmpPet);
             }
+
+            log.info("[CONFIG] Pets successfully initialized.");
 
             /** CONFIGURATION OF HUMANS */
             // Create humans from config and add them to the human config map
@@ -178,6 +200,8 @@ public class SimulationConfig {
                         .add(tmpHuman);
             }
 
+            log.info("[CONFIG] Humans successfully initialized.");
+
             /** CONFIGURATION OF DEVICE SYSTEMS */
             // Create device systems from config and add them to the device system config map
             JsonNode deviceSystems = jsonObject.get("DeviceSystems");
@@ -186,15 +210,15 @@ public class SimulationConfig {
                 String deviceSystemName = deviceSystem.get("systemName").asText();
                 int deviceSystemRoomID = deviceSystem.get("roomID").asInt();
 
-
                 // Check if the room is found, then add the device system to the map
                 this._deviceSystemConfigMap.computeIfAbsent(deviceSystemRoomID, k -> new ArrayList<>())
                         .add(this.createSystemByType(deviceSystemID, deviceSystemName, null, _house));
             }
 
+            log.info("[CONFIG] Device systems successfully initialized.");
+            log.info("[CONFIG] Configuration successfully loaded.");
 
             isLoaded = true;
-
 
         } catch (Exception e) {
             log.error("Error while parsing JSON file.");
