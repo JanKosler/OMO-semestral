@@ -92,18 +92,28 @@ public class SimulationConfig {
                 RoomBuilder configuredRoomBuilder = Room.roomBuilder()
                         .setRoomID(room.getRoomID())
                         .setRoomName(room.getRoomName());
+                // add pets to the room
                 if (pets != null)
                     for (Pet pet : pets)
                         configuredRoomBuilder.addPerson(pet);
+                // add humans to the room
                 if (humans != null)
                     for (Human human : humans)
                         configuredRoomBuilder.addPerson(human);
-                if (deviceSystems != null)
-                    for (DeviceSystem deviceSystem : deviceSystems)
-                        configuredRoomBuilder.addDeviceSystem(deviceSystem);
+                // add device systems to the room
+                if (deviceSystems != null) {
+                    for (DeviceSystem deviceSystem : deviceSystems) {
+                        // DeviceSystem configuredDeviceSystem = createSystemByType(deviceSystem.getDeviceSystemID(), deviceSystem.getDeviceSystemName(), configuredRoomBuilder.build(), _house);
+                    }
+                }
+                Room configuredRoom = configuredRoomBuilder.build();
+
+                configuredRoom.getAllPeople().forEach(person -> person.setRoom(configuredRoom));
+                configuredRoom.getAllPets().forEach(pet -> pet.setRoom(configuredRoom));
+
 
                 configuredRooms.computeIfAbsent(floor.getFloorID(), k -> new ArrayList<>())
-                        .add(configuredRoomBuilder.build());
+                        .add(configuredRoom);
             }
 
             configuredFloors.add(new Floor(floor.getFloorID(), floor.getFloorName(), floor.getFloorLevel(), configuredRooms.get(floor.getFloorID())));
