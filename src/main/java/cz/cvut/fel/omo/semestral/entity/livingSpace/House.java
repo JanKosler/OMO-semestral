@@ -8,6 +8,7 @@ import cz.cvut.fel.omo.semestral.reporting.Report;
 import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class House implements ILivingSpace {
     private final String address;
 
     /** List of floors in the house. */
-    private Map<Integer, Floor> floors;
+    private List<Floor> floors;
 
     private final Temperature internalTemperature;
     private final Temperature externalTemperature;
@@ -35,7 +36,7 @@ public class House implements ILivingSpace {
         this.address = address;
         this.internalTemperature = internalTemperature;
         this.externalTemperature = externalTemperature;
-        this.floors = new java.util.HashMap<>();
+        this.floors = new ArrayList<>();
     }
     public House(int houseID, int houseNumber, String address, Temperature internalTemperature, Temperature externalTemperature, List<Floor> floors) {
         this(houseID, houseNumber, address, internalTemperature, externalTemperature);
@@ -49,29 +50,32 @@ public class House implements ILivingSpace {
      * @throws IllegalArgumentException If a floor with the same number already exists.
      */
     public void addFloor(Floor floor) throws IllegalArgumentException {
-        if (floors.containsKey(floor.getFloorLevel())) {
+        boolean exists = floors.stream().anyMatch(f -> f.getFloorLevel() == floor.getFloorLevel());
+        if (exists) {
             throw new IllegalArgumentException("Floor with this number already exists.");
         }
-        floors.put(floor.getFloorLevel(), floor);
+        floors.add(floor);
     }
 
     /**
-     * Gets a floor by its number.
-     * @param floorNumber Number of the floor.
-     * @return Floor with the given number.
+     * Gets a floor by its level.
+     * @param level Level of the floor.
+     * @return Floor with the given level.
      */
-    public Floor getFLoor(int floorNumber) {
-        return floors.get(floorNumber);
+    public Floor getFLoor(int level) {
+        return floors.stream()
+                .filter(floor -> floor.getFloorLevel() == level)
+                .findFirst()
+                .orElse(null);
     }
-
     /**
      * Gets all devices in the house.
      * @return List of devices.
      */
     @Override
     public List<IDevice> getAllDevices() {
-        return floors.entrySet().stream()
-                .flatMap(entry -> entry.getValue().getAllDevices().stream())
+        return floors.stream()
+                .flatMap(floor -> floor.getAllDevices().stream())
                 .toList();
     }
 
@@ -81,8 +85,8 @@ public class House implements ILivingSpace {
      */
     @Override
     public List<DeviceSystem> getAllDeviceSystems() {
-        return floors.entrySet().stream()
-                .flatMap(entry -> entry.getValue().getAllDeviceSystems().stream())
+        return floors.stream()
+                .flatMap(floor -> floor.getAllDeviceSystems().stream())
                 .toList();
     }
 
@@ -92,8 +96,8 @@ public class House implements ILivingSpace {
      */
     @Override
     public List<Human> getAllPeople() {
-        return floors.entrySet().stream()
-                .flatMap(entry -> entry.getValue().getAllPeople().stream())
+        return floors.stream()
+                .flatMap(floor -> floor.getAllPeople().stream())
                 .toList();
     }
 
@@ -103,8 +107,8 @@ public class House implements ILivingSpace {
      */
     @Override
     public List<Pet> getAllPets() {
-        return floors.entrySet().stream()
-                .flatMap(entry -> entry.getValue().getAllPets().stream())
+        return floors.stream()
+                .flatMap(floor -> floor.getAllPets().stream())
                 .toList();
     }
 
