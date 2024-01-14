@@ -7,6 +7,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Fridge;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ import java.util.UUID;
  * modifies the fridge's temperature accordingly. The temperature adjustment process
  * involves incrementally changing the temperature until it reaches the user-defined target.
  */
+@Slf4j
 public class FridgeController extends Controller {
 
     private final Fridge fridge;
@@ -95,6 +97,7 @@ public class FridgeController extends Controller {
             fridge.addtoActionPlan(DeviceCommand.DECREASE_TEMPERATURE);
             currentTemperature--;
         }
+        log.info("Controller: Fridge temperature set to {}.", targetTemperature);
     }
 }
 

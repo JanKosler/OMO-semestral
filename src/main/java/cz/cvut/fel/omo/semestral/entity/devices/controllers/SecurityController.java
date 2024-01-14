@@ -8,6 +8,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.appliances.Alarm;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.SecuritySensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ import java.util.UUID;
  * activating the Alarm in response to security threats and allows users to disarm the Alarm
  * through user input.
  */
+@Slf4j
 public class SecurityController extends Controller {
 
     private final SecuritySensor securitySensor;
@@ -82,11 +84,13 @@ public class SecurityController extends Controller {
     private void handleSecuritySensor() {
         if (securitySensor.isBreachDetected()) {
             alarm.addtoActionPlan(DeviceCommand.TURN_ON); // Activate the alarm
+            log.info("Controller: Security breach detected. Activating alarm.");
         }
     }
 
     private void disarmAlarm() {
-        alarm.addtoActionPlan(DeviceCommand.TURN_OFF); // Disarm the alarm
+        alarm.addtoActionPlan(DeviceCommand.TURN_OFF);
+        log.info("Controller: Alarm disarmed.");
     }
 }
 

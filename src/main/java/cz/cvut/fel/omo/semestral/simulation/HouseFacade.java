@@ -55,7 +55,7 @@ public class HouseFacade {
 
         List<Human> humans = new ArrayList<>(getHumans());
         List<Pet> pets = new ArrayList<>(getPets());
-        List<Room> rooms = new ArrayList<>(house.getAllRooms());
+        /*List<Room> rooms = new ArrayList<>(house.getAllRooms());
 
         List<Action> human1action = new ArrayList<>();
         human1action.add(new Action(UserInputType.B_CHANGEROOM, rooms.get(0)));
@@ -65,6 +65,7 @@ public class HouseFacade {
         human1action.add(new Action(UserInputType.TV_POWER, null));
         human1action.add(new Action(UserInputType.B_CHANGEROOM, rooms.get(1)));
         human1action.add(new Action(UserInputType.HVAC_TEMPERATURE, 20));
+        */
 
         for (int i = 0; i < 500; i++) {
             tickPublisher.tick();

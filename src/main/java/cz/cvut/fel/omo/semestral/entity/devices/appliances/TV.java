@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.devices.appliances;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
  * smart home environment.
  */
 @Getter
+@Slf4j
 public class TV extends Appliance {
 
     private int currentChannel;
@@ -33,9 +35,11 @@ public class TV extends Appliance {
         switch (command) {
             case TURN_ON:
                 turnOn();
+                log.info("TV: Turned on.");
                 break;
             case TURN_OFF:
                 setIdle();
+                log.info("TV: Turned set to Idle.");
                 break;
             case INCREASE_VOLUME:
                 adjustVolume(volumeLevel + 1);
@@ -50,7 +54,7 @@ public class TV extends Appliance {
                 changeChannel(currentChannel - 1);
                 break;
             default:
-                System.out.println("TV: Command not recognized for TV.");
+                log.warn("TV: Invalid command.");
                 break;
         }
     }

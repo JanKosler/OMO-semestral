@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.devices.appliances;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
@@ -13,9 +14,10 @@ import java.util.UUID;
  * reflected by whether it is open (active state) or closed (idle state).
  */
 @Getter
+@Slf4j
 public class Gate extends Appliance {
 
-    private boolean isOpen;
+    public boolean isOpen;
     private final int wearCapacity = 100;
     private final double powerConsumptionPerTick_IDLE = 5;
     private final double powerConsumptionPerTick_ACTIVE = 15;
@@ -54,7 +56,7 @@ public class Gate extends Appliance {
             this.setState(DeviceState.ACTIVE);
             updateWear(10);
             updatePowerConsumption(powerConsumptionPerTick_ACTIVE);
-            System.out.println("Opening gate...");
+            log.info("Gate: Opened.");
         }
     }
 
@@ -64,7 +66,7 @@ public class Gate extends Appliance {
             this.setState(DeviceState.IDLE);
             updatePowerConsumption(powerConsumptionPerTick_ACTIVE);
             updateWear(10);
-            System.out.println("Closing gate...");
+            log.info("Gate: Closed.");
         }
     }
 

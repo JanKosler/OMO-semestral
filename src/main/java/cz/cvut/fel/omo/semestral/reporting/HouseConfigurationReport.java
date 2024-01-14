@@ -94,7 +94,7 @@ public class HouseConfigurationReport implements ReportVisitor{
         reportContent.append("House Configuration Report\n");
         reportContent.append("--------------------------\n\n");
 
-        reportContent.append(houseFacade.getHouse().accept(this).getContent());
+        //reportContent.append(houseFacade.getHouse().accept(this).getContent());
 
         reportContent.append("--------------------------\n\n");
 
