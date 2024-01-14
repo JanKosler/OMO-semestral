@@ -7,6 +7,7 @@ import cz.cvut.fel.omo.semestral.entity.livingSpace.House;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 import cz.cvut.fel.omo.semestral.reporting.HouseConfigurationReport;
 import cz.cvut.fel.omo.semestral.reporting.ReportGenerator;
+import cz.cvut.fel.omo.semestral.tick.TickPublisher;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class HouseFacade {
     private House house;
 
     private SimulationConfig simulationConfig;
+    private TickPublisher tickPublisher;
 
     /**
      * Initializes the simulation and runs it.
@@ -41,6 +43,20 @@ public class HouseFacade {
      * Run of the simulation
      */
     private void simulate() {
+        tickPublisher = new TickPublisher();
+
+        getDeviceSystems().forEach(tickPublisher::subscribe);
+        getHumans().forEach(tickPublisher::subscribe);
+        getPets().forEach(tickPublisher::subscribe);
+
+        for (int i = 0; i < Integer.MAX_VALUE; i++) {
+            tickPublisher.tick();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
