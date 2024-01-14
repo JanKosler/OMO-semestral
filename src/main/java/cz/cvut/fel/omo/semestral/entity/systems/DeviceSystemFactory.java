@@ -8,6 +8,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.TemperatureSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.House;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Temperature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,12 +77,12 @@ public class DeviceSystemFactory {
         return new LightingSystem(deviceSystemID,lights, lightController, motionSensor, userInputSensor);
     }
 
-    public HVACSystem createHVACSystem(int deviceSystemID, House house) {
-        HVAC hvac = new HVAC(generateUUID(), house.getInternalTemperature());
-        TemperatureSensor internalSensor = new TemperatureSensor(generateUUID(),house.getInternalTemperature());
-        TemperatureSensor externalSensor = new TemperatureSensor(generateUUID(),house.getExternalTemperature());
+    public HVACSystem createHVACSystem(int deviceSystemID, Temperature internalTemp, Temperature externalTemp) {
+        HVAC hvac = new HVAC(generateUUID(), internalTemp);
+        TemperatureSensor internalSensor = new TemperatureSensor(generateUUID(), internalTemp);
+        TemperatureSensor externalSensor = new TemperatureSensor(generateUUID(), externalTemp);
         UserInputSensor userInputSensor = new UserInputSensor(generateUUID());
-        TemperatureController temperatureController = new TemperatureController(generateUUID(),internalSensor, externalSensor, hvac, userInputSensor);
+        TemperatureController temperatureController = new TemperatureController(generateUUID(), internalSensor, externalSensor, hvac, userInputSensor);
 
         return new HVACSystem(deviceSystemID,hvac, temperatureController, internalSensor, externalSensor, userInputSensor);
     }

@@ -37,6 +37,11 @@ public class Room implements ILivingSpace {
         this.inhabitants = builder.inhabitants;
     }
 
+    public Room addDeviceSystem(DeviceSystem deviceSystem) {
+        deviceSystems.add(deviceSystem);
+        return this;
+    }
+
     /**
      * Gets all devices in the room implementation.
      *

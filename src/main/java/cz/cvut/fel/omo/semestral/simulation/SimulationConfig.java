@@ -43,7 +43,8 @@ public class SimulationConfig {
      */
     /** Map<roomID, deviceSystemList> */
     private Map<Integer, List<DeviceSystem>> _deviceSystemConfigMap;
-
+    /** Map<deviceSystemID, deviceSystemName> */
+    private Map<Integer, String> deviceSystemNameByIdMap;
 
     /** Implementations of the ILivingSpace interface */
     /** Map<FloorID, List> */
@@ -64,6 +65,7 @@ public class SimulationConfig {
         this._deviceSystemConfigMap = new HashMap<>();
         this._roomMap = new HashMap<>();
         this._floorList = new ArrayList<>();
+        this.deviceSystemNameByIdMap = new HashMap<>();
     }
 
     public House getConfiguredHouse() throws SimulationException {
@@ -100,17 +102,23 @@ public class SimulationConfig {
                 if (humans != null)
                     for (Human human : humans)
                         configuredRoomBuilder.addPerson(human);
-                // add device systems to the room
-                if (deviceSystems != null) {
-                    for (DeviceSystem deviceSystem : deviceSystems) {
-                        // DeviceSystem configuredDeviceSystem = createSystemByType(deviceSystem.getDeviceSystemID(), deviceSystem.getDeviceSystemName(), configuredRoomBuilder.build(), _house);
-                    }
-                }
+
                 Room configuredRoom = configuredRoomBuilder.build();
 
+                // add configured room to human and pet object -> used for their impl of Being::goTo() method
                 configuredRoom.getAllPeople().forEach(person -> person.setRoom(configuredRoom));
                 configuredRoom.getAllPets().forEach(pet -> pet.setRoom(configuredRoom));
 
+                for(DeviceSystem deviceSystem : deviceSystems) {
+                    DeviceSystem newDeviceSystem = this.createSystemByType(
+                            deviceSystem.getDeviceSystemID(),
+                            deviceSystemNameByIdMap.get(deviceSystem.getDeviceSystemID()),
+                            configuredRoom,
+                            _internalTemperature,
+                            _externalTemperature
+                    );
+                    configuredRoom.addDeviceSystem(newDeviceSystem);
+                }
 
                 configuredRooms.computeIfAbsent(floor.getFloorID(), k -> new ArrayList<>())
                         .add(configuredRoom);
@@ -229,7 +237,8 @@ public class SimulationConfig {
 
                 // Check if the room is found, then add the device system to the map
                 this._deviceSystemConfigMap.computeIfAbsent(deviceSystemRoomID, k -> new ArrayList<>())
-                        .add(this.createSystemByType(deviceSystemID, deviceSystemName, null, _house));
+                        .add(this.createSystemByType(deviceSystemID, deviceSystemName, null, _internalTemperature, _externalTemperature));
+                deviceSystemNameByIdMap.put(deviceSystemID, deviceSystemName);
             }
 
             log.info("[CONFIG][PARSING] Device systems successfully initialized.");
@@ -263,12 +272,12 @@ public class SimulationConfig {
         house.getFloors().forEach(floor -> floor.getRooms().forEach(room -> room.getAllDeviceSystems().forEach(deviceSystem -> log.info("Device system: " + deviceSystem.toString()))));
     }
 
-        private DeviceSystem createSystemByType(int deviceSystemID, String deviceSystemName, Room room, House house) {
+        private DeviceSystem createSystemByType(int deviceSystemID, String deviceSystemName, Room room, Temperature internalTemp, Temperature externalTemp) {
             DeviceSystemFactory factory = new DeviceSystemFactory();
             return switch (deviceSystemName) {
                 case "FridgeSystem" -> factory.createFridgeSystem(deviceSystemID);
                 case "GateControlSystem" -> factory.createGateControlSystem(deviceSystemID);
-                case "HVACSystem" -> factory.createHVACSystem(deviceSystemID,house);
+                case "HVACSystem" -> factory.createHVACSystem(deviceSystemID, internalTemp, externalTemp);
                 case "LightingSystem" -> factory.createLightingSystem(deviceSystemID,room);
                 case "SecuritySystem" -> factory.createSecuritySystem(deviceSystemID);
                 case "TVSystem" -> factory.createEntertainmentSystem(deviceSystemID);
