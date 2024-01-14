@@ -97,6 +97,14 @@ public abstract class Being implements Tickable {
     public void onTick() {
     }
 
+    /**
+     * Adds a performed action to the list of actions that have been executed.
+     * This method is used for tracking the actions that have been performed,
+     * allowing for a record of past actions. This can be useful for auditing,
+     * history tracking, or undo functionalities.
+     *
+     * @param action The action that has been performed and needs to be recorded.
+     */
     public void addPerformedAction(Action action) {
         performedActions.add(action);
     }

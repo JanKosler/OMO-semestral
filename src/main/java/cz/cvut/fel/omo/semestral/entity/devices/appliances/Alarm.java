@@ -17,11 +17,18 @@ public class Alarm extends Appliance {
     private final double powerConsumptionPerTick_IDLE = 5;
     private final double powerConsumptionPerTick_ACTIVE = 15;
 
+    /**
+     * Constructs a new Alarm with the specified serial number.
+     * The alarm is initialized with a default power level of 100 and is disarmed by default.
+     *
+     * @param serialNumber The unique identifier for this alarm device.
+     */
     public Alarm(UUID serialNumber) {
         super(serialNumber, 100);
         this.isArmed = false; // Alarm is disarmed by default
     }
 
+    
     @Override
     public void executeCommand(DeviceCommand command) {
         switch (command) {
