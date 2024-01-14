@@ -57,7 +57,7 @@
       "roomID": "3"
     }
   ],
-  "Systems": [
+  "DeviceSystems": [
     {
       "systemID": "1",
       "systemName": "FridgeSystem",

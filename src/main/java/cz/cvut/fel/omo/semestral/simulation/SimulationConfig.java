@@ -98,7 +98,7 @@ public class SimulationConfig {
             /** CONFIGURATION OF HOUSE */
             // Create house object
             JsonNode house = jsonObject.get("House");
-            int houseID = house.get("id").asInt();
+            int houseID = house.get("houseID").asInt();
             int houseNumber = house.get("houseNumber").asInt();
             String address = house.get("address").asText();
             int internalTemp = house.get("internalTemperature").asInt();
@@ -111,8 +111,8 @@ public class SimulationConfig {
             // Create floors from config and add them to the config map
             JsonNode floors = jsonObject.get("Floors");
             for (JsonNode floor : floors) {
-                int floorID = floor.get("id").asInt();
-                String floorName = floor.get("name").asText();
+                int floorID = floor.get("floorID").asInt();
+                String floorName = floor.get("floorName").asText();
                 int floorLevel = floor.get("floorLevel").asInt();
                 Floor newFloor = new Floor(floorID, floorName, floorLevel, null);
                 this._floorList.add(newFloor);
@@ -122,8 +122,8 @@ public class SimulationConfig {
             // Create rooms from config and add them to the config map
             JsonNode rooms = jsonObject.get("Rooms");
             for (JsonNode room : rooms) {
-                int roomID = room.get("id").asInt();
-                String roomName = room.get("name").asText();
+                int roomID = room.get("roomID").asInt();
+                String roomName = room.get("roomName").asText();
                 int floorID = room.get("floorID").asInt();
                 Room tmpRoom = Room.roomBuilder()
                         .setRoomID(roomID)
@@ -137,8 +137,8 @@ public class SimulationConfig {
             // Create pets from config and add them to the pet config map
             JsonNode pets = jsonObject.get("Pets");
             for (JsonNode pet : pets) {
-                int petID = pet.get("id").asInt();
-                String petName = pet.get("name").asText();
+                int petID = pet.get("petID").asInt();
+                String petName = pet.get("petName").asText();
                 int petRoomID = pet.get("roomID").asInt();
                 Pet tmpPet = new Pet(petID, petName, null);
                 this._petConfigMap.computeIfAbsent(petRoomID, k -> new ArrayList<>())
@@ -149,8 +149,8 @@ public class SimulationConfig {
             // Create humans from config and add them to the human config map
             JsonNode humans = jsonObject.get("Humans");
             for (JsonNode human : humans) {
-                int personID = human.get("id").asInt();
-                String personName = human.get("name").asText();
+                int personID = human.get("personID").asInt();
+                String personName = human.get("personName").asText();
                 int personRoomID = human.get("roomID").asInt();
                 Human tmpHuman = new Human(personID, personName, null);
                 this._humanConfigMap.computeIfAbsent(personRoomID, k -> new ArrayList<>())
@@ -161,12 +161,13 @@ public class SimulationConfig {
             // Create device systems from config and add them to the device system config map
             JsonNode deviceSystems = jsonObject.get("DeviceSystems");
             for (JsonNode deviceSystem : deviceSystems) {
-                int deviceSystemID = deviceSystem.get("id").asInt();
-                String deviceSystemName = deviceSystem.get("name").asText();
+                int deviceSystemID = deviceSystem.get("systemID").asInt();
+                String deviceSystemName = deviceSystem.get("systemName").asText();
                 int deviceSystemRoomID = deviceSystem.get("roomID").asInt();
                 this._deviceSystemConfigMap.computeIfAbsent(deviceSystemRoomID, k -> new ArrayList<>())
                         .add(this.createSystemByType(deviceSystemID, deviceSystemName));
             }
+
             _isLoaded = true;
 
 

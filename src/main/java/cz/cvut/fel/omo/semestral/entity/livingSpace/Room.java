@@ -19,11 +19,11 @@ public class Room implements ILivingSpace {
     /** Name of the room */
     private final String roomName;
     /** List of all devices in the room */
-    private final List<IDevice> deviceList;
+    private List<IDevice> deviceList;
     /** List of device systems in the room */
-    private final List<DeviceSystem> deviceSystems;
+    private List<DeviceSystem> deviceSystems;
     /** List of people in the room */
-    private final List<Being> inhabitants;
+    private List<Being> inhabitants;
 
     /**
      * Creates a new room.
