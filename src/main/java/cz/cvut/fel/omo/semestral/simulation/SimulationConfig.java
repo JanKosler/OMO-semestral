@@ -4,7 +4,6 @@ import cz.cvut.fel.omo.semestral.entity.beings.Human;
 import cz.cvut.fel.omo.semestral.entity.beings.Pet;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.*;
 import cz.cvut.fel.omo.semestral.entity.systems.*;
-import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystemFactory.*;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +27,7 @@ public class SimulationConfig {
 
     @Getter
     /** Whether the configuration has been loaded. */
-    private boolean _isLoaded = false;
+    private boolean isLoaded = false;
 
     /** Extensions of the Being class */
     /** Map<roomID, List> */
@@ -63,7 +62,7 @@ public class SimulationConfig {
     }
 
     public House getConfiguredHouse() {
-        if (!_isLoaded)
+        if (!isLoaded)
             loadConfigIntoConfigMaps();
         return createConfiguredHouse();
     }
@@ -109,7 +108,7 @@ public class SimulationConfig {
         if (!file.exists()) {
             log.error("Configuration file does not exist.");
             log.error("Configuration loading failed.");
-            _isLoaded = false;
+            isLoaded = false;
             return;
         }
 
@@ -194,13 +193,13 @@ public class SimulationConfig {
             }
 
 
-            _isLoaded = true;
+            isLoaded = true;
 
 
         } catch (Exception e) {
             log.error("Error while parsing JSON file.");
             log.error("Configuration loading failed.");
-            _isLoaded = false;
+            isLoaded = false;
             return;
         }
     }
