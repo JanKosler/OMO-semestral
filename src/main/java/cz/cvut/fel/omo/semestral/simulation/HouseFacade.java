@@ -9,6 +9,7 @@ import cz.cvut.fel.omo.semestral.reporting.HouseConfigurationReport;
 import cz.cvut.fel.omo.semestral.reporting.ReportGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +19,40 @@ import java.util.List;
  * @see House
  * @see HouseConfigurationReport
  */
-@AllArgsConstructor
+@NoArgsConstructor
 public class HouseFacade {
     /** The house. */
     private House house;
 
+    private SimulationConfig simulationConfig;
+
     /**
-     * Starts the simulation.
+     * Initializes the simulation and runs it.
      */
-    public void startSimulation() {
-        
+    public void runSimulation(String configFilename) {
+        if (house == null) {
+            initSimulation(configFilename);
+            house = simulationConfig.getConfiguredHouse();
+        }
+        simulate();
     }
 
+    /**
+     * Run of the simulation
+     */
+    private void simulate() {
+
+    }
+
+    /**
+     * Initializes the simulation.
+     */
+    private boolean initSimulation(String configFilename) {
+        if (simulationConfig == null) {
+            simulationConfig = new SimulationConfig(configFilename);
+        }
+        return simulationConfig.isLoaded();
+    }
     public List<DeviceSystem> getDeviceSystems() {return house.getAllDeviceSystems();}
     public List<IDevice> getDevices(){return house.getAllDevices();}
     public List<Human> getHumans(){return house.getAllPeople();}

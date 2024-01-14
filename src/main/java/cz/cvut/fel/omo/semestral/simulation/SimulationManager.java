@@ -10,24 +10,13 @@ public class SimulationManager {
 
     /** Generates a report about the house configuration. */
     private ReportGenerator reportGenerator;
-
-    private SimulationConfig simulationConfig;
-    /**
-     * Initializes the simulation.
-     */
-    public void initializeSimulation(String configFilename) {
-        SimulationConfig simulationConfig = new SimulationConfig(configFilename);
-    }
     /**
      * Starts the simulation.
      */
-    public void runSimulation() {
-        if (simulationConfig == null) {
-            initializeSimulation("testConfig1.json");
-        }
+    public void runSimulation(String configFilename) {
         if (houseFacade == null) {
-            houseFacade = new HouseFacade(simulationConfig.getConfiguredHouse());
+            houseFacade = new HouseFacade();
         }
-        houseFacade.startSimulation();
+        houseFacade.runSimulation(configFilename);
     }
 }
