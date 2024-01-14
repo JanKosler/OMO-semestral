@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestral.entity.systems;
 
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
+import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.HVAC;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.TemperatureController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.TemperatureSensor;
@@ -17,8 +18,10 @@ public class HVACSystem extends DeviceSystem {
     public final TemperatureSensor externalSensor;
     public final UserInputSensor userInputSensor;
     private final List<UserInputType> allowedUserInputTypes = List.of(UserInputType.HVAC_TEMPERATURE);
+    private final int deviceSystemID;
 
-    public HVACSystem(HVAC hvac, TemperatureController controller, TemperatureSensor internalSensor, TemperatureSensor externalSensor, UserInputSensor userInputSensor) {
+    public HVACSystem(int deviceSystemID,HVAC hvac, TemperatureController controller, TemperatureSensor internalSensor, TemperatureSensor externalSensor, UserInputSensor userInputSensor) {
+        this.deviceSystemID = deviceSystemID;
         this.hvac = hvac;
         this.controller = controller;
         this.internalSensor = internalSensor;
@@ -65,5 +68,15 @@ public class HVACSystem extends DeviceSystem {
         userInputSensor.onTick();
         controller.onTick();
         hvac.onTick();
+    }
+
+    @Override
+    public double getTotalConsumption() {
+        return hvac.getTotalPowerConsumption() + controller.getTotalPowerConsumption() + userInputSensor.getTotalPowerConsumption() + internalSensor.getTotalPowerConsumption() + externalSensor.getTotalPowerConsumption();
+    }
+
+    @Override
+    public List<IDevice> getDevices() {
+        return List.of(hvac, controller, userInputSensor, internalSensor, externalSensor);
     }
 }

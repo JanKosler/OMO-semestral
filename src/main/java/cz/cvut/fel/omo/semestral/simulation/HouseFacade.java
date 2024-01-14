@@ -8,6 +8,7 @@ import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 import cz.cvut.fel.omo.semestral.reporting.HouseConfigurationReport;
 import cz.cvut.fel.omo.semestral.reporting.ReportGenerator;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
  * @see HouseConfigurationReport
  */
 @AllArgsConstructor
+@Getter
 public class HouseFacade {
     /** List of all pets in the house. */
     private List<Pet> pets;
@@ -26,7 +28,7 @@ public class HouseFacade {
     private List<Human> humans;
 
     /** The house. */
-    private HouseDirector houseDirector;
+    private House house;
 
     /** List of all devices in the house. */
     private List<IDevice> devices;

@@ -1,8 +1,10 @@
 package cz.cvut.fel.omo.semestral.entity.systems;
 
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
+import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Alarm;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.SecurityController;
+import cz.cvut.fel.omo.semestral.entity.devices.sensors.MotionSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.SecuritySensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import lombok.Getter;
@@ -25,8 +27,10 @@ public class SecuritySystem extends DeviceSystem {
     public final UserInputSensor userInputSensor; // For user inputs like arming/disarming the system
     /** The list of UserInputTypes that this system can process */
     private final List<UserInputType> allowedUserInputTypes = List.of(UserInputType.ALARM_DISARM);
+    private final int deviceSystemID;
 
-    public SecuritySystem(Alarm alarm, SecuritySensor securitySensor, SecurityController controller, UserInputSensor userInputSensor) {
+    public SecuritySystem(int deviceSystemID, Alarm alarm, SecuritySensor securitySensor, SecurityController controller, UserInputSensor userInputSensor) {
+        this.deviceSystemID = deviceSystemID;
         this.alarm = alarm;
         this.securitySensor = securitySensor;
         this.controller = controller;
@@ -64,5 +68,15 @@ public class SecuritySystem extends DeviceSystem {
         userInputSensor.onTick();
         controller.onTick();
         alarm.onTick();
+    }
+
+    @Override
+    public double getTotalConsumption() {
+        return alarm.getTotalPowerConsumption() + controller.getTotalPowerConsumption() + userInputSensor.getTotalPowerConsumption();
+    }
+
+    @Override
+    public List<IDevice> getDevices() {
+        return List.of(alarm, controller, userInputSensor);
     }
 }

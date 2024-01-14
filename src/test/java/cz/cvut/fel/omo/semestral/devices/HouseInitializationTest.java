@@ -26,7 +26,7 @@ public class HouseInitializationTest {
     Appliance alarm = new Alarm(UUID.randomUUID());
     UserInputSensor userInputSensor = new UserInputSensor();
     Controller controller = new SecurityController((SecuritySensor) securitySensor, userInputSensor, (Alarm) alarm);
-    DeviceSystem securitySystem = new SecuritySystem( (Alarm) alarm,
+    DeviceSystem securitySystem = new SecuritySystem( 1,(Alarm) alarm,
                                         (SecuritySensor) securitySensor,
                                         (SecurityController) controller,
                                         userInputSensor );

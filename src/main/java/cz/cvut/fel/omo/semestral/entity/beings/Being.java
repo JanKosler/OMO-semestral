@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -20,6 +21,7 @@ public abstract class Being implements Tickable {
     protected String name;
     protected Room room;
     protected Queue<Action> actionPlan;
+    protected List<Action> performedActions = new LinkedList<>();
 
     /**
      * Constructs a new Being with the specified action plan, name, and initial room.
@@ -73,6 +75,8 @@ public abstract class Being implements Tickable {
         if (this.room == room) {
             return;
         }
+        this.room.leaveRoom(this);
+        room.enterRoom(this);
 
         this.room = room;
     }
@@ -91,6 +95,10 @@ public abstract class Being implements Tickable {
      */
     @Override
     public void onTick() {
+    }
+
+    public void addPerformedAction(Action action) {
+        performedActions.add(action);
     }
 
 }

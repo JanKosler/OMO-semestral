@@ -1,4 +1,4 @@
-package cz.cvut.fel.omo.semestral.entity.factories;
+package cz.cvut.fel.omo.semestral.entity.systems;
 
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.*;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.*;
@@ -8,7 +8,6 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.TemperatureSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.House;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
-import cz.cvut.fel.omo.semestral.entity.systems.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +25,22 @@ public class DeviceSystemFactory {
      *
      * @return The assembled FridgeSystem.
      */
-    public FridgeSystem createFridgeSystem(Room room) {
+    public FridgeSystem createFridgeSystem(int deviceSystemID,Room room) {
         // Create the components of the FridgeSystem
         Fridge fridge = new Fridge(generateUUID());
         UserInputSensor userInputSensor = new UserInputSensor();
         FridgeController controller = new FridgeController(fridge, userInputSensor);
 
-        return new FridgeSystem(fridge, controller, userInputSensor);
+        return new FridgeSystem(deviceSystemID,fridge, controller, userInputSensor);
+    }
+
+    public GateControlSystem createGateControlSystem(int deviceSystemID, Room room) {
+        // Create the components of the GateControlSystem
+        Gate gate = new Gate(generateUUID());
+        UserInputSensor userInputSensor = new UserInputSensor();
+        GateController controller = new GateController(gate, userInputSensor);
+
+        return new GateControlSystem(deviceSystemID,gate, controller, userInputSensor);
     }
 
     /**
@@ -40,14 +48,14 @@ public class DeviceSystemFactory {
      *
      * @return The assembled SecuritySystem.
      */
-    public SecuritySystem createSecuritySystem(Room room) {
+    public SecuritySystem createSecuritySystem(int deviceSystemID, Room room) {
         // Create the components of the SecuritySystem
         Alarm alarm = new Alarm(generateUUID());
         SecuritySensor securitySensor = new SecuritySensor();
         UserInputSensor userInputSensor = new UserInputSensor();
         SecurityController controller = new SecurityController(securitySensor, userInputSensor, alarm);
 
-        return new SecuritySystem(alarm, securitySensor, controller, userInputSensor);
+        return new SecuritySystem(deviceSystemID,alarm, securitySensor, controller, userInputSensor);
     }
 
     /**
@@ -55,7 +63,7 @@ public class DeviceSystemFactory {
      *
      * @return The assembled LightingSystem.
      */
-    public LightingSystem createLightingSystem(Room room) {
+    public LightingSystem createLightingSystem(int deviceSystemID, Room room) {
         List<Light> lights = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             lights.add(new Light(generateUUID()));
@@ -65,40 +73,26 @@ public class DeviceSystemFactory {
         UserInputSensor userInputSensor = new UserInputSensor();
         LightController lightController = new LightController(lights, motionSensor, userInputSensor);
 
-        return new LightingSystem(lights, lightController, motionSensor, userInputSensor);
+        return new LightingSystem(deviceSystemID,lights, lightController, motionSensor, userInputSensor);
     }
 
-    /**
-     * Creates and configures an HVACSystem.
-     *
-     * @return The assembled HVACSystem.
-     */
-    public class HVACSystemFactory {
-        public HVACSystem createHVACSystem(House house, Room room) {
-            HVAC hvac = new HVAC(generateUUID(), house.getInternalTemperature());
-            TemperatureSensor internalSensor = new TemperatureSensor(house.getInternalTemperature());
-            TemperatureSensor externalSensor = new TemperatureSensor(house.getExternalTemperature());
-            UserInputSensor userInputSensor = new UserInputSensor();
-            TemperatureController temperatureController = new TemperatureController(internalSensor, externalSensor, hvac, userInputSensor);
+    public HVACSystem createHVACSystem(int deviceSystemID, House house, Room room) {
+        HVAC hvac = new HVAC(generateUUID(), house.getInternalTemperature());
+        TemperatureSensor internalSensor = new TemperatureSensor(house.getInternalTemperature());
+        TemperatureSensor externalSensor = new TemperatureSensor(house.getExternalTemperature());
+        UserInputSensor userInputSensor = new UserInputSensor();
+        TemperatureController temperatureController = new TemperatureController(internalSensor, externalSensor, hvac, userInputSensor);
 
-            return new HVACSystem(hvac, temperatureController, internalSensor, externalSensor, userInputSensor);
-        }
+        return new HVACSystem(deviceSystemID,hvac, temperatureController, internalSensor, externalSensor, userInputSensor);
     }
 
 
-    /**
-     * Creates and configures a TVSystem.
-     *
-     * @return The assembled TVSystem.
-     */
-    public class TVSystemFactory {
-        public TVSystem createEntertainmentSystem(Room room) {
-            TV tv = new TV(generateUUID());
-            UserInputSensor userInputSensor = new UserInputSensor();
-            TVController tvController = new TVController(tv, userInputSensor);
+    public TVSystem createEntertainmentSystem(int deviceSystemID, Room room) {
+        TV tv = new TV(generateUUID());
+        UserInputSensor userInputSensor = new UserInputSensor();
+        TVController tvController = new TVController(tv, userInputSensor);
 
-            return new TVSystem(tv, tvController, userInputSensor);
-        }
+        return new TVSystem(deviceSystemID,tv, tvController, userInputSensor);
     }
 
     /**

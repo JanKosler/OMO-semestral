@@ -3,8 +3,12 @@ package cz.cvut.fel.omo.semestral.entity.systems;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Appliance;
+import cz.cvut.fel.omo.semestral.entity.devices.sensors.MotionSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import cz.cvut.fel.omo.semestral.reporting.Report;
+import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -13,19 +17,13 @@ import java.util.List;
  * This class serves as a base for specific types of device systems, providing common functionalities and properties.
  * The purpose of device system is to aggregate devices and sensors that are related to each other.
  */
+@Getter
 public abstract class DeviceSystem implements Tickable {
 
 
     private List<UserInputType> allowedUserInputTypes;
+    private int deviceSystemID;
 
-    /**
-     * Retrieves the list of UserInputTypes that this device system is capable of handling.
-     *
-     * @return A list of UserInputType that the device system can process.
-     */
-    public List<UserInputType> getAllowedUserInputTypes() {
-        return allowedUserInputTypes;
-    }
 
     /**
      * Turns on the devices associated with this system.
@@ -52,6 +50,10 @@ public abstract class DeviceSystem implements Tickable {
         return null;
     }
 
+    public MotionSensor getMotionSensor() {
+        return null;
+    }
+
     /**
      * Retrieves the UserInputSensor associated with this device system.
      * The sensor is used to detect and process user inputs for this system.
@@ -62,8 +64,20 @@ public abstract class DeviceSystem implements Tickable {
         return null;
     }
 
+    public Report accept(ReportVisitor visitor) {
+        return visitor.visitDeviceSystem(this);
+    }
+
     @Override
     public void onTick() {
         return;
+    }
+
+    public double getTotalConsumption() {
+        return 0;
+    }
+
+    public List<IDevice> getDevices() {
+        return null;
     }
 }

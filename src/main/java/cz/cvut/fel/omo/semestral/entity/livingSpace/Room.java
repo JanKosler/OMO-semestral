@@ -84,4 +84,12 @@ public class Room implements ILivingSpace {
     public static RoomBuilder roomBuilder() {
         return new RoomBuilder();
     }
+
+    public void leaveRoom(Being being) {
+        inhabitants.remove(being);
+    }
+
+    public void enterRoom(Being being) {
+        inhabitants.add(being);
+    }
 }

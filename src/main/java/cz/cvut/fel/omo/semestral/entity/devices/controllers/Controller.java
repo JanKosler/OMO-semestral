@@ -5,6 +5,8 @@ import cz.cvut.fel.omo.semestral.entity.devices.DeviceMalfunctionObserver;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.IDeviceObserver;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
+import cz.cvut.fel.omo.semestral.reporting.Report;
+import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
 import lombok.Getter;
 import lombok.Setter;

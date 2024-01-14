@@ -5,6 +5,8 @@ import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.actions.Action;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
+import cz.cvut.fel.omo.semestral.reporting.Report;
+import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
 
 import java.util.List;
@@ -102,24 +104,22 @@ public class Human extends Being implements Tickable {
     public void performNextAction() {
         if (!actionPlan.isEmpty()) {
             Action nextAction = actionPlan.poll();
-
             switch (nextAction.getType()) {
                 // Handling Being-specific actions
                 case B_CHANGEROOM:
                     if(nextAction.getValue() instanceof Room) {
                         goTo((Room) nextAction.getValue());
+                        addPerformedAction(nextAction);
                     }
                     break;
-                case B_SLEEP:
-                    // Logic for sleeping
-                    break;
-                case B_EAT:
-                    // Logic for eating
+                case B_SLEEP, B_EAT:
+                    addPerformedAction(nextAction);
                     break;
                 default:
                     DeviceSystem deviceSystem = findDeviceSystemInRoom(nextAction.getType());
                     if (deviceSystem != null){
                         sendUserInput(deviceSystem, nextAction);
+                        addPerformedAction(nextAction);
                     }
                     break;
             }
@@ -141,6 +141,10 @@ public class Human extends Being implements Tickable {
             }
         }
         return null;
+    }
+
+    public Report accept(ReportVisitor visitor) {
+        return visitor.visitHuman(this);
     }
 
 }

@@ -7,6 +7,8 @@ import cz.cvut.fel.omo.semestral.entity.livingSpace.House;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Temperature;
 import cz.cvut.fel.omo.semestral.entity.systems.*;
+import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystemFactory.*;
+
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -73,7 +75,7 @@ public class SimulationConfig {
 
 
 
-        return new House(_house.getHouseID(), _house.getHouseNumber(), _house.getAddress(), _house.getInternalTemperature(), _house.getExternalTemperature(), );
+        return new House(_house.getHouseID(), _house.getHouseNumber(), _house.getAddress(), _house.getInternalTemperature(), _house.getExternalTemperature() );
     }
 
     public void loadConfigIntoConfigMaps() {
@@ -164,9 +166,13 @@ public class SimulationConfig {
                 int deviceSystemID = deviceSystem.get("systemID").asInt();
                 String deviceSystemName = deviceSystem.get("systemName").asText();
                 int deviceSystemRoomID = deviceSystem.get("roomID").asInt();
+
+
+                // Check if the room is found, then add the device system to the map
                 this._deviceSystemConfigMap.computeIfAbsent(deviceSystemRoomID, k -> new ArrayList<>())
-                        .add(this.createSystemByType(deviceSystemID, deviceSystemName));
+                        .add(this.createSystemByType(deviceSystemID, deviceSystemName, null, _house));
             }
+
 
             _isLoaded = true;
 
@@ -178,20 +184,15 @@ public class SimulationConfig {
             return;
         }
     }
-        private DeviceSystem createSystemByType(int deviceSystemID, String deviceSystemName) {
+        private DeviceSystem createSystemByType(int deviceSystemID, String deviceSystemName, Room room, House house) {
+            DeviceSystemFactory factory = new DeviceSystemFactory();
             return switch (deviceSystemName) {
-                case "FridgeSystem" ->
-                        new FridgeSystem();
-                case "GateControlSystem" ->
-                        new GateControlSystem();
-                case "HVACSystem" ->
-                        new HVACSystem();
-                case "LightingSystem" ->
-                        new LightingSystem();
-                case "SecuritySystem" ->
-                        new SecuritySystem();
-                case "TVSystem" ->
-                        new TVSystem();
+                case "FridgeSystem" -> factory.createFridgeSystem(deviceSystemID,room);
+                case "GateControlSystem" -> factory.createGateControlSystem(deviceSystemID, room);
+                case "HVACSystem" -> factory.createHVACSystem(deviceSystemID,house, room);
+                case "LightingSystem" -> factory.createLightingSystem(deviceSystemID,room);
+                case "SecuritySystem" -> factory.createSecuritySystem(deviceSystemID,room);
+                case "TVSystem" -> factory.createEntertainmentSystem(deviceSystemID,room);
                 default -> null;
             };
         }

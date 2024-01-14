@@ -3,6 +3,9 @@ package cz.cvut.fel.omo.semestral.entity.beings;
 
 import cz.cvut.fel.omo.semestral.entity.actions.Action;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
+import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
+import cz.cvut.fel.omo.semestral.reporting.Report;
+import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
 
 import java.util.Queue;
@@ -41,6 +44,30 @@ public class Pet extends Being implements Tickable {
 
     @Override
     public void performNextAction() {
+        if (!actionPlan.isEmpty()) {
+            Action nextAction = actionPlan.poll();
 
+            switch (nextAction.getType()) {
+                // Handling Being-specific actions
+                case B_CHANGEROOM:
+                    if(nextAction.getValue() instanceof Room) {
+                        goTo((Room) nextAction.getValue());
+                    }
+                    break;
+                case B_SLEEP:
+                    // Logic for sleeping
+                    break;
+                case B_EAT:
+                    // Logic for eating
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    }
+
+    public Report accept(ReportVisitor visitor) {
+        return visitor.visitPet(this);
     }
 }

@@ -4,6 +4,8 @@ import cz.cvut.fel.omo.semestral.entity.beings.Human;
 import cz.cvut.fel.omo.semestral.entity.beings.Pet;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
+import cz.cvut.fel.omo.semestral.reporting.Report;
+import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import lombok.Getter;
 
 import java.util.List;
@@ -109,5 +111,9 @@ public class House implements ILivingSpace {
     @Override
     public String toString() {
         return String.format("\"House\": { \"houseID\": %d,\n floorsCount: %d", houseID, floors.size());
+    }
+
+    public Report accept(ReportVisitor visitor) {
+        return visitor.visitHouse(this);
     }
 }
