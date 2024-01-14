@@ -1,9 +1,12 @@
 package cz.cvut.fel.omo.semestral.simulation;
 
+import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
+import cz.cvut.fel.omo.semestral.entity.actions.Action;
 import cz.cvut.fel.omo.semestral.entity.beings.Human;
 import cz.cvut.fel.omo.semestral.entity.beings.Pet;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.House;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 import cz.cvut.fel.omo.semestral.reporting.HouseConfigurationReport;
 import cz.cvut.fel.omo.semestral.reporting.ReportGenerator;
@@ -45,17 +48,26 @@ public class HouseFacade {
     private void simulate() {
         tickPublisher = new TickPublisher();
 
+        // Subscribe all devices, humans and pets to the tick publisher
         getDeviceSystems().forEach(tickPublisher::subscribe);
         getHumans().forEach(tickPublisher::subscribe);
         getPets().forEach(tickPublisher::subscribe);
 
-        for (int i = 0; i < Integer.MAX_VALUE; i++) {
+        List<Human> humans = new ArrayList<>(getHumans());
+        List<Pet> pets = new ArrayList<>(getPets());
+        List<Room> rooms = new ArrayList<>(house.getAllRooms());
+
+        List<Action> human1action = new ArrayList<>();
+        human1action.add(new Action(UserInputType.B_CHANGEROOM, rooms.get(0)));
+        human1action.add(new Action(UserInputType.TV_POWER, null));
+        human1action.add(new Action(UserInputType.TV_VOLUME, 50));
+        human1action.add(new Action(UserInputType.TV_CHANNEL, 1));
+        human1action.add(new Action(UserInputType.TV_POWER, null));
+        human1action.add(new Action(UserInputType.B_CHANGEROOM, rooms.get(1)));
+        human1action.add(new Action(UserInputType.HVAC_TEMPERATURE, 20));
+
+        for (int i = 0; i < 500; i++) {
             tickPublisher.tick();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
 
     }
