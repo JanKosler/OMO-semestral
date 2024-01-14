@@ -62,7 +62,7 @@ public class HouseConfigurationReport implements ReportVisitor{
 
         StringBuilder houseReportContent = new StringBuilder();
 
-        List<Floor> floorsList = new ArrayList<>(house.getFloors().values());
+        List<Floor> floorsList = house.getFloors();
 
         houseReportContent.append("House ID: ").append(house.getHouseID()).append("\n");
         houseReportContent.append("Number of Floors: ").append(house.getFloors().size()).append("\n");
