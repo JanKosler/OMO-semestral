@@ -66,4 +66,9 @@ public class LightingSystem extends DeviceSystem {
             controller.onTick();
             lights.forEach(Light::onTick);
         }
+
+        @Override
+        public String toString() {
+            return "LightingSystem{" + "deviceSystemID=" + deviceSystemID + '}';
+        }
 }

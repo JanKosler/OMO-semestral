@@ -58,4 +58,9 @@ public class HVACSystem extends DeviceSystem {
         controller.onTick();
         hvac.onTick();
     }
+
+    @Override
+    public String toString() {
+        return "HVACSystem{" + "deviceSystemID=" + deviceSystemID + '}';
+    }
 }

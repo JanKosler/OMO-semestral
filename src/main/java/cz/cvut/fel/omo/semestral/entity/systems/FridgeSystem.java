@@ -52,4 +52,8 @@ public class FridgeSystem extends DeviceSystem {
         controller.onTick();
         fridge.onTick();
     }
+    @Override
+    public String toString() {
+        return "FridgeSystem{" + "deviceSystemID=" + deviceSystemID + '}';
+    }
 }

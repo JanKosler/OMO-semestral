@@ -194,4 +194,8 @@ public class Human extends Being implements Tickable {
         return visitor.visitHuman(this);
     }
 
+    @Override
+    public String toString() {
+        return "Human{" + "ID=" + beingID + ", name='" + name + '\'' + '}';
+    }
 }
