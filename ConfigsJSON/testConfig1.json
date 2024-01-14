@@ -2,7 +2,9 @@
   "House": {
     "houseID": "1",
     "houseNumber": "13",
-    "address": "456 Imaginary Lane, Dreamtown, Wonderland"
+    "address": "456 Imaginary Lane, Dreamtown, Wonderland",
+    "internalTemperature": "20",
+    "externalTemperature": "10"
   },
   "Floors": [
     {

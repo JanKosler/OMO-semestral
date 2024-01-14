@@ -6,6 +6,7 @@ import cz.cvut.fel.omo.semestral.tick.Tickable;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -15,6 +16,7 @@ import java.util.Queue;
 @Getter
 @Setter
 public abstract class Being implements Tickable {
+    protected int beingID;
     protected String name;
     protected Room room;
     protected Queue<Action> actionPlan;
@@ -22,15 +24,29 @@ public abstract class Being implements Tickable {
     /**
      * Constructs a new Being with the specified action plan, name, and initial room.
      *
+     * @param beingID    The ID of the being.
      * @param actionPlan The queue of actions that this being will perform.
      * @param name       The name of the being.
      * @param room       The initial room where the being is located.
      */
-    public Being(Queue<Action> actionPlan, String name, Room room) {
+    public Being(int beingID, String name, Room room, Queue<Action> actionPlan) {
+        this.beingID = beingID;
         this.name = name;
-        this.actionPlan = actionPlan;
         this.room = room;
+        this.actionPlan = actionPlan;
     }
+
+    /**
+     * Constructs a new Being with the specified name and initial room.
+     *
+     * @param beingID    The ID of the being.
+     * @param name       The name of the being.
+     * @param room       The initial room where the being is located.
+     */
+    public Being(int beingID, String name, Room room) {
+        this(beingID, name, room, new LinkedList<>());
+    }
+
 
     /**
      * Adds an action to the being's action plan.

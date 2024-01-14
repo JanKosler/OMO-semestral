@@ -19,13 +19,23 @@ public class Human extends Being implements Tickable {
     /**
      * Constructs a new Human with the specified name, action plan, and initial room.
      *
+     * @param beingID    The ID of the human.
      * @param name       The name of the human.
+     * @param room       The initial room where the human is located.
      * @param actionPlan The queue of actions that this human will perform.
+     */
+    public Human(int beingID, String name, Room room, Queue<Action> actionPlan) {
+        super(beingID, name, room, actionPlan);
+    }
+    /**
+     * Constructs a new Human with the specified name and initial room.
+     *
+     * @param beingID    The ID of the human.
+     * @param name       The name of the human.
      * @param room       The initial room where the human is located.
      */
-    public Human(String name, Queue<Action> actionPlan, Room room) {
-        super(actionPlan, name, room);
-        // Initialize human-specific attributes
+    public Human(int beingID, String name, Room room) {
+        super(beingID, name, room);
     }
 
     /**

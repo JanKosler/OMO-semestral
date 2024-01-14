@@ -32,7 +32,7 @@ public class HouseInitializationTest {
                                         userInputSensor );
 
     Appliance gate = new Gate(UUID.randomUUID());
-    Being humanNamedPete = new Human("Pete", new LinkedList<>(), null);
+    Being humanNamedPete = new Human(1,"Pete", null);
     SportEquipment bike = new SportEquipment(SportEquipmentType.BIKE,false);
     SportEquipment skis = new SportEquipment(SportEquipmentType.SKIS,false);
 
