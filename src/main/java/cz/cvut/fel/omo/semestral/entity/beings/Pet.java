@@ -64,4 +64,9 @@ public class Pet extends Being implements Tickable {
     public Report accept(ReportVisitor visitor) {
         return visitor.visitPet(this);
     }
+
+    @Override
+    public String toString() {
+        return "Pet{" + "beingID=" + beingID + ", name='" + name + '}';
+    }
 }

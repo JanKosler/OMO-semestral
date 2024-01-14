@@ -66,4 +66,9 @@ public class SecuritySystem extends DeviceSystem {
         controller.onTick();
         alarm.onTick();
     }
+
+    @Override
+    public String toString() {
+        return "SecuritySystem{" + "deviceSystemID=" + deviceSystemID + '}';
+    }
 }

@@ -21,8 +21,13 @@ public class SimulationManager {
     /**
      * Starts the simulation.
      */
-    public void startSimulation() {
-
+    public void runSimulation() {
+        if (simulationConfig == null) {
+            initializeSimulation("testConfig1.json");
+        }
+        if (houseFacade == null) {
+            houseFacade = new HouseFacade(simulationConfig.getConfiguredHouse());
+        }
         houseFacade.startSimulation();
     }
 }

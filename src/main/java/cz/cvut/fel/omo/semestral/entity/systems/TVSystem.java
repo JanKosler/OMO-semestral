@@ -71,4 +71,9 @@ public class TVSystem extends DeviceSystem {
         controller.onTick();
         tv.onTick();
     }
+
+    @Override
+    public String toString() {
+        return "TVSystem{" + "deviceSystemID=" + deviceSystemID + '}';
+    }
 }

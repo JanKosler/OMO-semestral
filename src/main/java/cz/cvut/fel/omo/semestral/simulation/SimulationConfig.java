@@ -2,10 +2,7 @@ package cz.cvut.fel.omo.semestral.simulation;
 
 import cz.cvut.fel.omo.semestral.entity.beings.Human;
 import cz.cvut.fel.omo.semestral.entity.beings.Pet;
-import cz.cvut.fel.omo.semestral.entity.livingSpace.Floor;
-import cz.cvut.fel.omo.semestral.entity.livingSpace.House;
-import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
-import cz.cvut.fel.omo.semestral.entity.livingSpace.Temperature;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.*;
 import cz.cvut.fel.omo.semestral.entity.systems.*;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystemFactory.*;
 
@@ -18,13 +15,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * TODO : Check if this class is needed. Not sure what it should do.
  */
-@Getter
 @Slf4j
 public class SimulationConfig {
     String _configFilename;
@@ -36,6 +33,7 @@ public class SimulationConfig {
     /** Extensions of the Being class */
     /** Map<roomID, List> */
     private Map<Integer, List<Pet>> _petConfigMap;
+    /** Map<roomID, List> */
     private Map<Integer, List<Human>> _humanConfigMap;
 
     /** Implementations of the IDevice interface */
@@ -71,11 +69,33 @@ public class SimulationConfig {
     }
 
     private House createConfiguredHouse() {
-        // add people to rooms and floors and house
+        List<Floor> configuredFloors = new ArrayList<>();
+        // create rooms
+        for (Floor floor : _floorList) {
+            /** Map<floorID, List> */
+            Map<Integer, List<Room>> configuredRooms = new HashMap<>();
+            // add rooms to the floor
+            for (Room room : _roomMap.get(floor.getFloorID())) {
+                List<Pet> pets = _petConfigMap.get(room.getRoomID());
+                List<Human> humans = _humanConfigMap.get(room.getRoomID());
+                List<DeviceSystem> deviceSystems = _deviceSystemConfigMap.get(room.getRoomID());
 
+                RoomBuilder configuredRoomBuilder = Room.roomBuilder()
+                        .setRoomID(room.getRoomID())
+                        .setRoomName(room.getRoomName());
+                for (Pet pet : pets)
+                    configuredRoomBuilder.addPerson(pet);
+                for (Human human : humans)
+                    configuredRoomBuilder.addPerson(human);
+                for (DeviceSystem deviceSystem : deviceSystems)
+                    configuredRoomBuilder.addDeviceSystem(deviceSystem);
 
+                configuredRooms.computeIfAbsent(floor.getFloorID(), k -> new ArrayList<>())
+                        .add(configuredRoomBuilder.build());
+            }
+        }
 
-        return new House(_house.getHouseID(), _house.getHouseNumber(), _house.getAddress(), _house.getInternalTemperature(), _house.getExternalTemperature() );
+        return new House(_house.getHouseID(), _house.getHouseNumber(), _house.getAddress(), _house.getInternalTemperature(), _house.getExternalTemperature(), configuredFloors);
     }
 
     public void loadConfigIntoConfigMaps() {

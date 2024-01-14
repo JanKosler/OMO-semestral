@@ -19,37 +19,19 @@ import java.util.List;
  * @see HouseConfigurationReport
  */
 @AllArgsConstructor
-@Getter
 public class HouseFacade {
-    /** List of all pets in the house. */
-    private List<Pet> pets;
-
-    /** List of all people in the house. */
-    private List<Human> humans;
-
     /** The house. */
     private House house;
-
-    /** List of all devices in the house. */
-    private List<IDevice> devices;
-
-    /** List of all device systems in the house. */
-    private List<DeviceSystem> deviceSystems;
-
-
-    public HouseFacade() {
-        pets = new ArrayList<>();
-        humans = new ArrayList<>();
-        devices = new ArrayList<>();
-        deviceSystems = new ArrayList<>();
-    }
 
     /**
      * Starts the simulation.
      */
     public void startSimulation() {
-
+        
     }
 
-
+    public List<DeviceSystem> getDeviceSystems() {return house.getAllDeviceSystems();}
+    public List<IDevice> getDevices(){return house.getAllDevices();}
+    public List<Human> getHumans(){return house.getAllPeople();}
+    public List<Pet> getPets(){return house.getAllPets();}
 }

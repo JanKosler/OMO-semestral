@@ -51,4 +51,9 @@ public class GateControlSystem extends DeviceSystem {
         controller.onTick();
         gate.onTick();
     }
+
+    @Override
+    public String toString() {
+        return "GateControlSystem{" + "deviceSystemID=" + deviceSystemID +'}';
+    }
 }
