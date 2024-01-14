@@ -12,6 +12,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.appliances.states.VentilationSta
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.TemperatureSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
@@ -23,6 +24,7 @@ import java.util.UUID;
  * based on the comparison of indoor temperature with the target, and considering the outdoor temperature.
  * When outdoor temperatures are lower than indoor, it opts for ventilation; otherwise, it engages cooling.
  */
+@Slf4j
 public class TemperatureController extends Controller {
 
     private final TemperatureSensor internalSensor;
@@ -118,21 +120,21 @@ public class TemperatureController extends Controller {
         if (Math.abs(indoorTemp - targetTemperature) > 0.0) {
             if (indoorTemp < targetTemperature && !(hvac.getCurrentState() instanceof HeatingState)) {
                 hvac.addtoActionPlan(DeviceCommand.SWITCH_TO_HEATING);
-                System.out.println("Switching to heating, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
+                log.info("Controller: Switching to heating, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
             } else if (indoorTemp > targetTemperature) {
                 if (outdoorTemp > targetTemperature) {
                     if (!(hvac.getCurrentState() instanceof CoolingState)){
                         hvac.addtoActionPlan(DeviceCommand.SWITCH_TO_COOLING);
-                        System.out.println("Switching to cooling, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
+                        log.info("Controller: Switching to cooling, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
                     }
                 } else if (!(hvac.getCurrentState() instanceof VentilationState)) {
                     hvac.addtoActionPlan(DeviceCommand.SWITCH_TO_VENTILATION);
-                    System.out.println("Switching to ventilation, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
+                    log.info("Controller: Switching to ventilation, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
                 }
             }
         } else {
             hvac.addtoActionPlan(DeviceCommand.TURN_OFF);
-            System.out.println("Turning off HVAC, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
+            log.info("Controller: HVAC turned off, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
         }
     }
 

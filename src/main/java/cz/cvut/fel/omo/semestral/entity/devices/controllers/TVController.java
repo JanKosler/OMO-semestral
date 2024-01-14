@@ -7,6 +7,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.TV;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ import java.util.UUID;
  * and interprets the user commands to turn the TV on or off, adjust volume, and
  * switch channels.
  */
+@Slf4j
 public class TVController extends Controller {
 
     private final TV tv;
@@ -92,7 +94,7 @@ public class TVController extends Controller {
                 changeTVChannel((Integer) inputValue);
                 break;
             default:
-                System.out.println("Controller: Unrecognized TV input command.");
+                log.warn("Controller: Invalid user input type for TV: " + inputType);
                 break;
         }
     }
@@ -118,7 +120,7 @@ public class TVController extends Controller {
                 currentVolume--;
             }
         }
-        System.out.println("TV volume set to " + newVolume);
+        log.info("Controller: TV volume set to " + newVolume);
     }
 
     /**
@@ -139,7 +141,7 @@ public class TVController extends Controller {
                 currentChannel--;
             }
         }
-        System.out.println("TV channel set to " + newChannel);
+        log.info("Controller: TV channel set to " + newChannel);
     }
 }
 

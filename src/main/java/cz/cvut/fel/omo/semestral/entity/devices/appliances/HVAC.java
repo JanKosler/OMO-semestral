@@ -17,6 +17,7 @@ import java.util.UUID;
  * and transitions to other states based on received commands.
  */
 @Getter
+
 public class HVAC extends Appliance {
 
     private HVACState currentState;
