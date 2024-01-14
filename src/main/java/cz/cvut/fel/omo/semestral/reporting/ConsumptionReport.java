@@ -15,7 +15,7 @@ import java.util.UUID;
 public class ConsumptionReport implements ReportVisitor {
 
     public double totalConsumption = 0;
-    public final double kwhPrice = 6.65;
+    public final double kwhPrice = 3;
 
     @Override
     public Report visitDeviceSystem(DeviceSystem deviceSystem) {
@@ -66,7 +66,7 @@ public class ConsumptionReport implements ReportVisitor {
         reportContent.append("Total consumption (kWh):\n");
         reportContent.append(totalConsumption).append(" mWh\n");
         reportContent.append("--------------------------\n");
-        reportContent.append("Price for 1kWh: " + kwhPrice + "\n");
+        reportContent.append("Price for 1kWh: " + kwhPrice + " CZK\n");
         double total = kwhPrice * totalConsumption;
         reportContent.append("Total: ").append(String.format("%.2f", total)).append(" CZK\n");
 

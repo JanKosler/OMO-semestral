@@ -13,6 +13,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents an abstract base class for controllers in the smart home system.
@@ -27,6 +28,7 @@ import java.util.List;
 @Setter
 public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
 
+    private UUID serialNumber;
     private DeviceState state;
     private int totalWear;
     private double totalPowerConsumption;
@@ -36,7 +38,8 @@ public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
     /**
      * Constructs a Controller with default settings.
      */
-    public Controller(int wearCapacity) {
+    public Controller(UUID serialNumber, int wearCapacity) {
+        this.serialNumber = serialNumber;
         this.state = DeviceState.OFF;
         this.totalWear = 0;
         this.totalPowerConsumption = 0;
@@ -50,7 +53,8 @@ public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
      * @param totalWear        The initial total wear of the controller.
      * @param totalPowerConsumption The initial power consumption of the controller.
      */
-    public Controller(DeviceState state, int totalWear, double totalPowerConsumption, int wearCapacity) {
+    public Controller(UUID serialNumber, DeviceState state, int totalWear, double totalPowerConsumption, int wearCapacity) {
+        this.serialNumber = serialNumber;
         this.state = state;
         this.totalWear = totalWear;
         this.totalPowerConsumption = totalPowerConsumption;
@@ -119,6 +123,18 @@ public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
             }
         }
     }
+
     public abstract void onTick();
 
+
+    @Override
+    public UUID getSerialNumber() {
+        return serialNumber;
+    }
+
+    @Override
+    public void repair(){
+        this.setState(DeviceState.ON);
+        this.totalWear = 0;
+    }
 }

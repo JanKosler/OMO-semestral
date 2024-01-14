@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Abstract base class for sensors in the smart home simulation.
@@ -21,6 +22,7 @@ import java.util.List;
 @Setter
 public abstract class Sensor implements IDevice, Tickable {
 
+    private UUID serialNumber;
     private DeviceState state;
     private int totalWear;
     private double totalPowerConsumption;
@@ -32,7 +34,8 @@ public abstract class Sensor implements IDevice, Tickable {
     /**
      * Constructs a Sensor with default settings.
      */
-    public Sensor(int wearCapacity) {
+    public Sensor(UUID serialNumber, int wearCapacity) {
+        this.serialNumber = serialNumber;
         this.state = DeviceState.OFF;
         this.totalWear = 0;
         this.totalPowerConsumption = 0;
@@ -46,7 +49,8 @@ public abstract class Sensor implements IDevice, Tickable {
      * @param totalWear The initial total wear of the sensor.
      * @param totalPowerConsumption The initial power consumption of the sensor.
      */
-    public Sensor(DeviceState state, int totalWear, double totalPowerConsumption, int wearCapacity) {
+    public Sensor(UUID serialNumber, DeviceState state, int totalWear, double totalPowerConsumption, int wearCapacity) {
+        this.serialNumber = serialNumber;
         this.state = state;
         this.totalWear = totalWear;
         this.totalPowerConsumption = totalPowerConsumption;
@@ -135,4 +139,15 @@ public abstract class Sensor implements IDevice, Tickable {
     }
 
     public abstract void onTick();
+
+    @Override
+    public UUID getSerialNumber() {
+        return serialNumber;
+    }
+
+    @Override
+    public void repair(){
+        this.setState(DeviceState.ON);
+        this.totalWear = 0;
+    }
 }

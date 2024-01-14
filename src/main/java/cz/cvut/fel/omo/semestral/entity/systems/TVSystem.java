@@ -54,32 +54,6 @@ public class TVSystem extends DeviceSystem {
     /**
      * Turns on the whole TV system.
      */
-    @Override
-    public void turnOn() {
-        userInputSensor.turnOn();
-        controller.turnOn();
-        tv.setIdle();
-    }
-
-    /**
-     * Turns off the whole TV system.
-     */
-    @Override
-    public void turnOff() {
-        userInputSensor.turnOff();
-        controller.turnOff();
-        tv.turnOff();
-    }
-
-    /**
-     * Performs a tick on the whole TV system.
-     */
-    @Override
-    public void onTick() {
-        userInputSensor.onTick();
-        controller.onTick();
-        tv.onTick();
-    }
 
     @Override
     public double getTotalConsumption() {
@@ -89,5 +63,12 @@ public class TVSystem extends DeviceSystem {
     @Override
     public List<IDevice> getDevices() {
         return List.of(tv, controller, userInputSensor);
+    }
+
+    @Override
+    public void onTick() {
+        userInputSensor.onTick();
+        controller.onTick();
+        tv.onTick();
     }
 }

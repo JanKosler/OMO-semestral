@@ -3,6 +3,8 @@ package cz.cvut.fel.omo.semestral.entity.devices.sensors;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import lombok.Getter;
 
+import java.util.UUID;
+
 
 /**
  * Represents a security sensor within the smart home system, tasked with monitoring security breaches.
@@ -17,8 +19,8 @@ public class SecuritySensor extends Sensor {
     /**
      * Constructs a SecuritySensor with default settings.
      */
-    public SecuritySensor() {
-        super( 100);
+    public SecuritySensor(UUID serialNumber) {
+        super(serialNumber, 100);
     }
 
     @Override

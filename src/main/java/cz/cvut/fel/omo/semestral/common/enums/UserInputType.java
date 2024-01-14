@@ -33,10 +33,9 @@ public enum UserInputType {
     /** Represents an action for a being to change rooms. */
     B_CHANGEROOM,
 
-    /** Represents an action for a being to sleep. */
-    B_SLEEP,
+    B_REPAIR,
 
-    /** Represents an action for a being to eat. */
-    B_EAT
+    B_STARTSPORT,
+    B_STOPSPORT
 
 }

@@ -28,8 +28,8 @@ public class DeviceSystemFactory {
     public FridgeSystem createFridgeSystem(int deviceSystemID,Room room) {
         // Create the components of the FridgeSystem
         Fridge fridge = new Fridge(generateUUID());
-        UserInputSensor userInputSensor = new UserInputSensor();
-        FridgeController controller = new FridgeController(fridge, userInputSensor);
+        UserInputSensor userInputSensor = new UserInputSensor(generateUUID());
+        FridgeController controller = new FridgeController(generateUUID(),fridge, userInputSensor);
 
         return new FridgeSystem(deviceSystemID,fridge, controller, userInputSensor);
     }
@@ -37,8 +37,8 @@ public class DeviceSystemFactory {
     public GateControlSystem createGateControlSystem(int deviceSystemID, Room room) {
         // Create the components of the GateControlSystem
         Gate gate = new Gate(generateUUID());
-        UserInputSensor userInputSensor = new UserInputSensor();
-        GateController controller = new GateController(gate, userInputSensor);
+        UserInputSensor userInputSensor = new UserInputSensor(generateUUID());
+        GateController controller = new GateController(generateUUID(),gate, userInputSensor);
 
         return new GateControlSystem(deviceSystemID,gate, controller, userInputSensor);
     }
@@ -51,9 +51,9 @@ public class DeviceSystemFactory {
     public SecuritySystem createSecuritySystem(int deviceSystemID, Room room) {
         // Create the components of the SecuritySystem
         Alarm alarm = new Alarm(generateUUID());
-        SecuritySensor securitySensor = new SecuritySensor();
-        UserInputSensor userInputSensor = new UserInputSensor();
-        SecurityController controller = new SecurityController(securitySensor, userInputSensor, alarm);
+        SecuritySensor securitySensor = new SecuritySensor(generateUUID());
+        UserInputSensor userInputSensor = new UserInputSensor(generateUUID());
+        SecurityController controller = new SecurityController(generateUUID(),securitySensor, userInputSensor, alarm);
 
         return new SecuritySystem(deviceSystemID,alarm, securitySensor, controller, userInputSensor);
     }
@@ -69,19 +69,19 @@ public class DeviceSystemFactory {
             lights.add(new Light(generateUUID()));
         }
 
-        MotionSensor motionSensor = new MotionSensor(room);
-        UserInputSensor userInputSensor = new UserInputSensor();
-        LightController lightController = new LightController(lights, motionSensor, userInputSensor);
+        MotionSensor motionSensor = new MotionSensor(generateUUID(),room);
+        UserInputSensor userInputSensor = new UserInputSensor(generateUUID());
+        LightController lightController = new LightController(generateUUID(),lights, motionSensor, userInputSensor);
 
         return new LightingSystem(deviceSystemID,lights, lightController, motionSensor, userInputSensor);
     }
 
     public HVACSystem createHVACSystem(int deviceSystemID, House house, Room room) {
         HVAC hvac = new HVAC(generateUUID(), house.getInternalTemperature());
-        TemperatureSensor internalSensor = new TemperatureSensor(house.getInternalTemperature());
-        TemperatureSensor externalSensor = new TemperatureSensor(house.getExternalTemperature());
-        UserInputSensor userInputSensor = new UserInputSensor();
-        TemperatureController temperatureController = new TemperatureController(internalSensor, externalSensor, hvac, userInputSensor);
+        TemperatureSensor internalSensor = new TemperatureSensor(generateUUID(),house.getInternalTemperature());
+        TemperatureSensor externalSensor = new TemperatureSensor(generateUUID(),house.getExternalTemperature());
+        UserInputSensor userInputSensor = new UserInputSensor(generateUUID());
+        TemperatureController temperatureController = new TemperatureController(generateUUID(),internalSensor, externalSensor, hvac, userInputSensor);
 
         return new HVACSystem(deviceSystemID,hvac, temperatureController, internalSensor, externalSensor, userInputSensor);
     }
@@ -89,8 +89,8 @@ public class DeviceSystemFactory {
 
     public TVSystem createEntertainmentSystem(int deviceSystemID, Room room) {
         TV tv = new TV(generateUUID());
-        UserInputSensor userInputSensor = new UserInputSensor();
-        TVController tvController = new TVController(tv, userInputSensor);
+        UserInputSensor userInputSensor = new UserInputSensor(generateUUID());
+        TVController tvController = new TVController(generateUUID(),tv, userInputSensor);
 
         return new TVSystem(deviceSystemID,tv, tvController, userInputSensor);
     }

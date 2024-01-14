@@ -4,7 +4,6 @@ import cz.cvut.fel.omo.semestral.entity.actions.Action;
 import cz.cvut.fel.omo.semestral.entity.beings.Human;
 import cz.cvut.fel.omo.semestral.entity.beings.Pet;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.House;
-import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 import cz.cvut.fel.omo.semestral.simulation.HouseFacade;
 
@@ -34,7 +33,7 @@ public class ActivityAndUsageReport implements ReportVisitor{
         List<Action> usages = new ArrayList<>();
         for(Action action : human.getPerformedActions()){
             switch (action.getType()) {
-                case B_CHANGEROOM, B_SLEEP, B_EAT:
+                case B_CHANGEROOM, B_REPAIR, B_STARTSPORT,B_STOPSPORT:
                     activities.add(action);
                     break;
                 default:
@@ -46,7 +45,7 @@ public class ActivityAndUsageReport implements ReportVisitor{
         humanStringBuilder.append("Number of usages: ").append(usages.size()).append("\n");
         humanStringBuilder.append("Activities: \n");
         for(Action action : activities){
-            humanStringBuilder.append(action.getType().getClass().getSimpleName()).append("\n");
+            humanStringBuilder.append(action.getType().getClass().getSimpleName()).append(" with Value: ").append(action.getValue()).append("\n");
         }
         humanStringBuilder.append("Usages: \n");
         for(Action action : usages){
@@ -69,7 +68,7 @@ public class ActivityAndUsageReport implements ReportVisitor{
         List<Action> activities = new ArrayList<>();
         for(Action action : pet.getPerformedActions()){
             switch (action.getType()) {
-                case B_CHANGEROOM, B_SLEEP, B_EAT:
+                case B_CHANGEROOM:
                     activities.add(action);
                     break;
                 default:

@@ -4,6 +4,7 @@ package cz.cvut.fel.omo.semestral.entity.beings;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.actions.Action;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.SportEquipment;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 import cz.cvut.fel.omo.semestral.reporting.Report;
 import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
@@ -112,8 +113,23 @@ public class Human extends Being implements Tickable {
                         addPerformedAction(nextAction);
                     }
                     break;
-                case B_SLEEP, B_EAT:
-                    addPerformedAction(nextAction);
+                case B_REPAIR:
+                    if(nextAction.getValue() instanceof DeviceSystem deviceSystem) {
+                        deviceSystem.repair();
+                        addPerformedAction(nextAction);
+                    }
+                    break;
+                case B_STARTSPORT:
+                    if(nextAction.getValue() instanceof SportEquipment) {
+                        doSport((SportEquipment) nextAction.getValue());
+                        addPerformedAction(nextAction);
+                    }
+                    break;
+                case B_STOPSPORT:
+                    if(nextAction.getValue() instanceof SportEquipment) {
+                        stopSport((SportEquipment) nextAction.getValue());
+                        addPerformedAction(nextAction);
+                    }
                     break;
                 default:
                     DeviceSystem deviceSystem = findDeviceSystemInRoom(nextAction.getType());
@@ -125,6 +141,16 @@ public class Human extends Being implements Tickable {
             }
 
         }
+    }
+
+    public void doSport(SportEquipment sportEquipment) {
+        System.out.println(this.name + " does sport with " + sportEquipment.getClass().getSimpleName());
+        sportEquipment.setUsed(true);
+    }
+
+    public void stopSport(SportEquipment sportEquipment) {
+        System.out.println(this.name + " stops sport with " + sportEquipment.getClass().getSimpleName());
+        sportEquipment.setUsed(false);
     }
 
     /**

@@ -13,6 +13,8 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.TemperatureSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 
+import java.util.UUID;
+
 /**
  * Controller responsible for managing the HVAC system in the smart home, taking into account both
  * indoor and outdoor temperatures as well as user-defined target temperatures.
@@ -41,8 +43,8 @@ public class TemperatureController extends Controller {
      * @param hvac            The HVAC system to control.
      * @param userInputSensor The sensor for receiving user inputs regarding target temperature.
      */
-    public TemperatureController(TemperatureSensor internalSensor, TemperatureSensor externalSensor, HVAC hvac, UserInputSensor userInputSensor) {
-        super(100);
+    public TemperatureController(UUID serialNumber, TemperatureSensor internalSensor, TemperatureSensor externalSensor, HVAC hvac, UserInputSensor userInputSensor) {
+        super(serialNumber, 100);
         this.internalSensor = internalSensor;
         this.externalSensor = externalSensor;
         this.hvac = hvac;

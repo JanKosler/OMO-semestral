@@ -6,6 +6,7 @@ import cz.cvut.fel.omo.semestral.entity.actions.Action;
 import lombok.Getter;
 
 import java.util.Queue;
+import java.util.UUID;
 
 /**
  * A sensor designed to capture and process various types of user inputs within the smart home system.
@@ -22,9 +23,9 @@ public class UserInputSensor extends Sensor {
     /**
      * Constructs a UserInputSensor with default settings.
      */
-    public UserInputSensor() {
+    public UserInputSensor(UUID serialNumber) {
 
-        super( 100);
+        super(serialNumber, 100);
         this.actionPlan = new java.util.LinkedList<>();
     }
 

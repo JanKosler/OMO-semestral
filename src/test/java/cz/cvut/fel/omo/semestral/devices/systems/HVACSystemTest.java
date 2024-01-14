@@ -28,11 +28,11 @@ public class HVACSystemTest {
         internalTemperature = new Temperature(22.0); // example initial temperature
         externalTemperature = new Temperature(15.0); // example initial temperature
         hvac = new HVAC(UUID.randomUUID(), internalTemperature);
-        internalSensor = new TemperatureSensor(internalTemperature);
-        externalSensor = new TemperatureSensor(externalTemperature);
-        userInputSensor = new UserInputSensor();
-        controller = new TemperatureController(internalSensor, externalSensor, hvac, userInputSensor);
-        hvacSystem = new HVACSystem(hvac, controller, internalSensor, externalSensor, userInputSensor);
+        internalSensor = new TemperatureSensor(UUID.randomUUID(),internalTemperature);
+        externalSensor = new TemperatureSensor(UUID.randomUUID(),externalTemperature);
+        userInputSensor = new UserInputSensor(UUID.randomUUID());
+        controller = new TemperatureController(UUID.randomUUID(),internalSensor, externalSensor, hvac, userInputSensor);
+        hvacSystem = new HVACSystem(1,hvac, controller, internalSensor, externalSensor, userInputSensor);
     }
 
     @Test

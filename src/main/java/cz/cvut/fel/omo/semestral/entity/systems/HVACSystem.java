@@ -41,36 +41,6 @@ public class HVACSystem extends DeviceSystem {
     }
 
     @Override
-    public void turnOn() {
-
-        internalSensor.turnOn();
-        externalSensor.turnOn();
-        userInputSensor.turnOn();
-        controller.turnOn();
-        hvac.turnOn();
-    }
-
-    @Override
-    public void turnOff() {
-
-        internalSensor.turnOff();
-        externalSensor.turnOff();
-        userInputSensor.turnOff();
-        controller.turnOff();
-        hvac.turnOff();
-    }
-
-    @Override
-    public void onTick() {
-
-        internalSensor.onTick();
-        externalSensor.onTick();
-        userInputSensor.onTick();
-        controller.onTick();
-        hvac.onTick();
-    }
-
-    @Override
     public double getTotalConsumption() {
         return hvac.getTotalPowerConsumption() + controller.getTotalPowerConsumption() + userInputSensor.getTotalPowerConsumption() + internalSensor.getTotalPowerConsumption() + externalSensor.getTotalPowerConsumption();
     }
@@ -78,5 +48,14 @@ public class HVACSystem extends DeviceSystem {
     @Override
     public List<IDevice> getDevices() {
         return List.of(hvac, controller, userInputSensor, internalSensor, externalSensor);
+    }
+
+    @Override
+    public void onTick() {
+        internalSensor.onTick();
+        externalSensor.onTick();
+        userInputSensor.onTick();
+        controller.onTick();
+        hvac.onTick();
     }
 }

@@ -29,7 +29,7 @@ public class HouseConfigurationReport implements ReportVisitor{
         deviceSystemStringBuilder.append("\nDevice System (").append(deviceSystem.getClass().getSimpleName()).append(")with ID:\n").append(deviceSystem.getDeviceSystemID()).append("\n");
         deviceSystemStringBuilder.append("Devices: \n");
         for(IDevice device : deviceSystem.getDevices()){
-            deviceSystemStringBuilder.append("Device (").append(device.getClass().getSimpleName()).append(")\n");
+            deviceSystemStringBuilder.append("Device (").append(device.getClass().getSimpleName()).append("), with ID: ").append(device.getSerialNumber()).append("\n");
         }
 
         report.setContent(deviceSystemStringBuilder.toString());

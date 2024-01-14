@@ -8,6 +8,8 @@ import cz.cvut.fel.omo.semestral.entity.devices.appliances.Fridge;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 
+import java.util.UUID;
+
 /**
  * Controller dedicated to managing a Fridge appliance within the smart home system.
  * This controller is responsible for adjusting the internal temperature of the fridge
@@ -29,8 +31,8 @@ public class FridgeController extends Controller {
      * @param fridge The fridge appliance that this controller manages.
      * @param userInputSensor The sensor that detects user inputs for the fridge.
      */
-    public FridgeController(Fridge fridge, UserInputSensor userInputSensor) {
-        super(100);
+    public FridgeController(UUID serialNumber, Fridge fridge, UserInputSensor userInputSensor) {
+        super(serialNumber, 100);
         this.fridge = fridge;
         this.userInputSensor = userInputSensor;
         this.userInputSensor.addObserver(this);

@@ -4,6 +4,8 @@ import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Temperature;
 import lombok.Getter;
 
+import java.util.UUID;
+
 /**
  * Represents a temperature sensor in the smart home simulation.
  * This sensor is responsible for measuring and reporting changes in temperature.
@@ -19,8 +21,8 @@ public class TemperatureSensor extends Sensor {
     /**
      * Constructs a TemperatureSensor with default settings.
      */
-    public TemperatureSensor(Temperature temperature) {
-        super(100);
+    public TemperatureSensor(UUID serialNumber, Temperature temperature) {
+        super(serialNumber, 100 );
         this.currentTemperature = temperature.getTemperature();
         this.temperature = temperature;
     }

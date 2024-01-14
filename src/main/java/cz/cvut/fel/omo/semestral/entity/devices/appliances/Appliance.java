@@ -116,4 +116,15 @@ public abstract class Appliance implements IDevice, IDeviceCommand, Tickable {
         }
     }
 
+    @Override
+    public UUID getSerialNumber() {
+        return serialNumber;
+    }
+
+    @Override
+    public void repair(){
+        this.setState(DeviceState.ON);
+        this.totalWear = 0;
+    }
+
 }

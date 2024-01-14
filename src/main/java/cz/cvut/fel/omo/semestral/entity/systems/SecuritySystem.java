@@ -48,27 +48,6 @@ public class SecuritySystem extends DeviceSystem {
         return userInputSensor;
     }
 
-    @Override
-    public void turnOn() {
-        userInputSensor.turnOn();
-        controller.turnOn();
-        alarm.setIdle();
-    }
-
-    @Override
-    public void turnOff() {
-        userInputSensor.turnOff();
-        controller.turnOff();
-        alarm.turnOff();
-    }
-
-    @Override
-    public void onTick() {
-        securitySensor.onTick();
-        userInputSensor.onTick();
-        controller.onTick();
-        alarm.onTick();
-    }
 
     @Override
     public double getTotalConsumption() {
@@ -78,5 +57,13 @@ public class SecuritySystem extends DeviceSystem {
     @Override
     public List<IDevice> getDevices() {
         return List.of(alarm, controller, userInputSensor);
+    }
+
+    @Override
+    public void onTick() {
+        userInputSensor.onTick();
+        securitySensor.onTick();
+        controller.onTick();
+        alarm.onTick();
     }
 }

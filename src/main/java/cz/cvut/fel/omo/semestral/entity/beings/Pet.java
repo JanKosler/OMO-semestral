@@ -54,12 +54,6 @@ public class Pet extends Being implements Tickable {
                         goTo((Room) nextAction.getValue());
                     }
                     break;
-                case B_SLEEP:
-                    // Logic for sleeping
-                    break;
-                case B_EAT:
-                    // Logic for eating
-                    break;
                 default:
                     break;
             }

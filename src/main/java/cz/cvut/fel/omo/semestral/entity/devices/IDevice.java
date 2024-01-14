@@ -3,11 +3,13 @@ package cz.cvut.fel.omo.semestral.entity.devices;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
 
+import java.util.UUID;
+
 /**
  * Interface representing a general device in the smart home simulation.
  * This interface defines the common functionalities that all devices must implement.
  */
-public interface IDevice {
+public interface IDevice{
 
     /**
      * Retrieves the current state of the device.
@@ -58,5 +60,9 @@ public interface IDevice {
 
     void addMalfunctionObserver(DeviceMalfunctionObserver observer);
     void notifyMalfunctionObservers();
+
+    UUID getSerialNumber();
+
+    void repair();
 
 }

@@ -8,6 +8,8 @@ import cz.cvut.fel.omo.semestral.entity.devices.appliances.TV;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 
+import java.util.UUID;
+
 /**
  * Controller responsible for managing a TV appliance in the smart home system.
  * It handles user inputs to control various TV functionalities such as power state,
@@ -27,8 +29,8 @@ public class TVController extends Controller {
      * @param tv              The TV appliance to be controlled.
      * @param userInputSensor The sensor that captures user inputs for the TV.
      */
-    public TVController(TV tv, UserInputSensor userInputSensor) {
-        super(100);
+    public TVController(UUID serialNumber, TV tv, UserInputSensor userInputSensor) {
+        super(serialNumber, 100);
         this.tv = tv;
         this.userInputSensor = userInputSensor;
         this.userInputSensor.addObserver(this);

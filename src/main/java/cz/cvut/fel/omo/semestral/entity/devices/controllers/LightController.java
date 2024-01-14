@@ -38,8 +38,8 @@ public class LightController extends Controller {
      * @param motionSensor    The MotionSensor that can trigger the lights.
      * @param userInputSensor The UserInputSensor for receiving user commands related to the lights.
      */
-    public LightController(List<Light> lights, MotionSensor motionSensor, UserInputSensor userInputSensor) {
-        super(100);
+    public LightController(UUID serialNumber,List<Light> lights, MotionSensor motionSensor, UserInputSensor userInputSensor) {
+        super(serialNumber,100);
         this.lights = lights;
         this.motionSensor = motionSensor;
         this.userInputSensor = userInputSensor;

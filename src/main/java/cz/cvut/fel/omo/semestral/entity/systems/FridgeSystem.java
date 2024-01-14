@@ -37,27 +37,6 @@ public class FridgeSystem extends DeviceSystem {
     }
 
     @Override
-    public void turnOn() {
-        userInputSensor.turnOn();
-        controller.turnOn();
-        fridge.turnOn();
-    }
-
-    @Override
-    public void turnOff() {
-        userInputSensor.turnOff();
-        controller.turnOff();
-        fridge.turnOff();
-    }
-
-    @Override
-    public void onTick() {
-        userInputSensor.onTick();
-        controller.onTick();
-        fridge.onTick();
-    }
-
-    @Override
     public double getTotalConsumption() {
         return fridge.getTotalPowerConsumption() + controller.getTotalPowerConsumption() + userInputSensor.getTotalPowerConsumption();
     }
@@ -67,4 +46,10 @@ public class FridgeSystem extends DeviceSystem {
         return List.of(fridge, controller, userInputSensor);
     }
 
+    @Override
+    public void onTick() {
+        userInputSensor.onTick();
+        controller.onTick();
+        fridge.onTick();
+    }
 }

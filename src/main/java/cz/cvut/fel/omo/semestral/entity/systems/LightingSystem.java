@@ -34,36 +34,15 @@ public class LightingSystem extends DeviceSystem {
             return lights.get(0);
         }
 
-    @Override
-    public UserInputSensor getUserInputSensor() {
+        @Override
+        public UserInputSensor getUserInputSensor() {
         return userInputSensor;
     }
 
-        @Override
-        public void turnOn() {
-            userInputSensor.turnOn();
-            controller.turnOn();
-            lights.forEach(Light::setIdle);
-        }
 
         @Override
         public MotionSensor getMotionSensor() {
             return motionSensor;
-        }
-
-        @Override
-        public void turnOff() {
-            userInputSensor.turnOff();
-            controller.turnOff();
-            lights.forEach(Light::turnOff);
-        }
-
-        @Override
-        public void onTick() {
-            motionSensor.onTick();
-            userInputSensor.onTick();
-            controller.onTick();
-            lights.forEach(Light::onTick);
         }
 
         @Override
@@ -78,5 +57,13 @@ public class LightingSystem extends DeviceSystem {
             devices.add(userInputSensor);
             devices.add(motionSensor);
             return devices;
+        }
+
+        @Override
+        public void onTick() {
+            motionSensor.onTick();
+            userInputSensor.onTick();
+            controller.onTick();
+            lights.forEach(Light::onTick);
         }
 }

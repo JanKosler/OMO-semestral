@@ -4,6 +4,8 @@ import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import lombok.Getter;
 
+import java.util.UUID;
+
 
 /**
  * Represents a motion sensor in the smart home system, capable of detecting movement within its vicinity.
@@ -19,8 +21,8 @@ public class MotionSensor extends Sensor {
     /**
      * Constructs a MotionSensor with default settings.
      */
-    public MotionSensor(Room room) {
-        super(100);
+    public MotionSensor(UUID serialNumber, Room room) {
+        super(serialNumber, 100);
         this.room = room;
     }
 

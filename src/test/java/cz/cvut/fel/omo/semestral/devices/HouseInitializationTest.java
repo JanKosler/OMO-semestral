@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class HouseInitializationTest {
-    Sensor securitySensor = new SecuritySensor();
+    Sensor securitySensor = new SecuritySensor(UUID.randomUUID());
     Appliance alarm = new Alarm(UUID.randomUUID());
-    UserInputSensor userInputSensor = new UserInputSensor();
-    Controller controller = new SecurityController((SecuritySensor) securitySensor, userInputSensor, (Alarm) alarm);
+    UserInputSensor userInputSensor = new UserInputSensor(UUID.randomUUID());
+    Controller controller = new SecurityController(UUID.randomUUID(),(SecuritySensor) securitySensor, userInputSensor, (Alarm) alarm);
     DeviceSystem securitySystem = new SecuritySystem( 1,(Alarm) alarm,
                                         (SecuritySensor) securitySensor,
                                         (SecurityController) controller,

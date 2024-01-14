@@ -37,17 +37,12 @@ public class GateControlSystem extends DeviceSystem {
     }
 
     @Override
-    public void turnOn() {
-        userInputSensor.turnOn();
-        controller.turnOn();
-        gate.setIdle();
+    public double getTotalConsumption() {
+        return gate.getTotalPowerConsumption() + controller.getTotalPowerConsumption() + userInputSensor.getTotalPowerConsumption();
     }
-
     @Override
-    public void turnOff() {
-        userInputSensor.turnOff();
-        controller.turnOff();
-        gate.turnOff();
+    public List<IDevice> getDevices() {
+        return List.of(gate, controller, userInputSensor);
     }
 
     @Override
@@ -55,15 +50,5 @@ public class GateControlSystem extends DeviceSystem {
         userInputSensor.onTick();
         controller.onTick();
         gate.onTick();
-    }
-
-    @Override
-    public double getTotalConsumption() {
-        return gate.getTotalPowerConsumption() + controller.getTotalPowerConsumption() + userInputSensor.getTotalPowerConsumption();
-    }
-
-    @Override
-    public List<IDevice> getDevices() {
-        return List.of(gate, controller, userInputSensor);
     }
 }

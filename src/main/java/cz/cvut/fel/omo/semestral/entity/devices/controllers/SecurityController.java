@@ -9,6 +9,8 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.SecuritySensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 
+import java.util.UUID;
+
 /**
  * Controller for managing home security by interfacing with security sensors and alarms.
  * It reacts to alerts from SecuritySensor indicating potential security breaches
@@ -31,8 +33,8 @@ public class SecurityController extends Controller {
      * @param userInputSensor  The UserInputSensor for receiving disarm commands for the alarm.
      * @param alarm            The Alarm system to be controlled.
      */
-    public SecurityController(SecuritySensor securitySensor, UserInputSensor userInputSensor, Alarm alarm) {
-        super(100);
+    public SecurityController(UUID serialNumber, SecuritySensor securitySensor, UserInputSensor userInputSensor, Alarm alarm) {
+        super(serialNumber, 100);
         this.securitySensor = securitySensor;
         this.userInputSensor = userInputSensor;
         this.alarm = alarm;

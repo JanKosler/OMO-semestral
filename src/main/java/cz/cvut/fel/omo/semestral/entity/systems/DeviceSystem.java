@@ -3,11 +3,13 @@ package cz.cvut.fel.omo.semestral.entity.systems;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Appliance;
+import cz.cvut.fel.omo.semestral.entity.devices.appliances.TV;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.MotionSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import cz.cvut.fel.omo.semestral.reporting.Report;
 import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
+import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import lombok.Getter;
 
 import java.util.List;
@@ -30,7 +32,9 @@ public abstract class DeviceSystem implements Tickable {
      * This method should be overridden to provide specific turn-on behavior.
      */
     public void turnOn() {
-        return;
+        for(IDevice device : getDevices()) {
+            device.turnOn();
+        }
     }
 
     /**
@@ -38,7 +42,9 @@ public abstract class DeviceSystem implements Tickable {
      * This method should be overridden to provide specific turn-off behavior.
      */
     public void turnOff() {
-        return;
+        for(IDevice device : getDevices()) {
+            device.turnOff();
+        }
     }
 
     /**
@@ -69,9 +75,7 @@ public abstract class DeviceSystem implements Tickable {
     }
 
     @Override
-    public void onTick() {
-        return;
-    }
+    public void onTick() {}
 
     public double getTotalConsumption() {
         return 0;
@@ -79,5 +83,13 @@ public abstract class DeviceSystem implements Tickable {
 
     public List<IDevice> getDevices() {
         return null;
+    }
+
+    public void repair() {
+        for(IDevice device : getDevices()) {
+            if(device.getState() == DeviceState.MALFUNCTION) {
+                device.repair();
+            }
+        }
     }
 }

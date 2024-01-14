@@ -8,6 +8,8 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 
+import java.util.UUID;
+
 /**
  * Represents a controller for managing a gate within the smart home system.
  * This controller handles user commands related to the gate, such as opening or closing.
@@ -28,8 +30,8 @@ public class GateController extends Controller {
      * @param gate            The gate appliance that this controller manages.
      * @param userInputSensor The sensor that detects user inputs for the gate.
      */
-    public GateController(Gate gate, UserInputSensor userInputSensor) {
-        super(100);
+    public GateController(UUID serialNumber, Gate gate, UserInputSensor userInputSensor) {
+        super(serialNumber,100);
         this.gate = gate;
         this.userInputSensor = userInputSensor;
         this.userInputSensor.addObserver(this);

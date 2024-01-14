@@ -22,6 +22,7 @@ public class SimulationManager {
      * Starts the simulation.
      */
     public void startSimulation() {
+
         houseFacade.startSimulation();
     }
 }
