@@ -12,6 +12,7 @@ import cz.cvut.fel.omo.semestral.entity.systems.*;
 import cz.cvut.fel.omo.semestral.reporting.HouseConfigurationReport;
 import cz.cvut.fel.omo.semestral.tick.TickPublisher;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -24,6 +25,7 @@ import java.util.Queue;
  * @see HouseConfigurationReport
  */
 @NoArgsConstructor
+@Slf4j
 public class HouseFacade {
     /** The house. */
     private House house;
@@ -46,6 +48,7 @@ public class HouseFacade {
      * Run of the simulation
      */
     private void simulate() {
+        log.info("Simulation started");
         tickPublisher = new TickPublisher();
 
         // Subscribe all devices, humans and pets to the tick publisher
