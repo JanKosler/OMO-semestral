@@ -1,5 +1,7 @@
 package cz.cvut.fel.omo.semestral;
 
+import cz.cvut.fel.omo.semestral.simulation.SimulationConfig;
+import cz.cvut.fel.omo.semestral.simulation.SimulationManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,7 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SemestralApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SemestralApplication.class, args);
+		//SpringApplication.run(SemestralApplication.class, args);
+		SimulationManager simulationManager = new SimulationManager();
+		simulationManager.runSimulation("testConfig1.json");
 	}
 
 }
