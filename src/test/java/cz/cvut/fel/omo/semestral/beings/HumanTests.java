@@ -20,6 +20,9 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests for the human
+ */
 public class HumanTests {
 
     Room room;

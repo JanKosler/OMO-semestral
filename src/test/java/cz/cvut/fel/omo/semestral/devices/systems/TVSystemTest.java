@@ -12,6 +12,9 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests for the one of the systems
+ */
 public class TVSystemTest {
 
     private TVSystem tvSystem;

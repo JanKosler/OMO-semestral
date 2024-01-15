@@ -14,6 +14,9 @@ import cz.cvut.fel.omo.semestral.entity.systems.HVACSystem;
 
 import java.util.UUID;
 
+/**
+ * Tests for the one of the systems
+ */
 public class HVACSystemTest {
 
     private HVACSystem hvacSystem;

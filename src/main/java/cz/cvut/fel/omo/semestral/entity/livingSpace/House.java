@@ -134,6 +134,18 @@ public class House implements ILivingSpace {
                 .toList();
     }
 
+    /**
+     * Gets garage in the house.
+     * @return Garage
+     */
+    public Garage getGarage() {
+        return floors.stream().flatMap(floor -> floor.getRooms().stream())
+                .filter(room -> room instanceof Garage)
+                .map(room -> (Garage) room)
+                .findFirst()
+                .orElse(null);
+    }
+
     @Override
     public String toString() {
         return String.format("\"House\": { \"houseID\": %d,\n floorsCount: %d", houseID, floors.size());
