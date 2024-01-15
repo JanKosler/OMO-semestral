@@ -1,10 +1,12 @@
 package cz.cvut.fel.omo.semestral.entity.beings;
 
 import cz.cvut.fel.omo.semestral.entity.actions.Action;
+import cz.cvut.fel.omo.semestral.entity.actions.ActionRecord;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.Queue;
  */
 @Getter
 @Setter
+@Slf4j
 public abstract class Being implements Tickable {
     /** Unique ID of the being. */
     protected int beingID;
@@ -26,7 +29,8 @@ public abstract class Being implements Tickable {
     /** Queue of actions that the being will perform. */
     protected Queue<Action> actionPlan;
     /** List of actions that have been performed by the being. */
-    protected List<Action> performedActions = new LinkedList<>();
+    protected List<ActionRecord> performedActions = new LinkedList<>();
+    protected int TickCounter = 0;
 
     /**
      * Constructs a new Being with the specified action plan, name, and initial room.
@@ -77,6 +81,7 @@ public abstract class Being implements Tickable {
      * @param room The room to move the being to.
      */
     public void goTo(Room room){
+        log.info(this.name + " is moving to room " + room.getRoomName() + " from room " + this.room.getRoomName());
         if (this.room == room) {
             return;
         }
@@ -111,7 +116,7 @@ public abstract class Being implements Tickable {
      * @param action The action that has been performed and needs to be recorded.
      */
     public void addPerformedAction(Action action) {
-        performedActions.add(action);
+        performedActions.add(new ActionRecord(action, TickCounter));
     }
 
 }

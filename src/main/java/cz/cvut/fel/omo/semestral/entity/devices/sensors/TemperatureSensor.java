@@ -14,7 +14,7 @@ import java.util.UUID;
 public class TemperatureSensor extends Sensor {
     /** The current temperature measured by the sensor */
     private double currentTemperature;
-    private final double powerConsumptionPerTick = 0.75; //Consumption in mWh every 10 mins.
+    private final double powerConsumptionPerTick = 0.75 / 600.00; //Consumption in mWh every 10 mins.
     /** The maximum wear that this sensor can sustain before breaking */
     private final int wearCapacity = 100;
     /** The temperature object that this sensor is associated with */

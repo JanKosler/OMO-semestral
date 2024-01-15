@@ -1,9 +1,12 @@
 package cz.cvut.fel.omo.semestral.reporting;
 
 import cz.cvut.fel.omo.semestral.entity.actions.Action;
+import cz.cvut.fel.omo.semestral.entity.actions.ActionRecord;
 import cz.cvut.fel.omo.semestral.entity.beings.Human;
 import cz.cvut.fel.omo.semestral.entity.beings.Pet;
+import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.House;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 import cz.cvut.fel.omo.semestral.simulation.HouseFacade;
 
@@ -29,10 +32,10 @@ public class ActivityAndUsageReport implements ReportVisitor{
         StringBuilder humanStringBuilder = new StringBuilder();
 
         humanStringBuilder.append("\nHuman with Name: ").append(human.getName()).append("\n");
-        List<Action> activities = new ArrayList<>();
-        List<Action> usages = new ArrayList<>();
-        for(Action action : human.getPerformedActions()){
-            switch (action.getType()) {
+        List<ActionRecord> activities = new ArrayList<>();
+        List<ActionRecord> usages = new ArrayList<>();
+        for(ActionRecord action : human.getPerformedActions()){
+            switch (action.getAction().getType()) {
                 case B_CHANGEROOM, B_REPAIR, B_STARTSPORT,B_STOPSPORT:
                     activities.add(action);
                     break;
@@ -43,13 +46,20 @@ public class ActivityAndUsageReport implements ReportVisitor{
         }
         humanStringBuilder.append("Number of activities: ").append(activities.size()).append("\n");
         humanStringBuilder.append("Number of usages: ").append(usages.size()).append("\n");
-        humanStringBuilder.append("Activities: \n");
-        for(Action action : activities){
-            humanStringBuilder.append(action.getType().getClass().getSimpleName()).append(" with Value: ").append(action.getValue()).append("\n");
+        humanStringBuilder.append("\nActivities: \n");
+        for(ActionRecord action : activities){
+            if(action.getAction().getValue() instanceof Room room){
+                humanStringBuilder.append("[TICK: ").append(action.getTick()).append("] Action: ").append(action.getAction().getType()).append(" With value: ").append(room.getRoomName()).append("\n");
+            } else if (action.getAction().getValue() instanceof IDevice device) {
+                humanStringBuilder.append("[TICK: ").append(action.getTick()).append("] Action: ").append(action.getAction().getType()).append(" With value: ").append(device.getClass().getSimpleName()).append("\n");
+            } else {
+                humanStringBuilder.append("[TICK: ").append(action.getTick()).append("] Action: ").append(action.getAction().getType()).append(" With value: ").append(action.getAction().getValue()).append("\n");
+            }
+
         }
-        humanStringBuilder.append("Usages: \n");
-        for(Action action : usages){
-            humanStringBuilder.append(action.getType().getClass().getSimpleName()).append(" with Value: ").append(action.getValue()).append("\n");
+        humanStringBuilder.append("\nUsages: \n");
+        for(ActionRecord action : usages){
+            humanStringBuilder.append("[TICK: ").append(action.getTick()).append("] Action: ").append(action.getAction().getType()).append(" With value: ").append(action.getAction().getValue()).append("\n");
         }
 
         report.setContent(humanStringBuilder.toString());
@@ -65,9 +75,9 @@ public class ActivityAndUsageReport implements ReportVisitor{
         StringBuilder humanStringBuilder = new StringBuilder();
 
         humanStringBuilder.append("\nPet with Name: ").append(pet.getName()).append("\n");
-        List<Action> activities = new ArrayList<>();
-        for(Action action : pet.getPerformedActions()){
-            switch (action.getType()) {
+        List<ActionRecord> activities = new ArrayList<>();
+        for(ActionRecord action : pet.getPerformedActions()){
+            switch (action.getAction().getType()) {
                 case B_CHANGEROOM:
                     activities.add(action);
                     break;
@@ -76,9 +86,9 @@ public class ActivityAndUsageReport implements ReportVisitor{
             }
         }
         humanStringBuilder.append("Number of activities: ").append(activities.size()).append("\n");
-        humanStringBuilder.append("Activities: \n");
-        for(Action action : activities){
-            humanStringBuilder.append(action.getType().getClass().getSimpleName()).append("\n");
+        humanStringBuilder.append("\nActivities: \n");
+        for(ActionRecord action : activities){
+            humanStringBuilder.append("[TICK: ").append(action.getTick()).append("] Action: ").append(action.getAction().getType()).append(" With value: ").append(action.getAction().getValue()).append("\n");
         }
 
         report.setContent(humanStringBuilder.toString());

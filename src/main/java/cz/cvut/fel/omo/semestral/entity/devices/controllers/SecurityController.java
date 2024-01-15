@@ -28,7 +28,7 @@ public class SecurityController extends Controller {
     /** The alarm system that this controller manages */
     private final Alarm alarm;
 
-    private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
+    private final double powerConsumptionPerTick = 1.75 / 600.00; //Consumption in mWh every 10 mins.
 
     /**
      * Constructs a SecurityController with a security sensor, user input sensor, and an alarm.

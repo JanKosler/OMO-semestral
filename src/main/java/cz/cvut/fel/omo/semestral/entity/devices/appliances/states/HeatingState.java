@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public class HeatingState implements HVACState {
     /** The power consumption of the HVAC system per tick */
-    private final double powerConsumptionPerTick = 50;
+    private final double powerConsumptionPerTick = (double) 50 / 600;
     /** The wear of the HVAC system per tick */
     private final int wearPerTick = 10;
     /** The temperature change of the environment per tick */

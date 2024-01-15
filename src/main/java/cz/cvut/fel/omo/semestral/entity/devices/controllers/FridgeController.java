@@ -26,7 +26,7 @@ public class FridgeController extends Controller {
     private final UserInputSensor userInputSensor;
 
 
-    private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
+    private final double powerConsumptionPerTick = 1.75 / 600; //Consumption in mWh every 10 mins.
 
     /**
      * Constructs a FridgeController with a specific fridge and user input sensor.

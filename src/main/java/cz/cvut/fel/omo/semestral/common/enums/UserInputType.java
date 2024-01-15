@@ -40,6 +40,8 @@ public enum UserInputType {
     B_STARTSPORT,
 
     /** Represents an action for a being to stop using sport equipment */
-    B_STOPSPORT
+    B_STOPSPORT,
+
+    B_NOTHING,
 
 }

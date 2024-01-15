@@ -24,7 +24,7 @@ public class TVController extends Controller {
     private final TV tv;
     /** The sensor that detects user inputs for the TV */
     private final UserInputSensor userInputSensor;
-    private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
+    private final double powerConsumptionPerTick = 1.75 / 600.00; //Consumption in mWh every 10 mins.
 
     /**
      * Constructs a TVController with a specific TV appliance and user input sensor.

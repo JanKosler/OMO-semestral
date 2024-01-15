@@ -21,9 +21,9 @@ public class Gate extends Appliance {
     /** The maximum wear capacity of the gate */
     private final int wearCapacity = 100;
     /** The power consumption of the gate per tick when idle */
-    private final double powerConsumptionPerTick_IDLE = 5;
+    private final double powerConsumptionPerTick_IDLE = (double) 5 / 600;
     /** The power consumption of the gate per tick when active */
-    private final double powerConsumptionPerTick_ACTIVE = 15;
+    private final double powerConsumptionPerTick_ACTIVE = (double) 15 / 600;
 
     public Gate(UUID serialNumber) {
         super(serialNumber, 100);

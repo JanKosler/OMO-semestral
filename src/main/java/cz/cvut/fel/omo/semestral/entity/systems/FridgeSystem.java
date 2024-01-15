@@ -7,10 +7,12 @@ import cz.cvut.fel.omo.semestral.entity.devices.controllers.FridgeController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
 @Getter
+@Slf4j
 public class FridgeSystem extends DeviceSystem {
     public final Fridge fridge;
     public final FridgeController controller;

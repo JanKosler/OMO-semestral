@@ -18,9 +18,9 @@ import java.util.UUID;
 @Slf4j
 public class Light extends Appliance {
     /** The power consumption of the light per tick when turned off */
-    private final double powerConsumptionPerTick_IDLE = 0.5;
+    private final double powerConsumptionPerTick_IDLE = 0.5 / 600;
     /** The power consumption of the light per tick when turned on */
-    private final double powerConsumptionPerTick_ON = 10;
+    private final double powerConsumptionPerTick_ON = (double) 10 / 600;
 
     public Light(UUID serialNumber) {
         super(serialNumber, 500);
@@ -31,11 +31,9 @@ public class Light extends Appliance {
         switch (command) {
             case TURN_ON:
                 turnOn();
-                log.info("Light: Turned on.");
                 break;
             case TURN_OFF:
                 setIdle();
-                log.info("Light: Turned off.");
                 break;
             default:
                 System.out.println("Command not recognized for Light.");

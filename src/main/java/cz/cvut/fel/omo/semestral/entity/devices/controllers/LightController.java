@@ -9,6 +9,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.MotionSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +22,7 @@ import java.util.UUID;
  * enabling users to turn them on or off as desired.
  */
 @Getter
+@Slf4j
 public class LightController extends Controller {
     /** The list of Light appliances that this controller manages */
     private final List<Light> lights;
@@ -30,7 +32,7 @@ public class LightController extends Controller {
     private final UserInputSensor userInputSensor;
 
 
-    private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
+    private final double powerConsumptionPerTick = 1.75 / 600; //Consumption in mWh every 10 mins.
     private final int wearCapacity = 100;
 
     /**
@@ -85,19 +87,30 @@ public class LightController extends Controller {
     @Override
     protected void respondToSensor(Sensor sensor) {
         if (sensor == motionSensor) {
-            // Handle motion sensor input, e.g., turn on the lights
-            lights.forEach(light -> light.addtoActionPlan(DeviceCommand.TURN_ON));
+            if(motionSensor.isMotionDetected()) {
+                turnOnAllLights();
+            } else {
+                turnOffAllLights();
+            }
         } else if (sensor == userInputSensor && userInputSensor.getInputType() == UserInputType.LIGHT_SWITCH) {
             // Handle user input for lights
             boolean isOn = (boolean) userInputSensor.getInputValue();
-            lights.forEach(light -> {
-                if (isOn) {
-                    light.addtoActionPlan(DeviceCommand.TURN_ON);
-                } else {
-                    light.addtoActionPlan(DeviceCommand.TURN_OFF);
-                }
-            });
+            if(isOn) {
+                turnOnAllLights();
+            } else {
+                turnOffAllLights();
+            }
         }
+    }
+
+    private void turnOnAllLights() {
+        lights.forEach(light -> light.addtoActionPlan(DeviceCommand.TURN_ON));
+        log.info("Controller: Lights turned on.");
+    }
+
+    private void turnOffAllLights() {
+        lights.forEach(light -> light.addtoActionPlan(DeviceCommand.TURN_OFF));
+        log.info("Controller: Lights turned off.");
     }
 }
 

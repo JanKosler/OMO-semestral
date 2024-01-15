@@ -20,7 +20,7 @@ public class UserInputSensor extends Sensor {
     private Object inputValue; // Could be boolean, integer, double, etc., based on input type
     /** The action plan for this sensor, which is a queue of actions to be performed */
     protected Queue<Action> actionPlan;
-    private final double powerConsumptionPerTick = 0.35; //Consumption in mWh every 10 mins.
+    private final double powerConsumptionPerTick = 0.35 / 600.00; //Consumption in mWh every 10 mins.
 
     /**
      * Constructs a UserInputSensor with default settings.

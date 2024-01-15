@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestral.tick;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
  * This class acts as a central publisher for tick events, allowing various components of the simulation
  * to stay synchronized with the simulation clock.
  */
+@Slf4j
 public class TickPublisher {
     private final List<Tickable> tickables = new ArrayList<>();
 

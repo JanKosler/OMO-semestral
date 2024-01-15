@@ -1,0 +1,80 @@
+House consumption report
+--------------------------
+
+Device System (FridgeSystem) with ID: 1 consumed: 5.35 kWh
+
+Devices: 
+Fridge consumed: 5.00 kWh.
+FridgeController consumed: 0.29 kWh.
+UserInputSensor consumed: 0.06 kWh.
+
+Device System (LightingSystem) with ID: 2 consumed: 5.35 kWh
+
+Devices: 
+Light consumed: 1.67 kWh.
+Light consumed: 1.67 kWh.
+Light consumed: 1.67 kWh.
+LightController consumed: 0.29 kWh.
+UserInputSensor consumed: 0.06 kWh.
+MotionSensor consumed: 0.29 kWh.
+
+Device System (TVSystem) with ID: 3 consumed: 6.18 kWh
+
+Devices: 
+TV consumed: 5.83 kWh.
+TVController consumed: 0.29 kWh.
+UserInputSensor consumed: 0.06 kWh.
+
+Device System (HVACSystem) with ID: 4 consumed: 1.10 kWh
+
+Devices: 
+HVAC consumed: 0.50 kWh.
+TemperatureController consumed: 0.29 kWh.
+UserInputSensor consumed: 0.06 kWh.
+TemperatureSensor consumed: 0.13 kWh.
+TemperatureSensor consumed: 0.13 kWh.
+
+Device System (SecuritySystem) with ID: 5 consumed: 1.18 kWh
+
+Devices: 
+Alarm consumed: 0.83 kWh.
+SecurityController consumed: 0.29 kWh.
+UserInputSensor consumed: 0.06 kWh.
+
+Device System (LightingSystem) with ID: 6 consumed: 5.35 kWh
+
+Devices: 
+Light consumed: 1.67 kWh.
+Light consumed: 1.67 kWh.
+Light consumed: 1.67 kWh.
+LightController consumed: 0.29 kWh.
+UserInputSensor consumed: 0.06 kWh.
+MotionSensor consumed: 0.29 kWh.
+
+Device System (LightingSystem) with ID: 7 consumed: 0.84 kWh
+
+Devices: 
+Light consumed: 0.16 kWh.
+Light consumed: 0.16 kWh.
+Light consumed: 0.16 kWh.
+LightController consumed: 0.29 kWh.
+UserInputSensor consumed: 0.06 kWh.
+MotionSensor consumed: 0.29 kWh.
+
+Device System (LightingSystem) with ID: 8 consumed: 0.84 kWh
+
+Devices: 
+Light consumed: 0.16 kWh.
+Light consumed: 0.16 kWh.
+Light consumed: 0.16 kWh.
+LightController consumed: 0.29 kWh.
+UserInputSensor consumed: 0.06 kWh.
+MotionSensor consumed: 0.29 kWh.
+
+--------------------------
+Total consumption (kWh):
+26.19 kWh
+--------------------------
+Price for 1 kWh: 7.35 CZK
+Total: 192.51 CZK
+Total time: 16 hours and 40 minutes

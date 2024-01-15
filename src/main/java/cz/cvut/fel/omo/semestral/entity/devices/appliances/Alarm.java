@@ -15,9 +15,9 @@ public class Alarm extends Appliance {
     /** Indicates whether the alarm is armed or not */
     private boolean isArmed;
     /** The power consumption of the alarm system per tick when idle */
-    private final double powerConsumptionPerTick_IDLE = 5;
+    private final double powerConsumptionPerTick_IDLE = (double) 5 / 600;
     /** The power consumption of the alarm system per tick when active */
-    private final double powerConsumptionPerTick_ACTIVE = 15;
+    private final double powerConsumptionPerTick_ACTIVE = (double) 15 / 600;
 
     /**
      * Constructs a new Alarm with the specified serial number.

@@ -9,6 +9,7 @@ import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.UUID;
  */
 @Getter
 @Setter
+@Slf4j
 public abstract class Sensor implements IDevice, Tickable {
     /** The unique serial number of the sensor */
     private UUID serialNumber;
@@ -138,6 +140,7 @@ public abstract class Sensor implements IDevice, Tickable {
         if (this.getState() != DeviceState.MALFUNCTION) {
             if (this.totalWear >= wearCapacity) {
                 this.setState(DeviceState.MALFUNCTION);
+                log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has broken.");
                 notifyMalfunctionObservers();
             }
         }
@@ -154,5 +157,6 @@ public abstract class Sensor implements IDevice, Tickable {
     public void repair(){
         this.setState(DeviceState.ON);
         this.totalWear = 0;
+        log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has been repaired.");
     }
 }

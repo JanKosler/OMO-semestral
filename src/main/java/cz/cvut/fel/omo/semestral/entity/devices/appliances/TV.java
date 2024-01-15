@@ -23,9 +23,9 @@ public class TV extends Appliance {
     /** The current volume level of the TV */
     private int volumeLevel;
     /** The power consumption of the TV per tick when turned off */
-    private final double powerConsumptionPerTick_IDLE = 4;
+    private final double powerConsumptionPerTick_IDLE = (double) 4 / 600;
     /** The power consumption of the TV per tick when turned on */
-    private final double powerConsumptionPerTick_ON = 35;
+    private final double powerConsumptionPerTick_ON = (double) 35 / 600;
 
     public TV(UUID serialNumber) {
         super(serialNumber, 500);

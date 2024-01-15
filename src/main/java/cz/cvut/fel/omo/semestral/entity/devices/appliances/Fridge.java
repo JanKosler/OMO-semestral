@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.devices.appliances;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 /**
@@ -10,14 +11,15 @@ import java.util.UUID;
  * temperature can be adjusted.
  */
 @Getter
+@Slf4j
 public class Fridge extends Appliance {
     /** The internal temperature of the fridge in Celsius */
     private double internalTemperature;
     /** The power consumption of the fridge per tick */
-    private final double powerConsumptionPerTick = 30;
+    private final double powerConsumptionPerTick = (double) 30 / 600;
 
     public Fridge(UUID serialNumber) {
-        super(serialNumber, 100);
+        super(serialNumber, 500);
         this.internalTemperature = 4.0; // Default temperature in Celsius
     }
 

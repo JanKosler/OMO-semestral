@@ -41,7 +41,7 @@ public class TemperatureController extends Controller {
     /** The current outdoor temperature */
     private double outdoorTemp;
 
-    private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
+    private final double powerConsumptionPerTick = 1.75 / 600.00; //Consumption in mWh every 10 mins.
 
     /**
      * Constructs a TemperatureController with specific temperature sensors and HVAC system.

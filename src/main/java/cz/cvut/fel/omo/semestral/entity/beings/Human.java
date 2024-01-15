@@ -3,8 +3,11 @@ package cz.cvut.fel.omo.semestral.entity.beings;
 
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.actions.Action;
+import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.Garage;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.SportEquipment;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.SportEquipmentType;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 import cz.cvut.fel.omo.semestral.reporting.Report;
 import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
@@ -18,6 +21,8 @@ import java.util.Queue;
  * This class extends the {@link Being} class and adds human-specific functionalities.
  */
 public class Human extends Being implements Tickable {
+
+    SportEquipment currentSportEquipment = null;
 
     /**
      * Constructs a new Human with the specified name, action plan, and initial room.
@@ -94,6 +99,7 @@ public class Human extends Being implements Tickable {
 
     @Override
     public void onTick() {
+        setTickCounter(getTickCounter() + 1);
         performNextAction();
     }
 
@@ -114,22 +120,24 @@ public class Human extends Being implements Tickable {
                     }
                     break;
                 case B_REPAIR:
-                    if(nextAction.getValue() instanceof DeviceSystem deviceSystem) {
-                        deviceSystem.repair();
+                    if(nextAction.getValue() instanceof IDevice device) {
+                        device.repair();
                         addPerformedAction(nextAction);
                     }
                     break;
                 case B_STARTSPORT:
                     if(nextAction.getValue() instanceof SportEquipment) {
-                        doSport((SportEquipment) nextAction.getValue());
+                        doSport((SportEquipmentType) nextAction.getValue());
                         addPerformedAction(nextAction);
                     }
                     break;
                 case B_STOPSPORT:
                     if(nextAction.getValue() instanceof SportEquipment) {
-                        stopSport((SportEquipment) nextAction.getValue());
+                        stopSport((SportEquipmentType) nextAction.getValue());
                         addPerformedAction(nextAction);
                     }
+                    break;
+                case B_NOTHING:
                     break;
                 default:
                     DeviceSystem deviceSystem = findDeviceSystemInRoom(nextAction.getType());
@@ -150,9 +158,10 @@ public class Human extends Being implements Tickable {
      *
      * @param sportEquipment The sport equipment to be used in the activity.
      */
-    public void doSport(SportEquipment sportEquipment) {
-        System.out.println(this.name + " does sport with " + sportEquipment.getClass().getSimpleName());
-        sportEquipment.setUsed(true);
+    public void doSport(SportEquipmentType sportEquipment) {
+        if (room instanceof Garage garage){
+            garage.useSportEquipment(sportEquipment);
+        }
     }
 
     /**
@@ -162,9 +171,10 @@ public class Human extends Being implements Tickable {
      *
      * @param sportEquipment The sport equipment that was used in the activity.
      */
-    public void stopSport(SportEquipment sportEquipment) {
-        System.out.println(this.name + " stops sport with " + sportEquipment.getClass().getSimpleName());
-        sportEquipment.setUsed(false);
+    public void stopSport(SportEquipmentType sportEquipment) {
+        if (room instanceof Garage garage){
+            garage.returnSportEquipment(sportEquipment);
+        }
     }
 
     /**

@@ -23,7 +23,7 @@ public class GateController extends Controller {
     private final UserInputSensor userInputSensor;
 
 
-    private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
+    private final double powerConsumptionPerTick = 1.75 / 600; //Consumption in mWh every 10 mins.
 
     /**
      * Constructs a GateController with the specified gate and user input sensor.

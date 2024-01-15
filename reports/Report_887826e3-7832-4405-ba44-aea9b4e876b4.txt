@@ -1,0 +1,46 @@
+Activity And Usage Report
+--------------------------
+
+Humans:
+
+Human with Name: Jane Doe
+Number of activities: 5
+Number of usages: 4
+Activities: 
+[TICK: 1] Action: B_CHANGEROOM With value: cz.cvut.fel.omo.semestral.entity.livingSpace.Room@34f5090e
+[TICK: 2] Action: B_CHANGEROOM With value: cz.cvut.fel.omo.semestral.entity.livingSpace.Room@31e5415e
+[TICK: 4] Action: B_CHANGEROOM With value: cz.cvut.fel.omo.semestral.entity.livingSpace.Room@34f5090e
+[TICK: 5] Action: B_CHANGEROOM With value: cz.cvut.fel.omo.semestral.entity.livingSpace.Room@a2431d0
+[TICK: 51] Action: B_REPAIR With value: cz.cvut.fel.omo.semestral.entity.devices.appliances.TV@1cbb87f3
+Usages: 
+[TICK: 3] Action: FRIDGE_TEMPERATURE With value: 5
+[TICK: 7] Action: TV_VOLUME With value: 7
+[TICK: 8] Action: TV_CHANNEL With value: 3
+[TICK: 10] Action: HVAC_TEMPERATURE With value: 22
+
+Human with Name: James Doe
+Number of activities: 4
+Number of usages: 1
+Activities: 
+[TICK: 1] Action: B_CHANGEROOM With value: cz.cvut.fel.omo.semestral.entity.livingSpace.Room@1a4013
+[TICK: 2] Action: B_CHANGEROOM With value: cz.cvut.fel.omo.semestral.entity.livingSpace.Room@34f5090e
+[TICK: 3] Action: B_CHANGEROOM With value: cz.cvut.fel.omo.semestral.entity.livingSpace.Room@31e5415e
+[TICK: 5] Action: B_CHANGEROOM With value: cz.cvut.fel.omo.semestral.entity.livingSpace.Room@a2431d0
+Usages: 
+[TICK: 4] Action: FRIDGE_TEMPERATURE With value: 4
+
+Human with Name: John Doe
+Number of activities: 5
+Number of usages: 5
+Activities: 
+[TICK: 1] Action: B_CHANGEROOM With value: cz.cvut.fel.omo.semestral.entity.livingSpace.Room@a2431d0
+[TICK: 10] Action: B_CHANGEROOM With value: cz.cvut.fel.omo.semestral.entity.livingSpace.Room@1a4013
+[TICK: 13] Action: B_CHANGEROOM With value: cz.cvut.fel.omo.semestral.entity.livingSpace.Room@34f5090e
+[TICK: 14] Action: B_CHANGEROOM With value: cz.cvut.fel.omo.semestral.entity.livingSpace.Room@31e5415e
+[TICK: 19] Action: B_CHANGEROOM With value: cz.cvut.fel.omo.semestral.entity.livingSpace.Room@a2431d0
+Usages: 
+[TICK: 4] Action: TV_VOLUME With value: 5
+[TICK: 5] Action: TV_CHANNEL With value: 1
+[TICK: 9] Action: HVAC_TEMPERATURE With value: 20
+[TICK: 15] Action: FRIDGE_TEMPERATURE With value: 6
+[TICK: 20] Action: HVAC_TEMPERATURE With value: 23

@@ -8,6 +8,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.DeviceMalfunctionObserver;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.UUID;
  */
 @Getter
 @Setter
+@Slf4j
 public abstract class Appliance implements IDevice, IDeviceCommand, Tickable {
     /** The unique serial number of the appliance */
     private UUID serialNumber;
@@ -77,6 +79,10 @@ public abstract class Appliance implements IDevice, IDeviceCommand, Tickable {
     public void setIdle() {this.state = DeviceState.IDLE;}
 
     public void updatePowerConsumption(double powerConsumption){
+        if(this instanceof Fridge){
+            log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has consumed " + powerConsumption + " kWh.");
+            log.info("Total consumption: " + this.totalPowerConsumption + " kWh.");
+        }
         this.totalPowerConsumption += powerConsumption;
     };
     public void updateWear(int wear){
@@ -99,8 +105,9 @@ public abstract class Appliance implements IDevice, IDeviceCommand, Tickable {
         if (this.getState() != DeviceState.MALFUNCTION) {
             if (this.totalWear >= wearCapacity) {
                 this.setState(DeviceState.MALFUNCTION);
+                log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has broken.");
                 notifyMalfunctionObservers();
-                System.out.println("Device " + this.getClass().getSimpleName() + " with serial number " + this.getSerialNumber() + " is broken.");
+
             }
         }
     }
@@ -127,6 +134,7 @@ public abstract class Appliance implements IDevice, IDeviceCommand, Tickable {
     public void repair(){
         this.setState(DeviceState.ON);
         this.totalWear = 0;
+        log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has been repaired.");
     }
 
 }
