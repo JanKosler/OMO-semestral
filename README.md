@@ -10,15 +10,7 @@
         "internalTemperature": int,
         "externalTemperature": int
     },
-"Garage":
-    {
-        "roomID": int, // must be zero, zero is reserved for garage
-        "garageName": string, 
-        "garageHouseID": int,
-        "sportEquipmentCountBIKE": int, // more than 0
-        "sportEquipmentCountSKATES": int, // more than 0
-        "sportEquipmentCountSKIS": int // more than 0
-    },
+
 "Floors": // array of floors
 [
     {
@@ -26,8 +18,16 @@
         "floorName": string, // unique
         "floorLevel": int // unique
     },
-],
-
+], 
+"Garage":
+{   // garage always occupies lowest floor
+    "roomID": int, // must be zero, zero is reserved for garage
+    "garageName": string,
+    "garageHouseID": int,
+    "sportEquipmentCountBIKE": int, // more than 0
+    "sportEquipmentCountSKATES": int, // more than 0
+    "sportEquipmentCountSKIS": int // more than 0
+},
 "Rooms": // array of rooms
 [
     {

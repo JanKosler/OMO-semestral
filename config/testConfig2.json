@@ -6,15 +6,6 @@
     "internalTemperature": "20",
     "externalTemperature": "10"
   },
-  "Garage":
-  {
-      "roomID": "0",
-      "garageName": "Garage",
-      "garageHouseID": "1",
-      "sportEquipmentCountBIKE": "2",
-      "sportEquipmentCountSKATES": "1",
-      "sportEquipmentCountSKIS": "1"
-  },
   "Floors": [
     {
       "floorID": "1",
@@ -27,6 +18,15 @@
       "floorLevel": "1"
     }
   ],
+  "Garage":
+  {
+    "roomID": "0",
+    "garageName": "Garage",
+    "garageHouseID": "1",
+    "sportEquipmentCountBIKE": "2",
+    "sportEquipmentCountSKATES": "1",
+    "sportEquipmentCountSKIS": "1"
+  },
   "Rooms": [
     {
       "roomID": "1",

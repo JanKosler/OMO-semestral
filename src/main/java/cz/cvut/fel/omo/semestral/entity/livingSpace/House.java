@@ -26,9 +26,6 @@ public class House implements ILivingSpace {
 
     /** List of floors in the house. */
     private List<Floor> floors;
-    /** Garage of the house. */
-    @Setter
-    private Garage garage;
     /** Internal temperature of the house. */
     private final Temperature internalTemperature;
     /** External temperature of the house. */

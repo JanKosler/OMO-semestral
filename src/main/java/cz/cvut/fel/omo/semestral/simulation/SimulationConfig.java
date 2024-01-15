@@ -46,7 +46,6 @@ public class SimulationConfig {
     private final Map<Integer, List<Room>> _roomMap;
     private final List<Floor> _floorList;
     private House _house;
-    private Garage _garage;
     private final OfflineManualDatabase _offlineManualDatabase;
     private Temperature _internalTemperature, _externalTemperature;
 
@@ -132,14 +131,10 @@ public class SimulationConfig {
                 configuredRooms.computeIfAbsent(floor.getFloorID(), k -> new ArrayList<>())
                         .add(configuredRoom);
             }
-
             configuredFloors.add(new Floor(floor.getFloorID(), floor.getFloorName(), floor.getFloorLevel(), configuredRooms.get(floor.getFloorID())));
-
         }
         log.info("[CONFIG][HOUSE] Configured house successfully created.");
-        House configuredHouse = new House(_house.getHouseID(), _house.getHouseNumber(), _house.getAddress(), _house.getInternalTemperature(), _house.getExternalTemperature(), configuredFloors);
-        configuredHouse.setGarage(_garage);
-        return configuredHouse;
+        return new House(_house.getHouseID(), _house.getHouseNumber(), _house.getAddress(), _house.getInternalTemperature(), _house.getExternalTemperature(), configuredFloors);
     }
 
     public void loadConfigIntoConfigMaps() {
@@ -179,38 +174,6 @@ public class SimulationConfig {
 
                 log.info("[CONFIG][PARSING] House successfully initialized.");
 
-                /* CONFIGURATION OF GARAGE */
-                // Create garage object
-                JsonNode garage = jsonObject.get("Garage");
-                int garageID = garage.get("roomID").asInt();
-                if (garageID != 0)
-                    throw new ConfigurationException("Garage ID must be 0.");
-                String garageName = garage.get("garageName").asText();
-
-                // check if sport equipment count is positive
-                int sportEquipmentCountBIKE = garage.get("sportEquipmentCountBIKE").asInt();
-                if( sportEquipmentCountBIKE < 0)
-                    throw new ConfigurationException("Sport equipment count must be positive.");
-
-                // check if sport equipment count is positive
-                int sportEquipmentCountSKATES = garage.get("sportEquipmentCountSKATES").asInt();
-                if( sportEquipmentCountSKATES < 0)
-                    throw new ConfigurationException("Sport equipment count must be positive.");
-
-                // check if sport equipment count is positive
-                int sportEquipmentCountSKIS = garage.get("sportEquipmentCountSKIS").asInt();
-                if( sportEquipmentCountSKIS < 0)
-                    throw new ConfigurationException("Sport equipment count must be positive.");
-
-                List<SportEquipment> sportEquipmentList = this.createSportEquipmentList(sportEquipmentCountBIKE, sportEquipmentCountSKATES, sportEquipmentCountSKIS);
-                this._garage = Garage.garageBuilder()
-                        .setRoomID(garageID)
-                        .setRoomName(garageName)
-                        .addSportEquipment(sportEquipmentList)
-                        .build();
-
-                log.info("[CONFIG][PARSING] Garage successfully initialized.");
-
                 /* CONFIGURATION OF FLOORS */
                 Set<Integer> floorIDSet = new HashSet<>();
                 Set<String> floorNameSet = new HashSet<>();
@@ -243,6 +206,42 @@ public class SimulationConfig {
                 }
 
                 log.info("[CONFIG][PARSING] Floors successfully initialized.");
+
+                /* CONFIGURATION OF GARAGE */
+                // Create garage object
+                JsonNode garage = jsonObject.get("Garage");
+                int garageID = garage.get("roomID").asInt();
+                if (garageID != 0)
+                    throw new ConfigurationException("Garage ID must be 0.");
+                String garageName = garage.get("garageName").asText();
+
+                // check if sport equipment count is positive
+                int sportEquipmentCountBIKE = garage.get("sportEquipmentCountBIKE").asInt();
+                if( sportEquipmentCountBIKE < 0)
+                    throw new ConfigurationException("Sport equipment count must be positive.");
+
+                // check if sport equipment count is positive
+                int sportEquipmentCountSKATES = garage.get("sportEquipmentCountSKATES").asInt();
+                if( sportEquipmentCountSKATES < 0)
+                    throw new ConfigurationException("Sport equipment count must be positive.");
+
+                // check if sport equipment count is positive
+                int sportEquipmentCountSKIS = garage.get("sportEquipmentCountSKIS").asInt();
+                if( sportEquipmentCountSKIS < 0)
+                    throw new ConfigurationException("Sport equipment count must be positive.");
+
+                List<SportEquipment> sportEquipmentList = this.createSportEquipmentList(sportEquipmentCountBIKE, sportEquipmentCountSKATES, sportEquipmentCountSKIS);
+                Garage garageObj = Garage.garageBuilder()
+                        .setRoomID(garageID)
+                        .setRoomName(garageName)
+                        .addSportEquipment(sportEquipmentList)
+                        .build();
+                
+                int lowestFloorID = this._floorList.stream().mapToInt(Floor::getFloorID).min().orElseThrow(() -> new ConfigurationException("No floors found."));
+                this._roomMap.computeIfAbsent(lowestFloorID, k -> new ArrayList<>())
+                        .add(garageObj);
+
+                log.info("[CONFIG][PARSING] Garage successfully initialized.");
 
                 /* CONFIGURATION OF ROOMS */
                 Set<Integer> roomIDSet = new HashSet<>();
@@ -346,12 +345,12 @@ public class SimulationConfig {
                 log.info("[CONFIG][PARSING] Humans successfully initialized.");
 
                 /* CONFIGURATION OF DEVICE SYSTEMS */
-                Set<Integer> deviceSystemIDSet = new HashSet<>();
                 // Create device systems from config and add them to the device system config map
                 JsonNode deviceSystems = jsonObject.get("DeviceSystems");
                 for (JsonNode deviceSystem : deviceSystems) {
-                    int deviceSystemID = deviceSystem.get("systemID").asInt();
+
                     // check if deviceSystemID is unique
+                    int deviceSystemID = deviceSystem.get("systemID").asInt();
                     if(this.deviceSystemNameByIdMap.containsKey(deviceSystemID))
                         throw new ConfigurationException("[DEVICESYSTEM] Device system with this ID already exists : " + deviceSystemID);
 
