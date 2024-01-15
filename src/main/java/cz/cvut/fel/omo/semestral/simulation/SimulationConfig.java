@@ -236,7 +236,7 @@ public class SimulationConfig {
                         .setRoomName(garageName)
                         .addSportEquipment(sportEquipmentList)
                         .build();
-                
+
                 int lowestFloorID = this._floorList.stream().mapToInt(Floor::getFloorID).min().orElseThrow(() -> new ConfigurationException("No floors found."));
                 this._roomMap.computeIfAbsent(lowestFloorID, k -> new ArrayList<>())
                         .add(garageObj);
