@@ -153,6 +153,7 @@ public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
         this.setState(DeviceState.ON);
         this.totalWear = 0;
         log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has been repaired with manual.");
+        this.records.add(new ControllerRecord(this.getTickCounter(),this, "has been repaired with manual."));
     }
     @Override
     public void repair(){

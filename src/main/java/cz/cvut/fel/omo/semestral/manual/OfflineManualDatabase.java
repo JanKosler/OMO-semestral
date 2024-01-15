@@ -30,6 +30,7 @@ public class OfflineManualDatabase implements ManualDatabase {
         this.addManual(new Manual(UUID.randomUUID(), "TV", "This is manual for TV, manual version 2.3"));
         this.addManual(new Manual(UUID.randomUUID(), "MotionSensor", "This is manual for motion sensor, manual version 1.0"));
         this.addManual(new Manual(UUID.randomUUID(), "GateController", "This is manual for gate controller, manual version 0.9"));
+        this.addManual(new Manual(UUID.randomUUID(), "LightController", "This is manual for light controller, manual version 0.9"));
     }
 
     /**
