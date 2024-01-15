@@ -87,6 +87,16 @@ public class Room implements ILivingSpace {
     }
 
     /**
+     * Gets all beings in the room implementation.
+     *
+     * @return List of beings.
+     */
+    @Override
+    public List<Being> getAllBeings() {
+        return inhabitants;
+    }
+
+    /**
      * Returns new builder for the {@link Room} class.
      */
     public static RoomBuilder roomBuilder() {

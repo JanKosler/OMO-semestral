@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestral.entity.livingSpace;
 
 
+import cz.cvut.fel.omo.semestral.entity.beings.Being;
 import cz.cvut.fel.omo.semestral.entity.beings.Human;
 import cz.cvut.fel.omo.semestral.entity.beings.Pet;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
@@ -74,5 +75,14 @@ public class Floor implements ILivingSpace {
     @Override
     public List<Pet> getAllPets() {
         return rooms.stream().flatMap(room -> room.getAllPets().stream()).toList();
+    }
+
+    /**
+     * Returns all beings on the floor.
+     * @return List of beings.
+     */
+    @Override
+    public List<Being> getAllBeings() {
+        return rooms.stream().flatMap(room -> room.getAllBeings().stream()).toList();
     }
 }

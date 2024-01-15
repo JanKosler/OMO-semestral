@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestral.entity.livingSpace;
 
+import cz.cvut.fel.omo.semestral.entity.beings.Being;
 import cz.cvut.fel.omo.semestral.entity.beings.Human;
 import cz.cvut.fel.omo.semestral.entity.beings.Pet;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
@@ -25,7 +26,7 @@ public class House implements ILivingSpace {
     private final String address;
 
     /** List of floors in the house. */
-    private List<Floor> floors;
+    private final List<Floor> floors;
     /** Internal temperature of the house. */
     private final Temperature internalTemperature;
     /** External temperature of the house. */
@@ -131,6 +132,17 @@ public class House implements ILivingSpace {
     public List<Pet> getAllPets() {
         return floors.stream()
                 .flatMap(floor -> floor.getAllPets().stream())
+                .toList();
+    }
+
+    /**
+     * Gets all beings in the house.
+     * @return List of beings.
+     */
+    @Override
+    public List<Being> getAllBeings() {
+        return floors.stream()
+                .flatMap(floor -> floor.getAllBeings().stream())
                 .toList();
     }
 
