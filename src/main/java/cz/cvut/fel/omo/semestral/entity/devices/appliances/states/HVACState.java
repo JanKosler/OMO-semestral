@@ -1,8 +1,6 @@
 package cz.cvut.fel.omo.semestral.entity.devices.appliances.states;
 
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.HVAC;
-import lombok.Getter;
-
 
 /**
  * Interface representing the state of an HVAC (Heating, Ventilation, and Air Conditioning) system.
@@ -29,7 +27,6 @@ public interface HVACState {
 
     double getPowerConsumptionPerTick();
     int getWearPerTick();
-
     double getTempChangePerTick();
 
 }

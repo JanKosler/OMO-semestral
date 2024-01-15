@@ -26,13 +26,19 @@ import java.util.UUID;
  */
 @Slf4j
 public class TemperatureController extends Controller {
-
+    /** The sensor that monitors indoor temperature */
     private final TemperatureSensor internalSensor;
+    /** The sensor that monitors outdoor temperature */
     private final TemperatureSensor externalSensor;
+    /** The sensor that receives user inputs for the target temperature */
     private final UserInputSensor userInputSensor;
+    /** The HVAC system that this controller manages */
     private final HVAC hvac;
+    /** The target temperature for indoor climate control */
     private double targetTemperature;
+    /** The current indoor temperature */
     private double indoorTemp;
+    /** The current outdoor temperature */
     private double outdoorTemp;
 
     private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.

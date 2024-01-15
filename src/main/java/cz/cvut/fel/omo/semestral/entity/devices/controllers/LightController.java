@@ -22,9 +22,11 @@ import java.util.UUID;
  */
 @Getter
 public class LightController extends Controller {
-
+    /** The list of Light appliances that this controller manages */
     private final List<Light> lights;
+    /** The sensor that detects motion for the lights */
     private final MotionSensor motionSensor;
+    /** The sensor that detects user inputs for the lights */
     private final UserInputSensor userInputSensor;
 
 

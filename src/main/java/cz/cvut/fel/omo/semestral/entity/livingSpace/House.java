@@ -26,10 +26,12 @@ public class House implements ILivingSpace {
 
     /** List of floors in the house. */
     private List<Floor> floors;
+    /** Garage of the house. */
     @Setter
     private Garage garage;
-
+    /** Internal temperature of the house. */
     private final Temperature internalTemperature;
+    /** External temperature of the house. */
     private final Temperature externalTemperature;
 
 
@@ -121,6 +123,11 @@ public class House implements ILivingSpace {
         return String.format("\"House\": { \"houseID\": %d,\n floorsCount: %d", houseID, floors.size());
     }
 
+    /**
+     * Accepts a visitor and returns a report.
+     * @param visitor Visitor to accept.
+     * @return Report.
+     */
     public Report accept(ReportVisitor visitor) {
         return visitor.visitHouse(this);
     }

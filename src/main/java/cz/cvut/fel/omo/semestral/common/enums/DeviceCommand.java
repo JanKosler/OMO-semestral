@@ -1,5 +1,8 @@
 package cz.cvut.fel.omo.semestral.common.enums;
 
+/**
+ * Represents a command that can be sent to a device.
+ */
 public enum DeviceCommand {
     TURN_ON,
     TURN_OFF,

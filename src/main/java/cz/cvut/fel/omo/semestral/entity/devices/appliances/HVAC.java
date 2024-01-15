@@ -19,8 +19,9 @@ import java.util.UUID;
 @Getter
 
 public class HVAC extends Appliance {
-
+    /** The current state of the HVAC system */
     private HVACState currentState;
+    /** The internal temperature of the HVAC system */
     private final Temperature internalTemperature;
 
     public HVAC(UUID serialNumber, Temperature internalTemperature) {

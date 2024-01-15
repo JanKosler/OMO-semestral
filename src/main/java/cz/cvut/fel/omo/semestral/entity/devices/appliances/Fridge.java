@@ -11,8 +11,9 @@ import java.util.UUID;
  */
 @Getter
 public class Fridge extends Appliance {
-
+    /** The internal temperature of the fridge in Celsius */
     private double internalTemperature;
+    /** The power consumption of the fridge per tick */
     private final double powerConsumptionPerTick = 30;
 
     public Fridge(UUID serialNumber) {

@@ -1,5 +1,7 @@
 package cz.cvut.fel.omo.semestral.tick;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,28 +12,31 @@ import java.util.List;
  */
 public class TickPublisher {
     private final List<Tickable> tickables = new ArrayList<>();
+
+    /** The current tick count. */
+    @Getter
     private int tickCount = 0;
 
     /**
-     * Subscribes a Tickable entity to receive tick updates.
+     * Subscribes a {@link Tickable} entity to receive tick updates.
      *
-     * @param tickable The Tickable entity to be subscribed.
+     * @param tickable The {@link Tickable} entity to be subscribed.
      */
     public void subscribe(Tickable tickable) {
         tickables.add(tickable);
     }
 
     /**
-     * Unsubscribes a Tickable entity from receiving tick updates.
+     * Unsubscribes a {@link Tickable} entity from receiving tick updates.
      *
-     * @param tickable The Tickable entity to be unsubscribed.
+     * @param tickable The {@link Tickable} entity to be unsubscribed.
      */
     public void unsubscribe(Tickable tickable) {
         tickables.remove(tickable);
     }
 
     /**
-     * Triggers a tick event, notifying all subscribed Tickable entities.
+     * Triggers a tick event, notifying all subscribed {@link Tickable} entities.
      * Each subscribed entity will have its onTick method called.
      */
     public void tick() {
@@ -39,14 +44,5 @@ public class TickPublisher {
         for (Tickable tickable : tickables) {
             tickable.onTick();
         }
-    }
-
-    /**
-     * Retrieves the current count of ticks since the start of the simulation.
-     *
-     * @return The number of ticks that have occurred.
-     */
-    public int getTickCount() {
-        return tickCount;
     }
 }

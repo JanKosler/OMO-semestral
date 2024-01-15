@@ -25,12 +25,17 @@ import java.util.UUID;
 @Getter
 @Setter
 public abstract class Appliance implements IDevice, IDeviceCommand, Tickable {
-
+    /** The unique serial number of the appliance */
     private UUID serialNumber;
+    /** The current state of the appliance */
     protected DeviceState state;
+    /** The total wear of the appliance */
     private int totalWear;
+    /** The total power consumption of the appliance */
     private double totalPowerConsumption;
+    /** The maximum wear capacity of the appliance */
     private int wearCapacity;
+    /** List of observers that are notified when the appliance malfunctions */
     private List<DeviceMalfunctionObserver> malfunctionObservers = new ArrayList<>();
 
     protected Queue<DeviceCommand> actionPlan;

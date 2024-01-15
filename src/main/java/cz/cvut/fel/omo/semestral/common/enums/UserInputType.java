@@ -33,9 +33,13 @@ public enum UserInputType {
     /** Represents an action for a being to change rooms. */
     B_CHANGEROOM,
 
+    /** Represents an action for a being to go repair a device. */
     B_REPAIR,
 
+    /** Represents an action for a being to go use sport equipment */
     B_STARTSPORT,
+
+    /** Represents an action for a being to stop using sport equipment */
     B_STOPSPORT
 
 }

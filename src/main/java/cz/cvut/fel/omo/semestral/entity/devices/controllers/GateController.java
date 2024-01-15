@@ -17,8 +17,9 @@ import java.util.UUID;
  * effectively toggling its open or closed state based on user inputs.
  */
 public class GateController extends Controller {
-
+    /** The gate appliance that this controller manages */
     private final Gate gate;
+    /** The sensor that detects user inputs for the gate */
     private final UserInputSensor userInputSensor;
 
 

@@ -21,9 +21,11 @@ import java.util.UUID;
  */
 @Slf4j
 public class SecurityController extends Controller {
-
+    /** The sensor that detects security threats */
     private final SecuritySensor securitySensor;
+    /** The sensor that detects user inputs for the alarm */
     private final UserInputSensor userInputSensor;
+    /** The alarm system that this controller manages */
     private final Alarm alarm;
 
     private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.

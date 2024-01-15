@@ -20,8 +20,9 @@ import java.util.UUID;
  */
 @Slf4j
 public class FridgeController extends Controller {
-
+    /** The fridge appliance that this controller manages */
     private final Fridge fridge;
+    /** The sensor that detects user inputs for the fridge */
     private final UserInputSensor userInputSensor;
 
 

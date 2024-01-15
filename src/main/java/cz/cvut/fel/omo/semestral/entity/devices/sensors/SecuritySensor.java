@@ -12,8 +12,10 @@ import java.util.UUID;
  */
 @Getter
 public class SecuritySensor extends Sensor {
+    /** Indicates whether a security breach has been detected by the sensor */
     private boolean breachDetected;
     private final double powerConsumptionPerTick = 1.25; //Consumption in mWh every 10 mins.
+    /** The maximum wear that this sensor can sustain before breaking */
     private final int wearCapacity = 100;
 
     /**

@@ -12,9 +12,11 @@ import java.util.UUID;
  */
 @Getter
 public class Alarm extends Appliance {
-
+    /** Indicates whether the alarm is armed or not */
     private boolean isArmed;
+    /** The power consumption of the alarm system per tick when idle */
     private final double powerConsumptionPerTick_IDLE = 5;
+    /** The power consumption of the alarm system per tick when active */
     private final double powerConsumptionPerTick_ACTIVE = 15;
 
     /**
@@ -28,7 +30,6 @@ public class Alarm extends Appliance {
         this.isArmed = false; // Alarm is disarmed by default
     }
 
-    
     @Override
     public void executeCommand(DeviceCommand command) {
         switch (command) {

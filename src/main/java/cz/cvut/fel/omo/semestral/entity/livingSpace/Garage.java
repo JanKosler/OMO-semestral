@@ -5,6 +5,9 @@ import lombok.Getter;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents a garage in a house.
+ */
 @Getter
 public class Garage extends Room {
     /** List of sport equipment in the garage */

@@ -14,7 +14,6 @@ import cz.cvut.fel.omo.semestral.tick.TickPublisher;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -29,12 +28,14 @@ import java.util.Queue;
 public class HouseFacade {
     /** The house. */
     private House house;
-
     private SimulationConfig simulationConfig;
     private TickPublisher tickPublisher;
 
     /**
      * Initializes the simulation and runs it.
+     * @param configFilename Name of the configuration file.
+     *
+     * @throws SimulationException If error occurs during the simulation or the configuration is not loaded.
      */
     public void runSimulation(String configFilename) throws SimulationException {
         if (house == null) {
@@ -117,13 +118,13 @@ public class HouseFacade {
 
     /**
      * Initializes the simulation.
+     *
      * @param configFilename Name of the configuration file.
      */
-    private boolean initSimulation(String configFilename) {
+    private void initSimulation(String configFilename) {
         if (simulationConfig == null) {
             simulationConfig = new SimulationConfig(configFilename);
         }
-        return simulationConfig.isLoaded();
     }
 
     /**

@@ -21,14 +21,19 @@ import java.util.UUID;
 @Getter
 @Setter
 public abstract class Sensor implements IDevice, Tickable {
-
+    /** The unique serial number of the sensor */
     private UUID serialNumber;
+    /** The current state of the sensor */
     private DeviceState state;
+    /** The total wear of the sensor */
     private int totalWear;
+    /** The total power consumption of the sensor */
     private double totalPowerConsumption;
+    /** The maximum wear capacity of the sensor */
     private int wearCapacity;
+    /** List of observers that are notified when the sensor malfunctions */
     private List<DeviceMalfunctionObserver> malfunctionObservers = new ArrayList<>();
-
+    /** List of observers that are notified when the sensor state changes */
     private final List<IDeviceObserver> observers = new ArrayList<>();
 
     /**

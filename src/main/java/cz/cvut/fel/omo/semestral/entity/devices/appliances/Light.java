@@ -17,8 +17,9 @@ import java.util.UUID;
 @Getter
 @Slf4j
 public class Light extends Appliance {
-
+    /** The power consumption of the light per tick when turned off */
     private final double powerConsumptionPerTick_IDLE = 0.5;
+    /** The power consumption of the light per tick when turned on */
     private final double powerConsumptionPerTick_ON = 10;
 
     public Light(UUID serialNumber) {

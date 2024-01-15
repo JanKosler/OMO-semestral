@@ -11,8 +11,11 @@ public class RoomBuilder implements IRoomBuilder<Room> {
     int roomID;
     /** Name of the room */
     String roomName;
+    /** List of all devices in the room */
     List<IDevice> deviceList;
+    /** List of device systems in the room */
     List<DeviceSystem> deviceSystems;
+    /** List of people in the room */
     List<Being> inhabitants;
 
     public RoomBuilder() {
@@ -42,6 +45,11 @@ public class RoomBuilder implements IRoomBuilder<Room> {
         this.inhabitants.add(person);
         return this;
     }
+
+    /**
+     * Creates a new room object.
+     * @return Room object.
+     */
     @Override
     public Room build() {
         return new Room(this);

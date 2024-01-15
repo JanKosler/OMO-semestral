@@ -16,10 +16,13 @@ import java.util.UUID;
 @Getter
 @Slf4j
 public class Gate extends Appliance {
-
+    /** Indicates whether the gate is open or closed */
     public boolean isOpen;
+    /** The maximum wear capacity of the gate */
     private final int wearCapacity = 100;
+    /** The power consumption of the gate per tick when idle */
     private final double powerConsumptionPerTick_IDLE = 5;
+    /** The power consumption of the gate per tick when active */
     private final double powerConsumptionPerTick_ACTIVE = 15;
 
     public Gate(UUID serialNumber) {

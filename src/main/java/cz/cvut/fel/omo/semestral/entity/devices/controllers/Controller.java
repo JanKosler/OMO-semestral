@@ -27,12 +27,17 @@ import java.util.UUID;
 @Getter
 @Setter
 public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
-
+    /** The unique serial number of the controller */
     private UUID serialNumber;
+    /** The current state of the controller */
     private DeviceState state;
+    /** The total wear of the controller */
     private int totalWear;
+    /** The total power consumption of the controller */
     private double totalPowerConsumption;
+    /** The maximum wear capacity of the controller */
     private int wearCapacity;
+    /** List of observers that are notified when the controller malfunctions */
     private List<DeviceMalfunctionObserver> malfunctionObservers = new ArrayList<>();
 
     /**

@@ -20,8 +20,9 @@ import java.util.UUID;
  */
 @Slf4j
 public class TVController extends Controller {
-
+    /** The TV appliance that this controller manages */
     private final TV tv;
+    /** The sensor that detects user inputs for the TV */
     private final UserInputSensor userInputSensor;
     private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
 

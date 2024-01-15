@@ -18,10 +18,13 @@ import java.util.UUID;
 @Getter
 @Slf4j
 public class TV extends Appliance {
-
+    /** The current channel of the TV */
     private int currentChannel;
+    /** The current volume level of the TV */
     private int volumeLevel;
+    /** The power consumption of the TV per tick when turned off */
     private final double powerConsumptionPerTick_IDLE = 4;
+    /** The power consumption of the TV per tick when turned on */
     private final double powerConsumptionPerTick_ON = 35;
 
     public TV(UUID serialNumber) {

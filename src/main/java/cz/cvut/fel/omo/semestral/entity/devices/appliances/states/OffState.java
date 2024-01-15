@@ -9,9 +9,11 @@ import lombok.Getter;
  */
 @Getter
 public class OffState implements HVACState {
-
+    /** The power consumption of the HVAC system per tick */
     private final double powerConsumptionPerTick = 3;
+    /** The wear of the HVAC system per tick */
     private final int wearPerTick = 1;
+    /** The temperature change of the environment per tick */
     private final double tempChangePerTick = 0;
 
     /**

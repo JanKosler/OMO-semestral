@@ -17,10 +17,15 @@ import java.util.Queue;
 @Getter
 @Setter
 public abstract class Being implements Tickable {
+    /** Unique ID of the being. */
     protected int beingID;
+    /** Name of the being. */
     protected String name;
+    /** Room where the being is located. */
     protected Room room;
+    /** Queue of actions that the being will perform. */
     protected Queue<Action> actionPlan;
+    /** List of actions that have been performed by the being. */
     protected List<Action> performedActions = new LinkedList<>();
 
     /**

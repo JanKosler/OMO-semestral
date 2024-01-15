@@ -14,9 +14,11 @@ import java.util.UUID;
  */
 @Getter
 public class UserInputSensor extends Sensor {
-
+    /** The type of input detected by the sensor, as defined in {@link UserInputType} */
     private UserInputType inputType;
+    /** The value associated with the input, which can vary based on the input type */
     private Object inputValue; // Could be boolean, integer, double, etc., based on input type
+    /** The action plan for this sensor, which is a queue of actions to be performed */
     protected Queue<Action> actionPlan;
     private final double powerConsumptionPerTick = 0.35; //Consumption in mWh every 10 mins.
 

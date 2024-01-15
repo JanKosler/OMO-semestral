@@ -27,30 +27,25 @@ public class SimulationConfig {
     String _configFilename;
 
     @Getter
-    /** Whether the configuration has been loaded. */
+    /* Whether the configuration has been loaded. */
     private boolean isLoaded = false;
 
-    /** Extensions of the Being class */
+    /* Extensions of the Being class */
     /** Map<roomID, List> */
-    private Map<Integer, List<Pet>> _petConfigMap;
+    private final Map<Integer, List<Pet>> _petConfigMap;
     /** Map<roomID, List> */
-    private Map<Integer, List<Human>> _humanConfigMap;
+    private final Map<Integer, List<Human>> _humanConfigMap;
 
-    /** Implementations of the IDevice interface */
-    /*
-    private List<Sensor> sensorList;
-    private List<Controller> controllerList;
-    private List<Appliance> appliancesList;
-     */
+    /* Implementations of the IDevice interface */
     /** Map<roomID, deviceSystemList> */
-    private Map<Integer, List<DeviceSystem>> _deviceSystemConfigMap;
+    private final Map<Integer, List<DeviceSystem>> _deviceSystemConfigMap;
     /** Map<deviceSystemID, deviceSystemName> */
-    private Map<Integer, String> deviceSystemNameByIdMap;
+    private final Map<Integer, String> deviceSystemNameByIdMap;
 
-    /** Implementations of the ILivingSpace interface */
+    /* Implementations of the ILivingSpace interface */
     /** Map<FloorID, List> */
-    private Map<Integer, List<Room>> _roomMap;
-    private List<Floor> _floorList;
+    private final Map<Integer, List<Room>> _roomMap;
+    private final List<Floor> _floorList;
     private House _house;
     private Garage _garage;
 
@@ -85,7 +80,7 @@ public class SimulationConfig {
         List<Floor> configuredFloors = new ArrayList<>();
         // create rooms
         for (Floor floor : _floorList) {
-            /** Map<floorID, List> */
+            /* Map<floorID, List> */
             Map<Integer, List<Room>> configuredRooms = new HashMap<>();
             // add rooms to the floor
             for (Room room : _roomMap.get(floor.getFloorID())) {
@@ -157,7 +152,7 @@ public class SimulationConfig {
             JsonNode jsonObject = mapper.readTree(new File(absoluteConfigPath));
             log.info("[CONFIG][PARSING] Parsing JSON file...");
 
-            /** CONFIGURATION OF HOUSE */
+            /* CONFIGURATION OF HOUSE */
             // Create house object
             JsonNode house = jsonObject.get("House");
             int houseID = house.get("houseID").asInt();
@@ -171,12 +166,11 @@ public class SimulationConfig {
 
             log.info("[CONFIG][PARSING] House successfully initialized.");
 
-            /** CONFIGURATION OF GARAGE */
+            /* CONFIGURATION OF GARAGE */
             // Create garage object
             JsonNode garage = jsonObject.get("Garage");
             int garageID = garage.get("garageID").asInt();
             String garageName = garage.get("garageName").asText();
-            int garageHouseID = garage.get("garageHouseID").asInt();
             int sportEquipmentCountBIKE = garage.get("sportEquipmentCountBIKE").asInt();
             int sportEquipmentCountSKATES = garage.get("sportEquipmentCountSKATES").asInt();
             int sportEquipmentCountSKIS = garage.get("sportEquipmentCountSKIS").asInt();
@@ -189,7 +183,7 @@ public class SimulationConfig {
 
             log.info("[CONFIG][PARSING] Garage successfully initialized.");
 
-            /** CONFIGURATION OF FLOORS */
+            /* CONFIGURATION OF FLOORS */
             // Create floors from config and add them to the config map
             JsonNode floors = jsonObject.get("Floors");
             for (JsonNode floor : floors) {
@@ -202,7 +196,7 @@ public class SimulationConfig {
 
             log.info("[CONFIG][PARSING] Floors successfully initialized.");
 
-            /** CONFIGURATION OF ROOMS */
+            /* CONFIGURATION OF ROOMS */
             // Create rooms from config and add them to the config map
             JsonNode rooms = jsonObject.get("Rooms");
             for (JsonNode room : rooms) {
@@ -219,7 +213,7 @@ public class SimulationConfig {
 
             log.info("[CONFIG][PARSING] Rooms successfully initialized.");
 
-            /** CONFIGURATION OF PETS */
+            /* CONFIGURATION OF PETS */
             // Create pets from config and add them to the pet config map
             JsonNode pets = jsonObject.get("Pets");
             for (JsonNode pet : pets) {
@@ -233,7 +227,7 @@ public class SimulationConfig {
 
             log.info("[CONFIG][PARSING] Pets successfully initialized.");
 
-            /** CONFIGURATION OF HUMANS */
+            /* CONFIGURATION OF HUMANS */
             // Create humans from config and add them to the human config map
             JsonNode humans = jsonObject.get("Humans");
             for (JsonNode human : humans) {
@@ -247,7 +241,7 @@ public class SimulationConfig {
 
             log.info("[CONFIG][PARSING] Humans successfully initialized.");
 
-            /** CONFIGURATION OF DEVICE SYSTEMS */
+            /* CONFIGURATION OF DEVICE SYSTEMS */
             // Create device systems from config and add them to the device system config map
             JsonNode deviceSystems = jsonObject.get("DeviceSystems");
             for (JsonNode deviceSystem : deviceSystems) {

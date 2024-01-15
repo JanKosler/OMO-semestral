@@ -6,11 +6,16 @@ import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Builder for the {@link Garage} class. Extension of {@link RoomBuilder}.
+ */
 public class GarageBuilder implements IRoomBuilder<Garage> {
+    /** List of sport equipment in the garage. */
     List<SportEquipment> sportEquipmentList;
+    /** Room builder. */
     RoomBuilder roomBuilder;
+
     public GarageBuilder() {
         this.roomBuilder = new RoomBuilder();
         sportEquipmentList = new ArrayList<>();
@@ -48,6 +53,10 @@ public class GarageBuilder implements IRoomBuilder<Garage> {
         return this;
     }
 
+    /**
+     * Creates a new garage object.
+     * @return Garage object.
+     */
     @Override
     public Garage build() {
         return new Garage(this);

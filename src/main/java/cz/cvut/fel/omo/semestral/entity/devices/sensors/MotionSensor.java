@@ -14,9 +14,12 @@ import java.util.UUID;
  */
 @Getter
 public class MotionSensor extends Sensor {
+    /** Indicates whether motion has been detected by the sensor */
     private boolean motionDetected;
     private final double powerConsumptionPerTick = 1.75; //Consumption in mWh every 10 mins.
+    /** The maximum wear that this sensor can sustain before breaking */
     private final int wearCapacity = 100;
+    /** The room in which this sensor is located */
     @Setter
     private Room room;
 

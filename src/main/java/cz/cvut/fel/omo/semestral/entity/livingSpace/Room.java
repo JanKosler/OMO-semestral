@@ -86,14 +86,25 @@ public class Room implements ILivingSpace {
                 .toList();
     }
 
+    /**
+     * Returns new builder for the {@link Room} class.
+     */
     public static RoomBuilder roomBuilder() {
         return new RoomBuilder();
     }
 
+    /**
+     * Removes a being from the room.
+     * @param being Being to remove.
+     */
     public void leaveRoom(Being being) {
         inhabitants.remove(being);
     }
 
+    /**
+     * Adds a being to the room.
+     * @param being Being to add.
+     */
     public void enterRoom(Being being) {
         inhabitants.add(being);
     }
