@@ -5,15 +5,13 @@ import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.IDeviceCommand;
 import cz.cvut.fel.omo.semestral.entity.devices.DeviceMalfunctionObserver;
+import cz.cvut.fel.omo.semestral.manual.Manual;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Abstract base class for appliances in the smart home system. This class
@@ -127,10 +125,19 @@ public abstract class Appliance implements IDevice, IDeviceCommand, Tickable {
     }
 
     @Override
-    public void repair(){
+    public void repair(Manual manual){
         this.setState(DeviceState.ON);
         this.totalWear = 0;
-        log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has been repaired.");
+        log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has been repaired with manual.");
     }
+
+    @Override
+    public void repair(){
+        this.setState(DeviceState.ON);
+        this.totalWear = new Random().nextInt(wearCapacity/2);
+        log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has been repaired without manual.");
+    }
+
+
 
 }

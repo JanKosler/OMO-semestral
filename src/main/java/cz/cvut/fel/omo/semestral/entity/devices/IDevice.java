@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestral.entity.devices;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
+import cz.cvut.fel.omo.semestral.manual.Manual;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
 
 import java.util.UUID;
@@ -64,5 +65,7 @@ public interface IDevice{
     UUID getSerialNumber();
 
     void repair();
+
+    void repair(Manual manual);
 
 }

@@ -6,6 +6,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.DeviceMalfunctionObserver;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.IDeviceObserver;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
+import cz.cvut.fel.omo.semestral.manual.Manual;
 import cz.cvut.fel.omo.semestral.reporting.Report;
 import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -147,10 +149,16 @@ public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
     }
 
     @Override
-    public void repair(){
+    public void repair(Manual manual){
         this.setState(DeviceState.ON);
         this.totalWear = 0;
-        log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has been repaired.");
-        this.records.add(new ControllerRecord(this.getTickCounter(),this, "has been repaired."));
+        log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has been repaired with manual.");
+    }
+    @Override
+    public void repair(){
+        this.setState(DeviceState.ON);
+        this.totalWear = new Random().nextInt(wearCapacity/2);
+        log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has been repaired without manual.");
+        this.records.add(new ControllerRecord(this.getTickCounter(),this, "has been repaired without manual."));
     }
 }

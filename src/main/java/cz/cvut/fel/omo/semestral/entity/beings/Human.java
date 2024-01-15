@@ -9,11 +9,13 @@ import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.SportEquipment;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.SportEquipmentType;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
+import cz.cvut.fel.omo.semestral.manual.Manual;
 import cz.cvut.fel.omo.semestral.manual.ManualRepo;
 import cz.cvut.fel.omo.semestral.reporting.Report;
 import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Queue;
@@ -22,6 +24,7 @@ import java.util.Queue;
  * Represents a human being in the smart home simulation.
  * This class extends the {@link Being} class and adds human-specific functionalities.
  */
+@Slf4j
 public class Human extends Being implements Tickable {
 
     SportEquipment currentSportEquipment = null;
@@ -127,7 +130,15 @@ public class Human extends Being implements Tickable {
                     break;
                 case B_REPAIR:
                     if(nextAction.getValue() instanceof IDevice device) {
-                        device.repair();
+                        log.info("Repairing device {}", device.getClass().getSimpleName());
+                        Manual manual = manualRepo.getManual(device.getClass().getSimpleName());
+                        if( manual != null ) {
+                            log.info("Manual found, repairing device");
+                            device.repair(manual);
+                        } else {
+                            log.info("Manual not found, repairing device without manual");
+                            device.repair();
+                        }
                         addPerformedAction(nextAction);
                     }
                     break;
