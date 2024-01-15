@@ -34,7 +34,6 @@ public abstract class Being implements Tickable {
     /** List of actions that have been performed by the being. */
     protected List<ActionRecord> performedActions = new LinkedList<>();
     protected int TickCounter = 0;
-    protected ManualRepo manualRepo;
 
     /**
      * Constructs a new Being with the specified action plan, name, and initial
@@ -45,12 +44,11 @@ public abstract class Being implements Tickable {
      * @param name       The name of the being.
      * @param room       The initial room where the being is located.
      */
-    public Being(int beingID, String name, Room room, ManualRepo manualRepo, Queue<Action> actionPlan) {
+    public Being(int beingID, String name, Room room, Queue<Action> actionPlan) {
         this.beingID = beingID;
         this.name = name;
         this.room = room;
         this.actionPlan = actionPlan;
-        this.manualRepo = manualRepo;
     }
 
     /**
@@ -60,8 +58,8 @@ public abstract class Being implements Tickable {
      * @param name    The name of the being.
      * @param room    The initial room where the being is located.
      */
-    public Being(int beingID, String name, Room room, ManualRepo manualRepo) {
-        this(beingID, name, room, manualRepo, new LinkedList<>());
+    public Being(int beingID, String name, Room room) {
+        this(beingID, name, room, new LinkedList<>());
     }
 
     /**

@@ -13,6 +13,7 @@ import cz.cvut.fel.omo.semestral.manual.ManualRepo;
 import cz.cvut.fel.omo.semestral.reporting.Report;
 import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Queue;
@@ -24,6 +25,8 @@ import java.util.Queue;
 public class Human extends Being implements Tickable {
 
     SportEquipment currentSportEquipment = null;
+    @Setter
+    ManualRepo manualRepo;
 
     /**
      * Constructs a new Human with the specified name, action plan, and initial room.
@@ -34,7 +37,8 @@ public class Human extends Being implements Tickable {
      * @param actionPlan The queue of actions that this human will perform.
      */
     public Human(int beingID, String name, Room room, ManualRepo manualRepo, Queue<Action> actionPlan) {
-        super(beingID, name, room, manualRepo,actionPlan);
+        super(beingID, name, room, actionPlan);
+        this.manualRepo = manualRepo;
     }
     /**
      * Constructs a new Human with the specified name and initial room.
@@ -44,7 +48,8 @@ public class Human extends Being implements Tickable {
      * @param room       The initial room where the human is located.
      */
     public Human(int beingID, String name, Room room, ManualRepo manualRepo) {
-        super(beingID, name, room,manualRepo);
+        super(beingID, name, room);
+        this.manualRepo = manualRepo;
     }
 
     /**

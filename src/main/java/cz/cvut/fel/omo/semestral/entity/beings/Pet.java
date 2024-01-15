@@ -3,8 +3,6 @@ package cz.cvut.fel.omo.semestral.entity.beings;
 
 import cz.cvut.fel.omo.semestral.entity.actions.Action;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
-import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
-import cz.cvut.fel.omo.semestral.manual.ManualRepo;
 import cz.cvut.fel.omo.semestral.reporting.Report;
 import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
@@ -23,8 +21,8 @@ public class Pet extends Being implements Tickable {
      * @param room The initial room where the pet is located.
      * @param actionPlan The queue of actions that this pet will perform.
      */
-    public Pet(int petID, String name, Room room, ManualRepo manualRepo, Queue<Action> actionPlan) {
-        super(petID, name, room, manualRepo, actionPlan);
+    public Pet(int petID, String name, Room room, Queue<Action> actionPlan) {
+        super(petID, name, room, actionPlan);
     }
 
     /**
@@ -33,8 +31,8 @@ public class Pet extends Being implements Tickable {
      * @param name The name of the pet.
      * @param room The initial room where the pet is located.
      */
-    public Pet(int petID, String name, Room room, ManualRepo manualRepo) {
-        super(petID, name, room, manualRepo);
+    public Pet(int petID, String name, Room room) {
+        super(petID, name, room);
     }
 
 

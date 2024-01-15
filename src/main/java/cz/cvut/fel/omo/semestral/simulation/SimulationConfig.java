@@ -112,10 +112,7 @@ public class SimulationConfig {
                     person.setRoom(configuredRoom);
                     person.setManualRepo(manualRepo);
                 });
-                configuredRoom.getAllPets().forEach(pet -> {
-                    pet.setRoom(configuredRoom);
-                    pet.setManualRepo(manualRepo);
-                });
+                configuredRoom.getAllPets().forEach(pet -> pet.setRoom(configuredRoom));
 
                 // add device systems to the room
                 for(DeviceSystem deviceSystem : deviceSystems) {
@@ -232,7 +229,7 @@ public class SimulationConfig {
                 int petID = pet.get("petID").asInt();
                 String petName = pet.get("petName").asText();
                 int petRoomID = pet.get("roomID").asInt();
-                Pet tmpPet = new Pet(petID, petName, null,null);
+                Pet tmpPet = new Pet(petID, petName, null);
                 this._petConfigMap.computeIfAbsent(petRoomID, k -> new ArrayList<>())
                         .add(tmpPet);
             }
