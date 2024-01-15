@@ -22,7 +22,7 @@ public class Light extends Appliance {
     private final double powerConsumptionPerTick_ON = 10;
 
     public Light(UUID serialNumber) {
-        super(serialNumber, 100);
+        super(serialNumber, 500);
     }
 
     @Override

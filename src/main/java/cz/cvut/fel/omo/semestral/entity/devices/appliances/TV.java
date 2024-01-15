@@ -25,7 +25,7 @@ public class TV extends Appliance {
     private final double powerConsumptionPerTick_ON = 35;
 
     public TV(UUID serialNumber) {
-        super(serialNumber, 100);
+        super(serialNumber, 500);
         this.currentChannel = 1; // Default channel
         this.volumeLevel = 5;   // Default volume level
     }
