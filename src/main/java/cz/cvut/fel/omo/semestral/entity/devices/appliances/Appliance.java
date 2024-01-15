@@ -79,10 +79,6 @@ public abstract class Appliance implements IDevice, IDeviceCommand, Tickable {
     public void setIdle() {this.state = DeviceState.IDLE;}
 
     public void updatePowerConsumption(double powerConsumption){
-        if(this instanceof Fridge){
-            log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has consumed " + powerConsumption + " kWh.");
-            log.info("Total consumption: " + this.totalPowerConsumption + " kWh.");
-        }
         this.totalPowerConsumption += powerConsumption;
     };
     public void updateWear(int wear){
