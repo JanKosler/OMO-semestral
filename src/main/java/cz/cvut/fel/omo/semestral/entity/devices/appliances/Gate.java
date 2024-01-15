@@ -25,11 +25,21 @@ public class Gate extends Appliance {
     /** The power consumption of the gate per tick when active */
     private final double powerConsumptionPerTick_ACTIVE = (double) 15 / 600;
 
+    /**
+     * Constructs a new Gate instance with the specified serial number.
+     *
+     * @param serialNumber The unique identifier for the gate.
+     */
     public Gate(UUID serialNumber) {
         super(serialNumber, 100);
         this.isOpen = false; // Gates are closed by default
     }
 
+    /**
+     * Executes a command on the gate, such as toggling its state.
+     *
+     * @param command The command to execute on the gate.
+     */
     @Override
     public void executeCommand(DeviceCommand command) {
         switch (command) {
@@ -42,6 +52,9 @@ public class Gate extends Appliance {
         }
     }
 
+    /**
+     * Performs actions on the gate during each tick.
+     */
     @Override
     public void onTick() {
         DeviceState currentState = this.getState();
@@ -73,6 +86,9 @@ public class Gate extends Appliance {
         }
     }
 
+    /**
+     * Toggles the state of the gate between open and closed.
+     */
     public void toggleGate() {
         if (isOpen) {
             closeGate();

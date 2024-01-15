@@ -11,13 +11,20 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Class for generating reports about the consumption of the house.
+ * The {@code ConsumptionReport} class generates reports about the energy consumption of the house and its devices. It implements the {@link ReportVisitor} interface to visit various entities within the smart home simulation and collect consumption data for reporting.
  */
 public class ConsumptionReport implements ReportVisitor {
-
+    /** Total energy consumption in kilowatt-hours (kWh) */
     public double totalConsumption = 0;
+    /** Price for 1 kWh in Czech crowns (CZK) */
     public final double kwhPrice = 7.35;
 
+    /**
+     * Visits a device system, generates a report for its consumption, and updates the total consumption.
+     *
+     * @param deviceSystem The device system to visit.
+     * @return A report for the device system's consumption.
+     */
     @Override
     public Report visitDeviceSystem(DeviceSystem deviceSystem) {
         Report report = new Report();
@@ -55,6 +62,12 @@ public class ConsumptionReport implements ReportVisitor {
         return null;
     }
 
+    /**
+     * Creates a comprehensive report by visiting all device systems in the house facade, calculating total consumption, and providing pricing information.
+     *
+     * @param houseFacade The house facade containing device systems.
+     * @return A comprehensive report summarizing energy consumption and costs.
+     */
     @Override
     public Report createReport(HouseFacade houseFacade) {
         Report finalReport = new Report();

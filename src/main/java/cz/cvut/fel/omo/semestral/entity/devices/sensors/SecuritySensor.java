@@ -26,6 +26,10 @@ public class SecuritySensor extends Sensor {
         super(serialNumber, new Random().nextInt(250)+100);
     }
 
+    /**
+     * Performs actions during each tick.
+     * Updates wear, power consumption, and checks for malfunctions.
+     */
     @Override
     public void onTick() {
         if (this.getState() == DeviceState.ON) {

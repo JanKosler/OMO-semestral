@@ -16,15 +16,27 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Class for reporting events and usage of the house.
+ * The {@code ActivityAndUsageReport} class is responsible for reporting events and usage of the house. It implements the {@link ReportVisitor} interface to visit various entities within the smart home simulation and collect relevant data for reporting.
  */
 public class ActivityAndUsageReport implements ReportVisitor{
 
+    /**
+     * Visits a device system and generates a report. Not implemented in this class.
+     *
+     * @param deviceSystem The device system to visit.
+     * @return A report for the device system.
+     */
     @Override
     public Report visitDeviceSystem(DeviceSystem deviceSystem) {
         return null;
     }
 
+    /**
+     * Visits a human and generates a report containing information about their activities and usages.
+     *
+     * @param human The human to visit.
+     * @return A report for the human's activities and usages.
+     */
     @Override
     public Report visitHuman(Human human) {
         Report report = new Report();
@@ -68,6 +80,12 @@ public class ActivityAndUsageReport implements ReportVisitor{
         return report;
     }
 
+    /**
+     * Visits a pet and generates a report containing information about their activities (e.g., changing rooms).
+     *
+     * @param pet The pet to visit.
+     * @return A report for the pet's activities.
+     */
     @Override
     public Report visitPet(Pet pet) {
         Report report = new Report();
@@ -102,6 +120,12 @@ public class ActivityAndUsageReport implements ReportVisitor{
         return null;
     }
 
+    /**
+     * Creates a comprehensive report by visiting all humans and pets in the house facade and combining their reports.
+     *
+     * @param houseFacade The house facade containing humans and pets.
+     * @return A comprehensive report summarizing all activities and usages in the house.
+     */
     @Override
     public Report createReport(HouseFacade houseFacade) {
         Report finalReport = new Report();
@@ -117,6 +141,11 @@ public class ActivityAndUsageReport implements ReportVisitor{
         for (Human human : houseFacade.getHumans()) {
             Report humanActionReport = human.accept(this);
             reportContent.append(humanActionReport.getContent());
+        }
+
+        for (Pet pet : houseFacade.getPets()) {
+            Report petActionReport = pet.accept(this);
+            reportContent.append(petActionReport.getContent());
         }
 
         finalReport.setContent(reportContent.toString());

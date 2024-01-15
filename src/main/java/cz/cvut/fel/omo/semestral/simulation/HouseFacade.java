@@ -24,7 +24,10 @@ import java.util.Queue;
 import static cz.cvut.fel.omo.semestral.reporting.ReportType.*;
 
 /**
- * Facade for the house.
+ * Facade for managing and simulating activities within a house.
+ * This class acts as a higher-level interface to control the various components of the house, including rooms, humans, pets,
+ * devices, and the simulation itself.
+ *
  * @see House
  * @see HouseConfigurationReport
  */
@@ -477,6 +480,9 @@ public class HouseFacade implements DeviceMalfunctionObserver {
     public List<Human> getHumans(){return house.getAllPeople();}
     public List<Pet> getPets(){return house.getAllPets();}
 
+    /**
+     * Logs the house object.
+     */
     private void logHouseObject() {
         log.info("Logging house started");
 
@@ -499,6 +505,11 @@ public class HouseFacade implements DeviceMalfunctionObserver {
         log.info("Logging house ended");
     }
 
+    /**
+     * Callback method to handle device malfunctions by adding repair actions to the action plan of a human.
+     *
+     * @param device The malfunctioning device.
+     */
     @Override
     public void onDeviceMalfunction(IDevice device) {
         getHumans().get(0).getActionPlan().add(new Action(UserInputType.B_REPAIR, device));

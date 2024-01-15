@@ -31,6 +31,10 @@ public class TemperatureSensor extends Sensor {
         this.temperature = temperature;
     }
 
+    /**
+     * Performs actions during each tick.
+     * Updates wear, power consumption, and checks for malfunctions.
+     */
     @Override
     public void onTick() {
         if (this.getState() == DeviceState.ON) {

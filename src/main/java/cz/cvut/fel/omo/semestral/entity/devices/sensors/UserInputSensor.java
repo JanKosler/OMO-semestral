@@ -32,6 +32,10 @@ public class UserInputSensor extends Sensor {
         this.actionPlan = new java.util.LinkedList<>();
     }
 
+    /**
+     * Performs actions during each tick.
+     * Updates wear, power consumption, and checks for malfunctions.
+     */
     @Override
     public void onTick() {
         if (this.getState() == DeviceState.ON) {
@@ -55,10 +59,18 @@ public class UserInputSensor extends Sensor {
         notifyObservers();
     }
 
+    /**
+     * Adds an action to the action plan.
+     *
+     * @param action The action to be added to the plan.
+     */
     public void addtoActionPlan(Action action) {
         actionPlan.add(action);
     }
 
+    /**
+     * Performs the next action in the action plan.
+     */
     public void performNextAction() {
         if (!actionPlan.isEmpty()) {
             Action nextAction = actionPlan.poll();

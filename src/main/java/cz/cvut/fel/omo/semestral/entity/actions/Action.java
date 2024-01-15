@@ -10,6 +10,7 @@ import lombok.Getter;
  */
 @Getter
 public class Action {
+
     private final UserInputType type;
     private final Object value;
 

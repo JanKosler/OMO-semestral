@@ -25,8 +25,25 @@ public interface HVACState {
      */
     void turnOff(HVAC heater);
 
+    /**
+     * Returns the power consumption of the HVAC system per tick.
+     *
+     * @return The power consumption of the HVAC system per tick.
+     */
     double getPowerConsumptionPerTick();
+
+    /**
+     * Returns the wear of the HVAC system per tick.
+     *
+     * @return The wear of the HVAC system per tick.
+     */
     int getWearPerTick();
+
+    /**
+     * Returns the temperature change of the environment per tick.
+     *
+     * @return The temperature change of the environment per tick.
+     */
     double getTempChangePerTick();
 
 }

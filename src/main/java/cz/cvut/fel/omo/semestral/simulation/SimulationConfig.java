@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.*;
 
 /**
- * TODO : Check if this class is needed. Not sure what it should do.
+ * This class represents the configuration for a simulation. It loads the configuration from a JSON file and creates a configured house based on the loaded data.
  */
 @Slf4j
 public class SimulationConfig {
@@ -64,6 +64,12 @@ public class SimulationConfig {
         this._offlineManualDatabase = new OfflineManualDatabase();
     }
 
+    /**
+     * Get the configured house based on the loaded configuration.
+     *
+     * @return Configured house
+     * @throws SimulationException If there is an issue with loading or creating the configuration.
+     */
     public House getConfiguredHouse() throws SimulationException {
         if (!isLoaded)
             loadConfigIntoConfigMaps();
@@ -78,8 +84,12 @@ public class SimulationConfig {
         }
     }
 
-
-
+    /**
+     * Create a configured house based on the loaded configuration data.
+     *
+     * @return Configured house
+     * @throws ConfigurationException If there is an issue with the configuration data.
+     */
     private House createConfiguredHouse() throws ConfigurationException {
         ManualRepo manualRepo = new ManualRepoProxy(_offlineManualDatabase);
         log.info("[CONFIG][HOUSE] Creating configured house...");
@@ -137,6 +147,9 @@ public class SimulationConfig {
         return new House(_house.getHouseID(), _house.getHouseNumber(), _house.getAddress(), _house.getInternalTemperature(), _house.getExternalTemperature(), configuredFloors);
     }
 
+    /**
+     * Load configuration data into internal maps.
+     */
     public void loadConfigIntoConfigMaps() {
         log.info("[CONFIG][PATH] Loading configuration from file: " + _configFilename);
 

@@ -12,8 +12,9 @@ import lombok.Getter;
 import java.util.List;
 
 /**
- * TVSystem is a system that holds a TV, its controller and a user input sensor.
- * @see DeviceSystem base class
+ * The {@code TVSystem} class represents a device system that manages a TV, its controller, and a user input sensor in a room of the smart home simulation.
+ * It allows users to control and monitor the TV, change channels, adjust volume, and power on/off the TV.
+ * This class extends the abstract {@link DeviceSystem} class and provides specific implementations for its methods.
  */
 @Getter
 public class TVSystem extends DeviceSystem {
@@ -27,6 +28,14 @@ public class TVSystem extends DeviceSystem {
     private final List<UserInputType> allowedUserInputTypes = List.of(UserInputType.TV_VOLUME, UserInputType.TV_CHANNEL, UserInputType.TV_POWER);
     private final int deviceSystemID;
 
+    /**
+     * Creates a new TVSystem with the specified components.
+     *
+     * @param deviceSystemID  The unique ID of the device system.
+     * @param tv              The TV device associated with this system.
+     * @param controller      The TV controller associated with this system.
+     * @param userInputSensor The user input sensor associated with this system.
+     */
     public TVSystem(int deviceSystemID, TV tv, TVController controller, UserInputSensor userInputSensor) {
         this.deviceSystemID = deviceSystemID;
         this.tv = tv;
@@ -44,6 +53,11 @@ public class TVSystem extends DeviceSystem {
         return tv;
     }
 
+    /**
+     * Retrieves the TV controller associated with this TVSystem.
+     *
+     * @return The TV controller associated with this system.
+     */
     @Override
     public Controller getController() {
         return controller;
@@ -59,19 +73,28 @@ public class TVSystem extends DeviceSystem {
     }
 
     /**
-     * Turns on the whole TV system.
+     * Calculates and retrieves the total power consumption of the TVSystem, including the TV, controller, and user input sensor.
+     *
+     * @return The total power consumption of the TVSystem.
      */
-
     @Override
     public double getTotalConsumption() {
         return tv.getTotalPowerConsumption() + controller.getTotalPowerConsumption() + userInputSensor.getTotalPowerConsumption();
     }
 
+    /**
+     * Retrieves the list of devices associated with this TVSystem, including the TV, controller, and user input sensor.
+     *
+     * @return A list of devices associated with this system.
+     */
     @Override
     public List<IDevice> getDevices() {
         return List.of(tv, controller, userInputSensor);
     }
 
+    /**
+     * Performs actions during each tick, including reading the user input sensor, updating the controller, and managing the TV.
+     */
     @Override
     public void onTick() {
         userInputSensor.onTick();
@@ -79,10 +102,16 @@ public class TVSystem extends DeviceSystem {
         tv.onTick();
     }
 
+    /**
+     * Returns a string representation of the TVSystem, including its deviceSystemID.
+     *
+     * @return A string representation of the TVSystem.
+     */
     @Override
     public String toString() {
         return "TVSystem{" + "deviceSystemID=" + deviceSystemID + '}';
     }
+
 
     @Override
     public void setRoom(Room room) {

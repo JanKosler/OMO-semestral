@@ -53,19 +53,54 @@ public interface IDevice{
      */
     void turnOff();
 
+    /**
+     * Updates the total power consumption of the device.
+     *
+     * @param powerConsumption The power consumption value to update.
+     */
     void updatePowerConsumption(double powerConsumption);
 
+    /**
+     * Updates the total wear of the device.
+     *
+     * @param wear The wear value to update.
+     */
     void updateWear(int wear);
 
+    /**
+     * Checks if the device is broken and updates its state if necessary.
+     */
     void checkIfBroken();
 
+    /**
+     * Adds a malfunction observer to the device.
+     *
+     * @param observer The observer to be added.
+     */
     void addMalfunctionObserver(DeviceMalfunctionObserver observer);
+
+    /**
+     * Notifies all malfunction observers about the device malfunction.
+     */
     void notifyMalfunctionObservers();
 
+    /**
+     * Retrieves the serial number of the device.
+     *
+     * @return The serial number of the device.
+     */
     UUID getSerialNumber();
 
+    /**
+     * Repairs the device without using a manual.
+     */
     void repair();
 
+    /**
+     * Repairs the device using a manual.
+     *
+     * @param manual The manual to be used for repair.
+     */
     void repair(Manual manual);
 
 }
