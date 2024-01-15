@@ -11,6 +11,9 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests for the manual proxy
+ */
 public class ManualProxyTest {
     /**
      * Tests that two manuals for the same device cannot be added

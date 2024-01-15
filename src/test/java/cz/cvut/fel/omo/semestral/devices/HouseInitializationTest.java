@@ -24,6 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+/** Tests for the initialization of the house */
 public class HouseInitializationTest {
     Sensor securitySensor = new SecuritySensor(UUID.randomUUID());
     Appliance alarm = new Alarm(UUID.randomUUID());
