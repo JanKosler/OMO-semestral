@@ -9,14 +9,13 @@ import java.util.Map;
  */
 @Slf4j
 public class ManualRepoImpl implements ManualRepo {
-    private final OfflineManualDatabase database;
+    private final ManualDatabase database;
     private final Map<String, Manual> manual;
 
     /**
      * Creates a new manual repo.
-     * @param database database to load manual from
      */
-    public ManualRepoImpl(OfflineManualDatabase database) {
+    public ManualRepoImpl(ManualDatabase database) {
         manual = new java.util.HashMap<>();
         this.database = database;
     }

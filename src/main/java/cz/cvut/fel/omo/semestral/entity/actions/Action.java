@@ -2,11 +2,13 @@ package cz.cvut.fel.omo.semestral.entity.actions;
 
 
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
+import lombok.Getter;
 
 /**
  * Represents an action to be performed by a being in the smart home simulation.
  * This class encapsulates the type of action and any associated value necessary for executing the action.
  */
+@Getter
 public class Action {
     private final UserInputType type;
     private final Object value;
@@ -21,24 +23,6 @@ public class Action {
     public Action(UserInputType type, Object value) {
         this.type = type;
         this.value = value;
-    }
-
-    /**
-     * Retrieves the type of this action.
-     *
-     * @return The type of the action.
-     */
-    public UserInputType getType() {
-        return type;
-    }
-
-    /**
-     * Retrieves the value associated with this action.
-     *
-     * @return The value of the action, which could be of any object type.
-     */
-    public Object getValue() {
-        return value;
     }
 
 }

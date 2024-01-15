@@ -5,6 +5,9 @@ import cz.cvut.fel.omo.semestral.entity.beings.Pet;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.*;
 import cz.cvut.fel.omo.semestral.entity.systems.*;
 
+import cz.cvut.fel.omo.semestral.manual.ManualRepo;
+import cz.cvut.fel.omo.semestral.manual.ManualRepoProxy;
+import cz.cvut.fel.omo.semestral.manual.OfflineManualDatabase;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,7 +51,7 @@ public class SimulationConfig {
     private final List<Floor> _floorList;
     private House _house;
     private Garage _garage;
-
+    private final OfflineManualDatabase _offlineManualDatabase;
     private Temperature _internalTemperature, _externalTemperature;
 
     /**
@@ -63,6 +66,7 @@ public class SimulationConfig {
         this._roomMap = new HashMap<>();
         this._floorList = new ArrayList<>();
         this.deviceSystemNameByIdMap = new HashMap<>();
+        this._offlineManualDatabase = new OfflineManualDatabase();
     }
 
     public House getConfiguredHouse() throws SimulationException {
@@ -76,6 +80,7 @@ public class SimulationConfig {
 
 
     private House createConfiguredHouse() {
+        ManualRepo manualRepo = new ManualRepoProxy(_offlineManualDatabase);
         log.info("[CONFIG][HOUSE] Creating configured house...");
         List<Floor> configuredFloors = new ArrayList<>();
         // create rooms
@@ -103,9 +108,16 @@ public class SimulationConfig {
                 Room configuredRoom = configuredRoomBuilder.build();
 
                 // add configured room to human and pet object -> used for their impl of Being::goTo() method
-                configuredRoom.getAllPeople().forEach(person -> person.setRoom(configuredRoom));
-                configuredRoom.getAllPets().forEach(pet -> pet.setRoom(configuredRoom));
+                configuredRoom.getAllPeople().forEach(person -> {
+                    person.setRoom(configuredRoom);
+                    person.setManualRepo(manualRepo);
+                });
+                configuredRoom.getAllPets().forEach(pet -> {
+                    pet.setRoom(configuredRoom);
+                    pet.setManualRepo(manualRepo);
+                });
 
+                // add device systems to the room
                 for(DeviceSystem deviceSystem : deviceSystems) {
                     DeviceSystem newDeviceSystem = this.createSystemByType(
                             deviceSystem.getDeviceSystemID(),
@@ -116,7 +128,7 @@ public class SimulationConfig {
                     );
                     configuredRoom.addDeviceSystem(newDeviceSystem);
                 }
-
+                // add configured room to the floor map
                 configuredRooms.computeIfAbsent(floor.getFloorID(), k -> new ArrayList<>())
                         .add(configuredRoom);
             }
@@ -220,7 +232,7 @@ public class SimulationConfig {
                 int petID = pet.get("petID").asInt();
                 String petName = pet.get("petName").asText();
                 int petRoomID = pet.get("roomID").asInt();
-                Pet tmpPet = new Pet(petID, petName, null);
+                Pet tmpPet = new Pet(petID, petName, null,null);
                 this._petConfigMap.computeIfAbsent(petRoomID, k -> new ArrayList<>())
                         .add(tmpPet);
             }
@@ -234,7 +246,7 @@ public class SimulationConfig {
                 int personID = human.get("personID").asInt();
                 String personName = human.get("personName").asText();
                 int personRoomID = human.get("roomID").asInt();
-                Human tmpHuman = new Human(personID, personName, null);
+                Human tmpHuman = new Human(personID, personName, null,null);
                 this._humanConfigMap.computeIfAbsent(personRoomID, k -> new ArrayList<>())
                         .add(tmpHuman);
             }

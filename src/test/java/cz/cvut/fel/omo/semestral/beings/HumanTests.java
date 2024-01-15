@@ -9,6 +9,9 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 import cz.cvut.fel.omo.semestral.entity.systems.GateControlSystem;
+import cz.cvut.fel.omo.semestral.manual.ManualRepo;
+import cz.cvut.fel.omo.semestral.manual.ManualRepoProxy;
+import cz.cvut.fel.omo.semestral.manual.OfflineManualDatabase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +27,7 @@ public class HumanTests {
     UserInputSensor userInputSensor;
     GateController gateController;
     Gate gate;
-
+    ManualRepo manualRepo;
     Human human;
 
     @Before
@@ -35,10 +38,11 @@ public class HumanTests {
         userInputSensor = new UserInputSensor(UUID.randomUUID());
         gateController = new GateController(UUID.randomUUID(), gate, userInputSensor);
         gateControlSystem = new GateControlSystem(1, gate, gateController, userInputSensor);
+        manualRepo = new ManualRepoProxy(new OfflineManualDatabase());
 
         room = Room.roomBuilder().setRoomID(1).setRoomName("Pokoj1").addDeviceSystem(gateControlSystem).build();
 
-        human = new Human(1, "Pavel", room);
+        human = new Human(1, "Pavel", room, manualRepo);
         room.enterRoom(human);
     }
 

@@ -14,6 +14,9 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.*;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 import cz.cvut.fel.omo.semestral.entity.systems.SecuritySystem;
+import cz.cvut.fel.omo.semestral.manual.ManualRepo;
+import cz.cvut.fel.omo.semestral.manual.ManualRepoProxy;
+import cz.cvut.fel.omo.semestral.manual.OfflineManualDatabase;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -30,9 +33,9 @@ public class HouseInitializationTest {
                                         (SecuritySensor) securitySensor,
                                         (SecurityController) controller,
                                         userInputSensor );
-
+    ManualRepo manualRepo = new ManualRepoProxy(new OfflineManualDatabase());
     Appliance gate = new Gate(UUID.randomUUID());
-    Being humanNamedPete = new Human(1,"Pete", null);
+    Being humanNamedPete = new Human(1,"Pete", null, manualRepo);
     SportEquipment bike = new SportEquipment(SportEquipmentType.BIKE,false);
     SportEquipment skis = new SportEquipment(SportEquipmentType.SKIS,false);
 

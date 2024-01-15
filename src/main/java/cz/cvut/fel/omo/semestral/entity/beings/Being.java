@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.beings;
 import cz.cvut.fel.omo.semestral.entity.actions.Action;
 import cz.cvut.fel.omo.semestral.entity.actions.ActionRecord;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
+import cz.cvut.fel.omo.semestral.manual.ManualRepo;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +14,10 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * Abstract class representing a being (like a human or a pet) in the smart home simulation.
- * This class provides common attributes and methods for all beings, such as name, room, and action plan.
+ * Abstract class representing a being (like a human or a pet) in the smart home
+ * simulation.
+ * This class provides common attributes and methods for all beings, such as
+ * name, room, and action plan.
  */
 @Getter
 @Setter
@@ -31,33 +34,35 @@ public abstract class Being implements Tickable {
     /** List of actions that have been performed by the being. */
     protected List<ActionRecord> performedActions = new LinkedList<>();
     protected int TickCounter = 0;
+    protected ManualRepo manualRepo;
 
     /**
-     * Constructs a new Being with the specified action plan, name, and initial room.
+     * Constructs a new Being with the specified action plan, name, and initial
+     * room.
      *
      * @param beingID    The ID of the being.
      * @param actionPlan The queue of actions that this being will perform.
      * @param name       The name of the being.
      * @param room       The initial room where the being is located.
      */
-    public Being(int beingID, String name, Room room, Queue<Action> actionPlan) {
+    public Being(int beingID, String name, Room room, ManualRepo manualRepo, Queue<Action> actionPlan) {
         this.beingID = beingID;
         this.name = name;
         this.room = room;
         this.actionPlan = actionPlan;
+        this.manualRepo = manualRepo;
     }
 
     /**
      * Constructs a new Being with the specified name and initial room.
      *
-     * @param beingID    The ID of the being.
-     * @param name       The name of the being.
-     * @param room       The initial room where the being is located.
+     * @param beingID The ID of the being.
+     * @param name    The name of the being.
+     * @param room    The initial room where the being is located.
      */
-    public Being(int beingID, String name, Room room) {
-        this(beingID, name, room, new LinkedList<>());
+    public Being(int beingID, String name, Room room, ManualRepo manualRepo) {
+        this(beingID, name, room, manualRepo, new LinkedList<>());
     }
-
 
     /**
      * Adds an action to the being's action plan.
@@ -80,7 +85,7 @@ public abstract class Being implements Tickable {
      *
      * @param room The room to move the being to.
      */
-    public void goTo(Room room){
+    public void goTo(Room room) {
         log.info(this.name + " is moving to room " + room.getRoomName() + " from room " + this.room.getRoomName());
         if (this.room == room) {
             return;
@@ -93,7 +98,8 @@ public abstract class Being implements Tickable {
 
     /**
      * Simulates the eating action of the being.
-     * This method can be overridden or extended in subclasses for specific eating behaviors.
+     * This method can be overridden or extended in subclasses for specific eating
+     * behaviors.
      */
     public void eat() {
         System.out.println(this.name + " eats");
@@ -101,7 +107,8 @@ public abstract class Being implements Tickable {
 
     /**
      * Method called on each tick of the simulation.
-     * Subclasses should override this method to define behavior that occurs on each tick.
+     * Subclasses should override this method to define behavior that occurs on each
+     * tick.
      */
     @Override
     public void onTick() {

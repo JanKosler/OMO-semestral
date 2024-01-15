@@ -9,6 +9,7 @@ import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.SportEquipment;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.SportEquipmentType;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
+import cz.cvut.fel.omo.semestral.manual.ManualRepo;
 import cz.cvut.fel.omo.semestral.reporting.Report;
 import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import cz.cvut.fel.omo.semestral.tick.Tickable;
@@ -32,8 +33,8 @@ public class Human extends Being implements Tickable {
      * @param room       The initial room where the human is located.
      * @param actionPlan The queue of actions that this human will perform.
      */
-    public Human(int beingID, String name, Room room, Queue<Action> actionPlan) {
-        super(beingID, name, room, actionPlan);
+    public Human(int beingID, String name, Room room, ManualRepo manualRepo, Queue<Action> actionPlan) {
+        super(beingID, name, room, manualRepo,actionPlan);
     }
     /**
      * Constructs a new Human with the specified name and initial room.
@@ -42,8 +43,8 @@ public class Human extends Being implements Tickable {
      * @param name       The name of the human.
      * @param room       The initial room where the human is located.
      */
-    public Human(int beingID, String name, Room room) {
-        super(beingID, name, room);
+    public Human(int beingID, String name, Room room, ManualRepo manualRepo) {
+        super(beingID, name, room,manualRepo);
     }
 
     /**
