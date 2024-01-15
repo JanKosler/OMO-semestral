@@ -4,6 +4,7 @@ import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Temperature;
 import lombok.Getter;
 
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -25,7 +26,7 @@ public class TemperatureSensor extends Sensor {
      * Constructs a TemperatureSensor with default settings.
      */
     public TemperatureSensor(UUID serialNumber, Temperature temperature) {
-        super(serialNumber, 100 );
+        super(serialNumber, new Random().nextInt(250)+100);
         this.currentTemperature = temperature.getTemperature();
         this.temperature = temperature;
     }

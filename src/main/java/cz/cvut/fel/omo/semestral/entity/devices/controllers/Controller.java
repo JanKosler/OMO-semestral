@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestral.entity.devices.controllers;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
+import cz.cvut.fel.omo.semestral.entity.actions.ControllerRecord;
 import cz.cvut.fel.omo.semestral.entity.devices.DeviceMalfunctionObserver;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.IDeviceObserver;
@@ -41,6 +42,9 @@ public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
     private int wearCapacity;
     /** List of observers that are notified when the controller malfunctions */
     private List<DeviceMalfunctionObserver> malfunctionObservers = new ArrayList<>();
+
+    protected List<ControllerRecord> records = new ArrayList<>();
+    private int tickCounter = 0;
 
     /**
      * Constructs a Controller with default settings.
@@ -127,6 +131,7 @@ public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
             if (this.totalWear >= wearCapacity) {
                 this.setState(DeviceState.MALFUNCTION);
                 log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has broken.");
+                this.records.add(new ControllerRecord(this.getTickCounter(),this, "has broken."));
                 notifyMalfunctionObservers();
 
             }
@@ -146,5 +151,6 @@ public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
         this.setState(DeviceState.ON);
         this.totalWear = 0;
         log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has been repaired.");
+        this.records.add(new ControllerRecord(this.getTickCounter(),this, "has been repaired."));
     }
 }

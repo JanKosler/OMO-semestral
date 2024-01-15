@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.systems;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Alarm;
+import cz.cvut.fel.omo.semestral.entity.devices.controllers.Controller;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.SecurityController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.MotionSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.SecuritySensor;
@@ -42,6 +43,11 @@ public class SecuritySystem extends DeviceSystem {
     @Override
     public Alarm getAppliance() {
         return alarm;
+    }
+
+    @Override
+    public Controller getController() {
+        return controller;
     }
 
     @Override

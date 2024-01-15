@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.devices.sensors;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import lombok.Getter;
 
+import java.util.Random;
 import java.util.UUID;
 
 
@@ -22,7 +23,7 @@ public class SecuritySensor extends Sensor {
      * Constructs a SecuritySensor with default settings.
      */
     public SecuritySensor(UUID serialNumber) {
-        super(serialNumber, 100);
+        super(serialNumber, new Random().nextInt(250)+100);
     }
 
     @Override

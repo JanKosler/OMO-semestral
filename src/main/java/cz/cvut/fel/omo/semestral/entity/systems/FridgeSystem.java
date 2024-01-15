@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.systems;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Fridge;
+import cz.cvut.fel.omo.semestral.entity.devices.controllers.Controller;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.FridgeController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
@@ -26,6 +27,11 @@ public class FridgeSystem extends DeviceSystem {
         this.controller = controller;
         this.userInputSensor = userInputSensor;
         turnOn();
+    }
+
+    @Override
+    public Controller getController() {
+        return controller;
     }
 
     @Override

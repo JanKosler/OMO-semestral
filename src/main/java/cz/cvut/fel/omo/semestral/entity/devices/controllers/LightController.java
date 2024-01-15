@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.devices.controllers;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
+import cz.cvut.fel.omo.semestral.entity.actions.ControllerRecord;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Light;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.MotionSensor;
@@ -12,6 +13,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -43,7 +45,7 @@ public class LightController extends Controller {
      * @param userInputSensor The UserInputSensor for receiving user commands related to the lights.
      */
     public LightController(UUID serialNumber,List<Light> lights, MotionSensor motionSensor, UserInputSensor userInputSensor) {
-        super(serialNumber,100);
+        super(serialNumber,new Random().nextInt(250)+100);
         this.lights = lights;
         this.motionSensor = motionSensor;
         this.userInputSensor = userInputSensor;
@@ -70,6 +72,7 @@ public class LightController extends Controller {
 
     @Override
     public void onTick() {
+        setTickCounter(getTickCounter() + 1);
         if (this.getState() == DeviceState.ON) {
             updateWear(1);
             updatePowerConsumption(powerConsumptionPerTick);
@@ -106,11 +109,13 @@ public class LightController extends Controller {
     private void turnOnAllLights() {
         lights.forEach(light -> light.addtoActionPlan(DeviceCommand.TURN_ON));
         log.info("Controller: Lights turned on.");
+        this.records.add(new ControllerRecord(this.getTickCounter(),this, "Light have been turned on."));
     }
 
     private void turnOffAllLights() {
         lights.forEach(light -> light.addtoActionPlan(DeviceCommand.TURN_OFF));
         log.info("Controller: Lights turned off.");
+        this.records.add(new ControllerRecord(this.getTickCounter(),this, "Light have been turned off."));
     }
 }
 

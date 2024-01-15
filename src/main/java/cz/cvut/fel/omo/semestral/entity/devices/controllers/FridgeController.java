@@ -3,12 +3,14 @@ package cz.cvut.fel.omo.semestral.entity.devices.controllers;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
+import cz.cvut.fel.omo.semestral.entity.actions.ControllerRecord;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Fridge;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -35,7 +37,7 @@ public class FridgeController extends Controller {
      * @param userInputSensor The sensor that detects user inputs for the fridge.
      */
     public FridgeController(UUID serialNumber, Fridge fridge, UserInputSensor userInputSensor) {
-        super(serialNumber, 100);
+        super(serialNumber, new Random().nextInt(250)+100);
         this.fridge = fridge;
         this.userInputSensor = userInputSensor;
         this.userInputSensor.addObserver(this);
@@ -57,6 +59,7 @@ public class FridgeController extends Controller {
 
     @Override
     public void onTick() {
+        setTickCounter(getTickCounter() + 1);
         if (this.getState() == DeviceState.ON) {
             updateWear(1);
             updatePowerConsumption(powerConsumptionPerTick);
@@ -99,6 +102,7 @@ public class FridgeController extends Controller {
             currentTemperature--;
         }
         log.info("Controller: Fridge temperature set to {}.", targetTemperature);
+        this.records.add(new ControllerRecord(this.getTickCounter(),this, "Fridge temperature set to " + targetTemperature + "°C"));
     }
 }
 

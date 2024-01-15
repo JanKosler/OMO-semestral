@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.systems;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Gate;
+import cz.cvut.fel.omo.semestral.entity.devices.controllers.Controller;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.GateController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.MotionSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
@@ -30,6 +31,11 @@ public class GateControlSystem extends DeviceSystem {
     @Override
     public Gate getAppliance() {
         return gate;
+    }
+
+    @Override
+    public Controller getController() {
+        return controller;
     }
 
     @Override

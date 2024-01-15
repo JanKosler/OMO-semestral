@@ -4,6 +4,7 @@ import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Appliance;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.TV;
+import cz.cvut.fel.omo.semestral.entity.devices.controllers.Controller;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.MotionSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
@@ -34,7 +35,11 @@ public abstract class DeviceSystem implements Tickable {
      */
     public void turnOn() {
         for(IDevice device : getDevices()) {
-            device.turnOn();
+            if(device instanceof TV){
+                ((TV) device).setIdle();
+            } else{
+                device.turnOn();
+            }
         }
     }
 
@@ -58,6 +63,10 @@ public abstract class DeviceSystem implements Tickable {
     }
 
     public MotionSensor getMotionSensor() {
+        return null;
+    }
+
+    public Controller getController() {
         return null;
     }
 

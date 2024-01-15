@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.systems;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.TV;
+import cz.cvut.fel.omo.semestral.entity.devices.controllers.Controller;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.TVController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
@@ -23,7 +24,7 @@ public class TVSystem extends DeviceSystem {
     /** The user input sensor */
     public final UserInputSensor userInputSensor;
     /** The list of UserInputTypes that this system can process */
-    private final List<UserInputType> allowedUserInputTypes = List.of(UserInputType.TV_VOLUME, UserInputType.TV_CHANNEL);
+    private final List<UserInputType> allowedUserInputTypes = List.of(UserInputType.TV_VOLUME, UserInputType.TV_CHANNEL, UserInputType.TV_POWER);
     private final int deviceSystemID;
 
     public TVSystem(int deviceSystemID, TV tv, TVController controller, UserInputSensor userInputSensor) {
@@ -41,6 +42,11 @@ public class TVSystem extends DeviceSystem {
     @Override
     public TV getAppliance() {
         return tv;
+    }
+
+    @Override
+    public Controller getController() {
+        return controller;
     }
 
     /**

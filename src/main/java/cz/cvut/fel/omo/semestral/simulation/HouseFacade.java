@@ -6,9 +6,7 @@ import cz.cvut.fel.omo.semestral.entity.beings.Human;
 import cz.cvut.fel.omo.semestral.entity.beings.Pet;
 import cz.cvut.fel.omo.semestral.entity.devices.DeviceMalfunctionObserver;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
-import cz.cvut.fel.omo.semestral.entity.livingSpace.Floor;
-import cz.cvut.fel.omo.semestral.entity.livingSpace.House;
-import cz.cvut.fel.omo.semestral.entity.livingSpace.Room;
+import cz.cvut.fel.omo.semestral.entity.livingSpace.*;
 import cz.cvut.fel.omo.semestral.entity.systems.*;
 import cz.cvut.fel.omo.semestral.reporting.HouseConfigurationReport;
 import cz.cvut.fel.omo.semestral.reporting.ReportGenerator;
@@ -39,7 +37,7 @@ public class HouseFacade implements DeviceMalfunctionObserver {
     private TickPublisher tickPublisher;
 
     @Getter
-    int numberOfTicks = 100;
+    int numberOfTicks = 200;
 
     /**
      * Initializes the simulation and runs it.
@@ -87,17 +85,18 @@ public class HouseFacade implements DeviceMalfunctionObserver {
         Room livingRoom = getRoomByName("Living Room");
         Room bedroom = getRoomByName("Bedroom");
         Room bathroom = getRoomByName("Bathroom");
+        Room garage = getRoomByName("Garage");
 
         Queue<Action> johnActionList = new LinkedList<>();
         johnActionList.add(new Action(UserInputType.B_CHANGEROOM, livingRoom));
         johnActionList.add(new Action(UserInputType.B_NOTHING, null));
-        johnActionList.add(new Action(UserInputType.TV_POWER, true));
+        johnActionList.add(new Action(UserInputType.TV_POWER, null));
         johnActionList.add(new Action(UserInputType.TV_VOLUME, 5));
         johnActionList.add(new Action(UserInputType.TV_CHANNEL, 1));
-        johnActionList.add(new Action(UserInputType.TV_POWER, false));
+        johnActionList.add(new Action(UserInputType.TV_POWER, null));
         johnActionList.add(new Action(UserInputType.B_NOTHING, null));
         johnActionList.add(new Action(UserInputType.B_NOTHING, null));
-        johnActionList.add(new Action(UserInputType.HVAC_TEMPERATURE, 20));
+        johnActionList.add(new Action(UserInputType.HVAC_TEMPERATURE, 50.0));
         johnActionList.add(new Action(UserInputType.B_CHANGEROOM, bedroom));
         johnActionList.add(new Action(UserInputType.B_NOTHING, null));
         johnActionList.add(new Action(UserInputType.B_NOTHING, null));
@@ -108,7 +107,7 @@ public class HouseFacade implements DeviceMalfunctionObserver {
         johnActionList.add(new Action(UserInputType.B_NOTHING, null));
         johnActionList.add(new Action(UserInputType.B_NOTHING, null));
         johnActionList.add(new Action(UserInputType.B_CHANGEROOM, livingRoom));
-        johnActionList.add(new Action(UserInputType.HVAC_TEMPERATURE, 23));
+        johnActionList.add(new Action(UserInputType.HVAC_TEMPERATURE, 7.0));
         john_doe.setActionPlan(johnActionList);
 
         Queue<Action> janeActionList = new LinkedList<>();
@@ -121,7 +120,7 @@ public class HouseFacade implements DeviceMalfunctionObserver {
         janeActionList.add(new Action(UserInputType.TV_VOLUME, 7));
         janeActionList.add(new Action(UserInputType.TV_CHANNEL, 3));
         janeActionList.add(new Action(UserInputType.TV_POWER, false));
-        janeActionList.add(new Action(UserInputType.HVAC_TEMPERATURE, 22));
+        janeActionList.add(new Action(UserInputType.HVAC_TEMPERATURE, 15.0));
         jane_doe.setActionPlan(janeActionList);
 
         Queue<Action> jamesActionList = new LinkedList<>();
@@ -130,6 +129,31 @@ public class HouseFacade implements DeviceMalfunctionObserver {
         jamesActionList.add(new Action(UserInputType.B_CHANGEROOM, kitchen));
         jamesActionList.add(new Action(UserInputType.FRIDGE_TEMPERATURE, 4));
         jamesActionList.add(new Action(UserInputType.B_CHANGEROOM, livingRoom));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.HVAC_TEMPERATURE, 25.0));
+        jamesActionList.add(new Action(UserInputType.B_CHANGEROOM, bathroom));
+        jamesActionList.add(new Action(UserInputType.B_CHANGEROOM, garage));
+        jamesActionList.add(new Action(UserInputType.B_STARTSPORT, SportEquipmentType.SKIS));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_STOPSPORT, SportEquipmentType.SKIS));
+        jamesActionList.add(new Action(UserInputType.B_NOTHING, null));
+        jamesActionList.add(new Action(UserInputType.B_CHANGEROOM, livingRoom));
+        jamesActionList.add(new Action(UserInputType.HVAC_TEMPERATURE, 27.0));
         james_doe.setActionPlan(jamesActionList);
 
 
@@ -144,6 +168,7 @@ public class HouseFacade implements DeviceMalfunctionObserver {
         reportGenerator.generateReportAndSaveToFile(ACTIVITY_USAGE, this, System.getProperty("user.dir") + "/reports/");
         reportGenerator.generateReportAndSaveToFile(CONFIGURATION, this, System.getProperty("user.dir") + "/reports/");
         reportGenerator.generateReportAndSaveToFile(CONSUMPTION, this, System.getProperty("user.dir") + "/reports/");
+        reportGenerator.generateReportAndSaveToFile(EVENT, this, System.getProperty("user.dir") + "/reports/");
 
     }
 

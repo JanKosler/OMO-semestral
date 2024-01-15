@@ -2,12 +2,14 @@ package cz.cvut.fel.omo.semestral.entity.devices.controllers;
 
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
+import cz.cvut.fel.omo.semestral.entity.actions.ControllerRecord;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Gate;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -32,7 +34,7 @@ public class GateController extends Controller {
      * @param userInputSensor The sensor that detects user inputs for the gate.
      */
     public GateController(UUID serialNumber, Gate gate, UserInputSensor userInputSensor) {
-        super(serialNumber,100);
+        super(serialNumber,new Random().nextInt(250)+100);
         this.gate = gate;
         this.userInputSensor = userInputSensor;
         this.userInputSensor.addObserver(this);
@@ -53,6 +55,7 @@ public class GateController extends Controller {
 
     @Override
     public void onTick() {
+        setTickCounter(getTickCounter() + 1);
         if (this.getState() == DeviceState.ON) {
             updateWear(1);
             updatePowerConsumption(powerConsumptionPerTick);
@@ -78,6 +81,7 @@ public class GateController extends Controller {
      */
     private void toggleGate() {
         gate.addtoActionPlan(DeviceCommand.TOGGLE_GATE);
+        this.records.add(new ControllerRecord(this.getTickCounter(),this, "Gate has been toggled."));
     }
 }
 

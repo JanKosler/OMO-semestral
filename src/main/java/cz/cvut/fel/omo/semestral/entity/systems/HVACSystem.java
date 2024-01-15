@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.systems;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.HVAC;
+import cz.cvut.fel.omo.semestral.entity.devices.controllers.Controller;
 import cz.cvut.fel.omo.semestral.entity.devices.controllers.TemperatureController;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.TemperatureSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
@@ -34,6 +35,11 @@ public class HVACSystem extends DeviceSystem {
     @Override
     public HVAC getAppliance() {
         return hvac;
+    }
+
+    @Override
+    public Controller getController() {
+        return controller;
     }
 
     @Override

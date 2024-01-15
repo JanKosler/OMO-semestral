@@ -9,7 +9,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,7 +32,7 @@ public class ReportGenerator {
 
     public void generateReportAndSaveToFile(ReportType reportType, HouseFacade houseFacade, String directoryPath) {
         Report report = generateReport(reportType, houseFacade);
-        saveReportToFile(report, directoryPath);
+        saveReportToFile(report, directoryPath, reportType);
     }
 
     private ReportVisitor createReportVisitor(ReportType reportType) {
@@ -42,13 +45,12 @@ public class ReportGenerator {
         };
     }
 
-    private void saveReportToFile(Report report, String directoryPath) {
-        Path path = Paths.get(directoryPath, "Report_" + report.getReportId() + ".txt");
+    private void saveReportToFile(Report report, String directoryPath, ReportType reportType) {
+        Path path = Paths.get(directoryPath, "Report_" + reportType + "_" + report.getReportId() + ".txt");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toFile()))) {
             writer.write(report.getContent());
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle exceptions, maybe log them or inform the user
         }
     }
 

@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.devices.controllers;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
+import cz.cvut.fel.omo.semestral.entity.actions.ControllerRecord;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.Alarm;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.SecuritySensor;
@@ -10,6 +11,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -38,7 +40,7 @@ public class SecurityController extends Controller {
      * @param alarm            The Alarm system to be controlled.
      */
     public SecurityController(UUID serialNumber, SecuritySensor securitySensor, UserInputSensor userInputSensor, Alarm alarm) {
-        super(serialNumber, 100);
+        super(serialNumber, new Random().nextInt(250)+100);
         this.securitySensor = securitySensor;
         this.userInputSensor = userInputSensor;
         this.alarm = alarm;
@@ -61,6 +63,7 @@ public class SecurityController extends Controller {
 
     @Override
     public void onTick() {
+        setTickCounter(getTickCounter() + 1);
         if (this.getState() == DeviceState.ON) {
             updateWear(1);
             updatePowerConsumption(powerConsumptionPerTick);
@@ -87,12 +90,14 @@ public class SecurityController extends Controller {
         if (securitySensor.isBreachDetected()) {
             alarm.addtoActionPlan(DeviceCommand.TURN_ON); // Activate the alarm
             log.info("Controller: Security breach detected. Activating alarm.");
+            this.records.add(new ControllerRecord(this.getTickCounter(),this, "Security breach detected. Activating alarm."));
         }
     }
 
     private void disarmAlarm() {
         alarm.addtoActionPlan(DeviceCommand.TURN_OFF);
         log.info("Controller: Alarm disarmed.");
+        this.records.add(new ControllerRecord(this.getTickCounter(),this, "Alarm disarmed."));
     }
 }
 

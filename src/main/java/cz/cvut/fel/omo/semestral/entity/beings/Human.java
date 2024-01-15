@@ -126,13 +126,13 @@ public class Human extends Being implements Tickable {
                     }
                     break;
                 case B_STARTSPORT:
-                    if(nextAction.getValue() instanceof SportEquipment) {
+                    if(nextAction.getValue() instanceof SportEquipmentType) {
                         doSport((SportEquipmentType) nextAction.getValue());
                         addPerformedAction(nextAction);
                     }
                     break;
                 case B_STOPSPORT:
-                    if(nextAction.getValue() instanceof SportEquipment) {
+                    if(nextAction.getValue() instanceof SportEquipmentType) {
                         stopSport((SportEquipmentType) nextAction.getValue());
                         addPerformedAction(nextAction);
                     }

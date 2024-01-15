@@ -6,6 +6,7 @@ import cz.cvut.fel.omo.semestral.entity.actions.Action;
 import lombok.Getter;
 
 import java.util.Queue;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -27,7 +28,7 @@ public class UserInputSensor extends Sensor {
      */
     public UserInputSensor(UUID serialNumber) {
 
-        super(serialNumber, 100);
+        super(serialNumber, new Random().nextInt(250)+100);
         this.actionPlan = new java.util.LinkedList<>();
     }
 

@@ -3,12 +3,14 @@ package cz.cvut.fel.omo.semestral.entity.devices.controllers;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
+import cz.cvut.fel.omo.semestral.entity.actions.ControllerRecord;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.TV;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.Sensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -33,7 +35,7 @@ public class TVController extends Controller {
      * @param userInputSensor The sensor that captures user inputs for the TV.
      */
     public TVController(UUID serialNumber, TV tv, UserInputSensor userInputSensor) {
-        super(serialNumber, 100);
+        super(serialNumber, new Random().nextInt(250)+100);
         this.tv = tv;
         this.userInputSensor = userInputSensor;
         this.userInputSensor.addObserver(this);
@@ -54,6 +56,7 @@ public class TVController extends Controller {
 
     @Override
     public void onTick() {
+        setTickCounter(getTickCounter() + 1);
         if (this.getState() == DeviceState.ON) {
             updateWear(1);
             updatePowerConsumption(powerConsumptionPerTick);
@@ -82,10 +85,12 @@ public class TVController extends Controller {
 
         switch (inputType) {
             case TV_POWER:
-                if ((boolean) inputValue) {
+                if (tv.getState() == DeviceState.IDLE) {
                     tv.addtoActionPlan(DeviceCommand.TURN_ON);
+                    records.add(new ControllerRecord(this.getTickCounter(),this, "TV has been turned on."));
                 } else {
                     tv.addtoActionPlan(DeviceCommand.TURN_OFF);
+                    records.add(new ControllerRecord(this.getTickCounter(),this, "TV has been turned off."));
                 }
                 break;
             case TV_VOLUME:
@@ -122,6 +127,7 @@ public class TVController extends Controller {
             }
         }
         log.info("Controller: TV volume set to " + newVolume);
+        records.add(new ControllerRecord(this.getTickCounter(),this, "TV volume set to " + newVolume));
     }
 
     /**
@@ -143,6 +149,7 @@ public class TVController extends Controller {
             }
         }
         log.info("Controller: TV channel set to " + newChannel);
+        records.add(new ControllerRecord(this.getTickCounter(),this, "TV channel set to " + newChannel));
     }
 }
 

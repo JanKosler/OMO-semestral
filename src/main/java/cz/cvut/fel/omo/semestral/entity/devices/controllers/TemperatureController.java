@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestral.entity.devices.controllers;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceCommand;
 import cz.cvut.fel.omo.semestral.common.enums.DeviceState;
 import cz.cvut.fel.omo.semestral.common.enums.UserInputType;
+import cz.cvut.fel.omo.semestral.entity.actions.ControllerRecord;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.HVAC;
 import cz.cvut.fel.omo.semestral.entity.devices.appliances.states.CoolingState;
@@ -14,6 +15,7 @@ import cz.cvut.fel.omo.semestral.entity.devices.sensors.TemperatureSensor;
 import cz.cvut.fel.omo.semestral.entity.devices.sensors.UserInputSensor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -52,7 +54,7 @@ public class TemperatureController extends Controller {
      * @param userInputSensor The sensor for receiving user inputs regarding target temperature.
      */
     public TemperatureController(UUID serialNumber, TemperatureSensor internalSensor, TemperatureSensor externalSensor, HVAC hvac, UserInputSensor userInputSensor) {
-        super(serialNumber, 100);
+        super(serialNumber, new Random().nextInt(250)+100);
         this.internalSensor = internalSensor;
         this.externalSensor = externalSensor;
         this.hvac = hvac;
@@ -85,6 +87,7 @@ public class TemperatureController extends Controller {
 
     @Override
     public void onTick() {
+        setTickCounter(getTickCounter() + 1);
         if (this.getState() == DeviceState.ON) {
             updateWear(1);
             updatePowerConsumption(powerConsumptionPerTick);
@@ -127,20 +130,24 @@ public class TemperatureController extends Controller {
             if (indoorTemp < targetTemperature && !(hvac.getCurrentState() instanceof HeatingState)) {
                 hvac.addtoActionPlan(DeviceCommand.SWITCH_TO_HEATING);
                 log.info("Controller: Switching to heating, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
+                this.records.add(new ControllerRecord(this.getTickCounter(),this, "Switching to heating, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp));
             } else if (indoorTemp > targetTemperature) {
                 if (outdoorTemp > targetTemperature) {
                     if (!(hvac.getCurrentState() instanceof CoolingState)){
                         hvac.addtoActionPlan(DeviceCommand.SWITCH_TO_COOLING);
                         log.info("Controller: Switching to cooling, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
+                        records.add(new ControllerRecord(this.getTickCounter(),this, "Switching to cooling, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp));
                     }
                 } else if (!(hvac.getCurrentState() instanceof VentilationState)) {
                     hvac.addtoActionPlan(DeviceCommand.SWITCH_TO_VENTILATION);
                     log.info("Controller: Switching to ventilation, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
+                    records.add(new ControllerRecord(this.getTickCounter(),this, "Switching to ventilation, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp));
                 }
             }
         } else {
             hvac.addtoActionPlan(DeviceCommand.TURN_OFF);
             log.info("Controller: HVAC turned off, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp);
+            records.add(new ControllerRecord(this.getTickCounter(),this, "HVAC turned off, target: " + targetTemperature + ", current: " + indoorTemp + ", outdoor: " + outdoorTemp));
         }
     }
 

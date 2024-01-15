@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Random;
 import java.util.UUID;
 
 
@@ -29,7 +30,7 @@ public class MotionSensor extends Sensor {
      * Constructs a MotionSensor with default settings.
      */
     public MotionSensor(UUID serialNumber, Room room) {
-        super(serialNumber, 100);
+        super(serialNumber, new Random().nextInt(250)+100);
         this.room = room;
     }
 
