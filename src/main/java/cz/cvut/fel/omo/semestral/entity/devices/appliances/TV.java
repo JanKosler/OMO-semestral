@@ -27,12 +27,23 @@ public class TV extends Appliance {
     /** The power consumption of the TV per tick when turned on */
     private final double powerConsumptionPerTick_ON = (double) 35 / 600;
 
+    /**
+     * Constructs a new TV instance with the specified serial number.
+     *
+     * @param serialNumber The unique identifier for the TV.
+     */
     public TV(UUID serialNumber) {
         super(serialNumber, 500);
         this.currentChannel = 1; // Default channel
         this.volumeLevel = 5;   // Default volume level
     }
 
+    /**
+     * Executes a command on the TV, such as turning it on or off, adjusting volume,
+     * or changing the channel.
+     *
+     * @param command The command to execute on the TV.
+     */
     @Override
     public void executeCommand(DeviceCommand command) {
         switch (command) {
@@ -62,6 +73,9 @@ public class TV extends Appliance {
         }
     }
 
+    /**
+     * Performs actions on the TV during each tick.
+     */
     @Override
     public void onTick() {
         DeviceState currentState = this.getState();
@@ -78,6 +92,11 @@ public class TV extends Appliance {
         }
     }
 
+    /**
+     * Adjusts the volume of the TV to the specified new volume level.
+     *
+     * @param newVolume The new volume level to set for the TV.
+     */
     public void adjustVolume(int newVolume) {
         if (newVolume > 10) {
             volumeLevel = 10; // Cap the volume at 100
@@ -89,7 +108,11 @@ public class TV extends Appliance {
 
     }
 
-
+    /**
+     * Changes the channel of the TV to the specified channel.
+     *
+     * @param channel The new channel to set for the TV.
+     */
     private void changeChannel(int channel) {
         currentChannel = channel;
     }

@@ -95,32 +95,62 @@ public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
         }
     }
 
+    /**
+     * Sets the state of the controller.
+     *
+     * @param state The new state to set for the controller.
+     */
     public void setState(DeviceState state) {
         if (this.state != state) {
             this.state = state;
         }
     }
 
+    /**
+     * Turns the controller on, setting its state to ON.
+     */
     public void turnOn() {
         this.state = DeviceState.ON;
     }
 
+    /**
+     * Turns the controller off, setting its state to OFF.
+     */
     public void turnOff() {
         this.state = DeviceState.OFF;
     }
 
+    /**
+     * Updates the total power consumption of the controller.
+     *
+     * @param powerConsumption The amount of power consumption to add to the total.
+     */
     public void updatePowerConsumption(double powerConsumption){
         this.totalPowerConsumption += powerConsumption;
     };
+
+    /**
+     * Updates the total wear of the controller.
+     *
+     * @param wear The amount of wear to add to the total.
+     */
     public void updateWear(int wear){
         this.totalWear += wear;
     };
 
+    /**
+     * Adds a malfunction observer to the list of observers.
+     *
+     * @param observer The observer to add.
+     */
     @Override
     public void addMalfunctionObserver(DeviceMalfunctionObserver observer) {
         malfunctionObservers.add(observer);
     }
 
+    /**
+     * Notifies all malfunction observers that the controller has malfunctioned.
+     */
     @Override
     public void notifyMalfunctionObservers() {
         for (DeviceMalfunctionObserver observer : malfunctionObservers) {
@@ -128,6 +158,10 @@ public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
         }
     }
 
+    /**
+     * Checks if the controller is broken based on its total wear and wear capacity.
+     * If it is, sets the state to MALFUNCTION and notifies observers.
+     */
     public void checkIfBroken() {
         if (this.getState() != DeviceState.MALFUNCTION) {
             if (this.totalWear >= wearCapacity) {
@@ -140,14 +174,26 @@ public abstract class Controller implements IDevice, IDeviceObserver, Tickable {
         }
     }
 
+    /**
+     * Abstract method to be implemented by subclasses to perform actions during each tick.
+     */
     public abstract void onTick();
 
-
+    /**
+     * Gets the serial number of the controller.
+     *
+     * @return The serial number of the controller.
+     */
     @Override
     public UUID getSerialNumber() {
         return serialNumber;
     }
 
+    /**
+     * Repairs the controller using a manual.
+     *
+     * @param manual The manual used for repairing the controller.
+     */
     @Override
     public void repair(Manual manual){
         this.setState(DeviceState.ON);

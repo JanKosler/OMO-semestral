@@ -12,7 +12,17 @@ import cz.cvut.fel.omo.semestral.simulation.HouseFacade;
 import java.time.Instant;
 import java.util.UUID;
 
+/**
+ * The {@code EventReport} class generates reports about events and actions performed by controllers in device systems. It implements the {@link ReportVisitor} interface to visit various entities within the smart home simulation and collect event data for reporting.
+ */
 public class EventReport implements ReportVisitor{
+
+    /**
+     * Visits a device system, generates a report for controller actions, and summarizes the event data.
+     *
+     * @param deviceSystem The device system to visit.
+     * @return A report containing event data for the device system.
+     */
     @Override
     public Report visitDeviceSystem(DeviceSystem deviceSystem) {
         Report report = new Report();
@@ -50,6 +60,12 @@ public class EventReport implements ReportVisitor{
         return null;
     }
 
+    /**
+     * Creates a comprehensive report by visiting all device systems in the house facade and summarizing controller events.
+     *
+     * @param houseFacade The house facade containing device systems.
+     * @return A comprehensive report summarizing controller events.
+     */
     @Override
     public Report createReport(HouseFacade houseFacade) {
         Report finalReport = new Report();

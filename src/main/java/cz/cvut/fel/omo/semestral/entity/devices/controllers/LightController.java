@@ -70,6 +70,10 @@ public class LightController extends Controller {
         }
     }
 
+    /**
+     * Performs actions during each tick.
+     * Updates wear, power consumption, and checks for malfunctions.
+     */
     @Override
     public void onTick() {
         setTickCounter(getTickCounter() + 1);

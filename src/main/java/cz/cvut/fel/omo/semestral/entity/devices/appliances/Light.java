@@ -22,10 +22,20 @@ public class Light extends Appliance {
     /** The power consumption of the light per tick when turned on */
     private final double powerConsumptionPerTick_ON = (double) 10 / 600;
 
+    /**
+     * Constructs a new Light instance with the specified serial number.
+     *
+     * @param serialNumber The unique identifier for the light.
+     */
     public Light(UUID serialNumber) {
         super(serialNumber, 500);
     }
 
+    /**
+     * Executes a command on the light, turning it on or off.
+     *
+     * @param command The command to execute on the light.
+     */
     @Override
     public void executeCommand(DeviceCommand command) {
         switch (command) {
@@ -41,6 +51,9 @@ public class Light extends Appliance {
         }
     }
 
+    /**
+     * Performs actions on the light during each tick.
+     */
     @Override
     public void onTick() {
         DeviceState currentState = this.getState();

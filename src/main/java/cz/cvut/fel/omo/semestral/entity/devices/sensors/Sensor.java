@@ -119,18 +119,37 @@ public abstract class Sensor implements IDevice, Tickable {
         this.state = DeviceState.OFF;
     }
 
+    /**
+     * Updates the power consumption of the sensor.
+     *
+     * @param powerConsumption The amount of power consumption to update.
+     */
     public void updatePowerConsumption(double powerConsumption){
         this.totalPowerConsumption += powerConsumption;
     };
+
+    /**
+     * Updates the total wear of the sensor.
+     *
+     * @param wear The amount of wear to update.
+     */
     public void updateWear(int wear){
         this.totalWear += wear;
     };
 
+    /**
+     * Adds a malfunction observer to the sensor.
+     *
+     * @param observer The observer to be added.
+     */
     @Override
     public void addMalfunctionObserver(DeviceMalfunctionObserver observer) {
         malfunctionObservers.add(observer);
     }
 
+    /**
+     * Notifies all malfunction observers about the sensor malfunctioning.
+     */
     @Override
     public void notifyMalfunctionObservers() {
         for (DeviceMalfunctionObserver observer : malfunctionObservers) {
@@ -138,6 +157,10 @@ public abstract class Sensor implements IDevice, Tickable {
         }
     }
 
+    /**
+     * Checks if the sensor has broken down.
+     * If the sensor has broken down, its state is set to MALFUNCTION and all observers are notified.
+     */
     public void checkIfBroken() {
         if (this.getState() != DeviceState.MALFUNCTION) {
             if (this.totalWear >= wearCapacity) {
@@ -148,13 +171,27 @@ public abstract class Sensor implements IDevice, Tickable {
         }
     }
 
+    /**
+     * Performs actions during each tick.
+     * Subclasses should implement this method for specific sensor behaviors.
+     */
     public abstract void onTick();
 
+    /**
+     * Gets the serial number of the sensor.
+     *
+     * @return The serial number of the sensor.
+     */
     @Override
     public UUID getSerialNumber() {
         return serialNumber;
     }
 
+    /**
+     * Repairs the sensor with a manual.
+     *
+     * @param manual The manual to use for repair.
+     */
     @Override
     public void repair(Manual manual){
         this.setState(DeviceState.ON);
@@ -162,6 +199,9 @@ public abstract class Sensor implements IDevice, Tickable {
         log.info(this.getClass().getSimpleName() + " " + this.getSerialNumber() + " has been repaired with manual.");
     }
 
+    /**
+     * Repairs the sensor without a manual.
+     */
     @Override
     public void repair(){
         this.setState(DeviceState.ON);

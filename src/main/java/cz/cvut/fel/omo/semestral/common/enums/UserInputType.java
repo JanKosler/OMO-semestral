@@ -42,6 +42,7 @@ public enum UserInputType {
     /** Represents an action for a being to stop using sport equipment */
     B_STOPSPORT,
 
+    /** Represents an action for a being to go to sleep. */
     B_NOTHING,
 
 }

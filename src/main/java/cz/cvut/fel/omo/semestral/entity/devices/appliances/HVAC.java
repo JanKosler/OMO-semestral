@@ -24,17 +24,33 @@ public class HVAC extends Appliance {
     /** The internal temperature of the HVAC system */
     private final Temperature internalTemperature;
 
+    /**
+     * Constructs a new HVAC system with the specified serial number and internal temperature.
+     *
+     * @param serialNumber       The unique identifier for the HVAC system.
+     * @param internalTemperature The initial internal temperature of the HVAC system.
+     */
     public HVAC(UUID serialNumber, Temperature internalTemperature) {
         super(serialNumber, 5000);
         this.currentState = new OffState(); // Default state is off
         this.internalTemperature = internalTemperature;
     }
 
+    /**
+     * Sets the current state of the HVAC system.
+     *
+     * @param newState The new state to set for the HVAC system.
+     */
     public void setState(HVACState newState) {
 
         this.currentState = newState;
     }
 
+    /**
+     * Executes a command on the HVAC system, changing its state as necessary.
+     *
+     * @param command The command to execute on the HVAC system.
+     */
     @Override
     public void executeCommand(DeviceCommand command) {
         switch (command) {
@@ -56,6 +72,9 @@ public class HVAC extends Appliance {
         }
     }
 
+    /**
+     * Performs actions on the HVAC system during each tick.
+     */
     @Override
     public void onTick() {
         DeviceState currentState = this.getState();
@@ -73,6 +92,9 @@ public class HVAC extends Appliance {
         this.setState(DeviceState.ON);
     }
 
+    /**
+     * Adjusts the internal temperature of the HVAC system based on its current state.
+     */
     protected void adjustTemperature(){
         internalTemperature.adjustTemperature(this.currentState.getTempChangePerTick());
     }

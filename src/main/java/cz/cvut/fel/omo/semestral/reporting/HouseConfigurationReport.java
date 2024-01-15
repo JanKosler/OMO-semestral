@@ -16,10 +16,16 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Class for generating reports about the house configuration.
+ * The {@code HouseConfigurationReport} class generates reports about the configuration of a smart home, including details about the house structure, rooms, device systems, humans, and pets. It implements the {@link ReportVisitor} interface to visit various entities within the smart home simulation and collect configuration data for reporting.
  */
 public class HouseConfigurationReport implements ReportVisitor{
 
+    /**
+     * Visits a device system, generates a report for the device system's configuration, and summarizes the configuration data.
+     *
+     * @param deviceSystem The device system to visit.
+     * @return A report containing configuration data for the device system.
+     */
     @Override
     public Report visitDeviceSystem(DeviceSystem deviceSystem) {
         Report report = new Report();
@@ -37,6 +43,12 @@ public class HouseConfigurationReport implements ReportVisitor{
         return report;
     }
 
+    /**
+     * Visits a human and generates a report. Not implemented in this class.
+     *
+     * @param human The human to visit.
+     * @return A report for the human.
+     */
     @Override
     public Report visitHuman(Human human) {
 
@@ -47,6 +59,12 @@ public class HouseConfigurationReport implements ReportVisitor{
         return report;
     }
 
+    /**
+     * Visits a pet and generates a report. Not implemented in this class.
+     *
+     * @param pet The pet to visit.
+     * @return A report for the pet.
+     */
     @Override
     public Report visitPet(Pet pet) {
         Report report = new Report();
@@ -56,6 +74,12 @@ public class HouseConfigurationReport implements ReportVisitor{
         return report;
     }
 
+    /**
+     * Visits a house, generates a report for the entire house configuration, and summarizes the configuration data.
+     *
+     * @param house The house to visit.
+     * @return A report containing configuration data for the entire house.
+     */
     @Override
     public Report visitHouse(House house) {
         Report report = new Report();
@@ -83,6 +107,12 @@ public class HouseConfigurationReport implements ReportVisitor{
         return report;
     }
 
+    /**
+     * Creates a comprehensive report by visiting the house and all entities within it, including humans and pets, and summarizing the entire configuration.
+     *
+     * @param houseFacade The house facade containing the house and entities.
+     * @return A comprehensive report summarizing the entire house configuration.
+     */
     @Override
     public Report createReport(HouseFacade houseFacade) {
         Report finalReport = new Report();

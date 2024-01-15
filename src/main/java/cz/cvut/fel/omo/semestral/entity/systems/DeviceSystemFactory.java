@@ -35,6 +35,11 @@ public class DeviceSystemFactory {
         return new FridgeSystem(deviceSystemID,fridge, controller, userInputSensor);
     }
 
+    /**
+     * Creates and configures a GateControlSystem.
+     *
+     * @return The assembled GateControlSystem.
+     */
     public GateControlSystem createGateControlSystem(int deviceSystemID) {
         // Create the components of the GateControlSystem
         Gate gate = new Gate(generateUUID());
@@ -77,6 +82,11 @@ public class DeviceSystemFactory {
         return new LightingSystem(deviceSystemID,lights, lightController, motionSensor, userInputSensor);
     }
 
+    /**
+     * Creates and configures a HVACSystem.
+     *
+     * @return The assembled HVACSystem.
+     */
     public HVACSystem createHVACSystem(int deviceSystemID, Temperature internalTemp, Temperature externalTemp) {
         HVAC hvac = new HVAC(generateUUID(), internalTemp);
         TemperatureSensor internalSensor = new TemperatureSensor(generateUUID(), internalTemp);
@@ -88,6 +98,11 @@ public class DeviceSystemFactory {
     }
 
 
+    /**
+     * Creates and configures a TVSystem.
+     *
+     * @return The assembled TVSystem.
+     */
     public TVSystem createEntertainmentSystem(int deviceSystemID) {
         TV tv = new TV(generateUUID());
         UserInputSensor userInputSensor = new UserInputSensor(generateUUID());

@@ -32,6 +32,15 @@ public class House implements ILivingSpace {
     private final Temperature externalTemperature;
 
 
+    /**
+     * Constructs a new {@code House} object with the specified parameters and a list of floors.
+     *
+     * @param houseID The unique ID of the house.
+     * @param houseNumber The number of the house.
+     * @param address The address of the house.
+     * @param internalTemperature The internal temperature of the house.
+     * @param externalTemperature The external temperature of the house.
+     */
     public House(int houseID, int houseNumber, String address, Temperature internalTemperature, Temperature externalTemperature) {
         this.houseID = houseID;
         this.houseNumber = houseNumber;
@@ -41,6 +50,16 @@ public class House implements ILivingSpace {
         this.floors = new ArrayList<>();
     }
 
+    /**
+     * Constructs a new {@code House} object with the specified parameters and a list of floors.
+     *
+     * @param houseID The unique ID of the house.
+     * @param houseNumber The number of the house.
+     * @param address The address of the house.
+     * @param internalTemperature The internal temperature of the house.
+     * @param externalTemperature The external temperature of the house.
+     * @param floors A list of floors within the house.
+     */
     public House(int houseID, int houseNumber, String address, Temperature internalTemperature, Temperature externalTemperature, List<Floor> floors) {
         this(houseID, houseNumber, address, internalTemperature, externalTemperature);
         for (Floor floor : floors) {

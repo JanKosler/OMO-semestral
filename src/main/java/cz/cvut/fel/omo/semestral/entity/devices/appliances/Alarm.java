@@ -30,6 +30,13 @@ public class Alarm extends Appliance {
         this.isArmed = false; // Alarm is disarmed by default
     }
 
+
+    /**
+     * Executes a specific command on the alarm device.
+     * This method allows the alarm to be armed or disarmed based on the provided command.
+     *
+     * @param command The device command to be executed, either ARM_ALARM or DISARM_ALARM.
+     */
     @Override
     public void executeCommand(DeviceCommand command) {
         switch (command) {
@@ -45,6 +52,10 @@ public class Alarm extends Appliance {
         }
     }
 
+    /**
+     * Performs actions on each tick based on the current state of the alarm.
+     * This method updates the power consumption and wear of the alarm, and checks if it's broken.
+     */
     @Override
     public void onTick() {
         DeviceState currentState = this.getState();
@@ -61,6 +72,10 @@ public class Alarm extends Appliance {
         }
     }
 
+    /**
+     * Arms the alarm system, setting its state to ACTIVE.
+     * This method changes the state of the alarm to active if it is not already armed.
+     */
     private void armAlarm() {
         if (!isArmed) {
             this.isArmed = true;
@@ -68,6 +83,10 @@ public class Alarm extends Appliance {
         }
     }
 
+    /**
+     * Disarms the alarm system, setting its state to IDLE.
+     * This method changes the state of the alarm to idle if it is currently armed.
+     */
     private void disarmAlarm() {
         if (isArmed) {
             this.isArmed = false;

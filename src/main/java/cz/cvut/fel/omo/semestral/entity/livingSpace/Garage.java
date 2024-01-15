@@ -36,6 +36,10 @@ public class Garage extends Room {
                 }).orElse(false);
     }
 
+    /**
+     * Returns sport equipment. Checks if there is used equipment of the given type and sets it to unused.
+     * @param type Type of the sport equipment.
+     */
     public void returnSportEquipment(SportEquipmentType type) {
         sportEquipmentList.stream().findFirst()
                 .filter(equipment -> equipment.getType() == type && equipment.isUsed())
