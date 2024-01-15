@@ -1,0 +1,109 @@
+House Configuration Report
+--------------------------
+
+House ID: 1
+Number of Floors: 2
+
+Floor 0:
+Number of Rooms: 2
+
+Room 1:
+Number of Device Systems: 2
+
+Device System (FridgeSystem)with ID:
+1
+Devices: 
+Device (Fridge), with ID: 3fbd31d5-d016-4e04-9ce8-00bab191f9c5
+Device (FridgeController), with ID: 62ef327f-39ba-45f5-b9d2-cc82afd956e1
+Device (UserInputSensor), with ID: a7f66d4c-ebba-43c2-a228-3728c81a7675
+
+Device System (LightingSystem)with ID:
+2
+Devices: 
+Device (Light), with ID: 895f0c01-1a65-4c2e-b27f-badf15d2876e
+Device (Light), with ID: 2f4dda07-7ca9-48d8-88da-bd9f4ce9bc1a
+Device (Light), with ID: ab086ea6-d7c1-4f55-ba17-2671eebd1136
+Device (LightController), with ID: 908646c5-cd85-46f2-b9fb-f1e7359131f9
+Device (UserInputSensor), with ID: f7254016-a985-4236-a230-5332f9c1d332
+Device (MotionSensor), with ID: ba79984f-c14b-4924-8359-7502404bd162
+
+Room 2:
+Number of Device Systems: 4
+
+Device System (TVSystem)with ID:
+3
+Devices: 
+Device (TV), with ID: 2cbea31f-7707-4e87-8780-d142c0c99068
+Device (TVController), with ID: 23bdba28-0c76-4aa3-921c-8786f5e8f885
+Device (UserInputSensor), with ID: 37bd7f1f-3283-4360-883d-87af2172ba76
+
+Device System (HVACSystem)with ID:
+4
+Devices: 
+Device (HVAC), with ID: 8b5afd54-952a-4ba5-b6f7-e9e912cd67fd
+Device (TemperatureController), with ID: 47743371-ed0c-4318-8624-f82e1c8ab577
+Device (UserInputSensor), with ID: 366e6ec9-3b89-4fe9-b962-cf17e5e50140
+Device (TemperatureSensor), with ID: 62296a32-8ad5-4f58-bdce-e50476d89ae2
+Device (TemperatureSensor), with ID: 6fa522e0-9292-4275-b3f4-11bd78026765
+
+Device System (SecuritySystem)with ID:
+5
+Devices: 
+Device (Alarm), with ID: 6a13692d-3111-483a-a78b-17ace0422952
+Device (SecurityController), with ID: e64232ba-9af0-4650-95fb-8d1a8184ee3d
+Device (UserInputSensor), with ID: 761ac778-e21d-447e-8528-d040e4ec903c
+
+Device System (LightingSystem)with ID:
+6
+Devices: 
+Device (Light), with ID: 01718822-18bf-4324-bcb5-8ab85b8c0176
+Device (Light), with ID: 8e7ef2b1-8cf6-49a6-b2ec-3fd92da2a513
+Device (Light), with ID: 830d394c-01ef-42e6-b755-5268dcb3024e
+Device (LightController), with ID: cf744aad-cd5d-4a26-a08d-f95f9a1fc58a
+Device (UserInputSensor), with ID: 707d501d-c847-40dd-aa10-84e58d2d5e71
+Device (MotionSensor), with ID: 8a636cb8-ead3-4cef-88b2-b14c74121498
+
+Floor 1:
+Number of Rooms: 2
+
+Room 3:
+Number of Device Systems: 1
+
+Device System (LightingSystem)with ID:
+7
+Devices: 
+Device (Light), with ID: 6ecd7e6c-0f18-4922-b5a7-3e3330b5bb9e
+Device (Light), with ID: d09fffd2-dc8b-44e9-96a2-141ba67ec678
+Device (Light), with ID: d5ad3023-0a6d-4ca8-94ee-d991279a46b2
+Device (LightController), with ID: 2a44721b-f046-4997-95b1-bcc6d57e5c7e
+Device (UserInputSensor), with ID: e0ed4997-53a1-4ef7-81bd-9d1e713022c9
+Device (MotionSensor), with ID: 8497327c-26a1-4096-bddd-70a7dfcbb0a7
+
+Room 4:
+Number of Device Systems: 1
+
+Device System (LightingSystem)with ID:
+8
+Devices: 
+Device (Light), with ID: 3c7d7945-1f5d-4e0b-8708-65039ddb7e80
+Device (Light), with ID: 7451a0b9-3c28-4a0b-ae1e-4b47d2551f73
+Device (Light), with ID: 70a7b930-cd0c-40e4-8ba4-ca7e76cea317
+Device (LightController), with ID: 3b8f7e2f-2703-4aaa-9544-6e9245287b53
+Device (UserInputSensor), with ID: 014bd278-c8a2-4f5a-b116-ca93bf1a65f8
+Device (MotionSensor), with ID: a7df26d7-48aa-41cd-9aea-3aa1ffe3fac0
+--------------------------
+
+Humans:
+Number of humans: 3
+
+Human with Name: Jane Doe
+
+Human with Name: James Doe
+
+Human with Name: John Doe
+--------------------------
+
+Pets:
+Number of pets: 1
+
+Pet with Name: Fido

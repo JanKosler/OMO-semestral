@@ -33,6 +33,7 @@ import static cz.cvut.fel.omo.semestral.reporting.ReportType.*;
 @Slf4j
 public class HouseFacade implements DeviceMalfunctionObserver {
     /** The house. */
+    @Getter
     private House house;
     private SimulationConfig simulationConfig;
     private TickPublisher tickPublisher;
