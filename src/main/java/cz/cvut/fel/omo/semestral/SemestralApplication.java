@@ -10,7 +10,7 @@ public class SemestralApplication {
 
 	public static void main(String[] args) {
 		SimulationManager simulationManager = new SimulationManager();
-		simulationManager.runSimulation("testConfig1.json");
+		simulationManager.runSimulation("testConfig2.json");
 	}
 
 }

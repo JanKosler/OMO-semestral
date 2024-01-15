@@ -8,12 +8,12 @@
   },
   "Garage":
   {
-    "roomID": "0",
-    "garageName": "Garage",
-    "garageHouseID": "1",
-    "sportEquipmentCountBIKE": "2",
-    "sportEquipmentCountSKATES": "1",
-    "sportEquipmentCountSKIS": "1"
+      "roomID": "0",
+      "garageName": "Garage",
+      "garageHouseID": "1",
+      "sportEquipmentCountBIKE": "2",
+      "sportEquipmentCountSKATES": "1",
+      "sportEquipmentCountSKIS": "1"
   },
   "Floors": [
     {
@@ -47,16 +47,6 @@
       "roomID": "4",
       "roomName": "Bathroom",
       "floorID": "2"
-    },
-    {
-      "roomID": "5",
-      "roomName": "Bedroom",
-      "floorID": "2"
-    },
-    {
-      "roomID": "6",
-      "roomName": "Hall",
-      "floorID": "2"
     }
   ],
   "Pets": [
@@ -64,16 +54,6 @@
       "petID": "1",
       "petName": "Fido",
       "roomID": "1"
-    },
-    {
-      "petID": "2",
-      "petName": "Angel",
-      "roomID": "1"
-    },
-    {
-      "petID": "3",
-      "petName": "Darling",
-      "roomID": "2"
     }
   ],
   "Humans": [
@@ -91,21 +71,6 @@
       "personID": "3",
       "personName": "James Doe",
       "roomID": "3"
-    },
-    {
-      "personID": "4",
-      "personName": "Michael Doe",
-      "roomID": "3"
-    },
-    {
-      "personID": "5",
-      "personName": "Rupert Doe",
-      "roomID": "4"
-    },
-    {
-      "personID": "6",
-      "personName": "Phelony Doe",
-      "roomID": "5"
     }
   ],
   "DeviceSystems": [
@@ -148,21 +113,7 @@
       "systemID": "8",
       "systemName": "LightingSystem",
       "roomID": "4"
-    },
-    {
-      "systemID": "9",
-      "systemName": "GateControlSystem",
-      "roomID": "0"
-    },
-    {
-      "systemID": "10",
-      "systemName": "LightingSystem",
-      "roomID": "5"
-    },
-    {
-      "systemID": "11",
-      "systemName": "LightingSystem",
-      "roomID": "6"
     }
   ]
 }
+
