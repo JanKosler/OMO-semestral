@@ -56,7 +56,7 @@
 [ 
     {
         "systemID": int, // unique
-        "systemName": string,
+        "systemName": string, // used for system type, must be one of the supported types
         "roomID": int // must exist in "Rooms"
     },
 ]

@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
-import java.net.StandardProtocolFamily;
 import java.util.*;
 
 /**
@@ -45,7 +44,6 @@ public class SimulationConfig {
     /* Implementations of the ILivingSpace interface */
     /** Map<FloorID, List> */
     private final Map<Integer, List<Room>> _roomMap;
-    private final Set<Integer> _roomIDSet;
     private final List<Floor> _floorList;
     private House _house;
     private Garage _garage;
@@ -58,7 +56,6 @@ public class SimulationConfig {
      */
     public SimulationConfig(String configFilename) {
         this._configFilename = configFilename;
-        this._roomIDSet = new HashSet<>();
         this._petConfigMap = new HashMap<>();
         this._humanConfigMap = new HashMap<>();
         this._deviceSystemConfigMap = new HashMap<>();
@@ -189,9 +186,22 @@ public class SimulationConfig {
                 if (garageID != 0)
                     throw new ConfigurationException("Garage ID must be 0.");
                 String garageName = garage.get("garageName").asText();
+
+                // check if sport equipment count is positive
                 int sportEquipmentCountBIKE = garage.get("sportEquipmentCountBIKE").asInt();
+                if( sportEquipmentCountBIKE < 0)
+                    throw new ConfigurationException("Sport equipment count must be positive.");
+
+                // check if sport equipment count is positive
                 int sportEquipmentCountSKATES = garage.get("sportEquipmentCountSKATES").asInt();
+                if( sportEquipmentCountSKATES < 0)
+                    throw new ConfigurationException("Sport equipment count must be positive.");
+
+                // check if sport equipment count is positive
                 int sportEquipmentCountSKIS = garage.get("sportEquipmentCountSKIS").asInt();
+                if( sportEquipmentCountSKIS < 0)
+                    throw new ConfigurationException("Sport equipment count must be positive.");
+
                 List<SportEquipment> sportEquipmentList = this.createSportEquipmentList(sportEquipmentCountBIKE, sportEquipmentCountSKATES, sportEquipmentCountSKIS);
                 this._garage = Garage.garageBuilder()
                         .setRoomID(garageID)
@@ -202,22 +212,32 @@ public class SimulationConfig {
                 log.info("[CONFIG][PARSING] Garage successfully initialized.");
 
                 /* CONFIGURATION OF FLOORS */
+                Set<Integer> floorIDSet = new HashSet<>();
+                Set<String> floorNameSet = new HashSet<>();
+                Set<Integer> floorLevelSet = new HashSet<>();
                 // Create floors from config and add them to the config map
                 JsonNode floors = jsonObject.get("Floors");
                 for (JsonNode floor : floors) {
-                    int floorID = floor.get("floorID").asInt();
 
                     // check if this floorID is unique
-                    if(this._floorList.stream().anyMatch(f -> f.getFloorID() == floorID))
+                    int floorID = floor.get("floorID").asInt();
+                    if(floorIDSet.contains(floorID))
                         throw new ConfigurationException("[FLOOR] Floor with this ID already exists : " + floorID);
+                    floorIDSet.add(floorID);
 
+                    // check if floor name is unique
                     String floorName = floor.get("floorName").asText();
+                    if(floorNameSet.contains(floorName))
+                        throw new ConfigurationException("[FLOOR] Floor with this name already exists : " + floorName);
+                    floorNameSet.add(floorName);
 
-                    int floorLevel = floor.get("floorLevel").asInt();
                     // check if floor level is unique
-                    if(this._floorList.stream().anyMatch(f -> f.getFloorLevel() == floorLevel))
+                    int floorLevel = floor.get("floorLevel").asInt();
+                    if(floorLevelSet.contains(floorLevel))
                         throw new ConfigurationException("[FLOOR] Floor with this level already exists : " + floorLevel);
+                    floorLevelSet.add(floorLevel);
 
+                    // create new floor and add it to the floor list
                     Floor newFloor = new Floor(floorID, floorName, floorLevel, null);
                     this._floorList.add(newFloor);
                 }
@@ -225,30 +245,36 @@ public class SimulationConfig {
                 log.info("[CONFIG][PARSING] Floors successfully initialized.");
 
                 /* CONFIGURATION OF ROOMS */
+                Set<Integer> roomIDSet = new HashSet<>();
+                Set<String> roomNameSet = new HashSet<>();
                 // Create rooms from config and add them to the config map
                 JsonNode rooms = jsonObject.get("Rooms");
                 for (JsonNode room : rooms) {
-                    int roomID = room.get("roomID").asInt();
 
                     // check if roomID is unique and is not 0 (reserved for garage)
+                    int roomID = room.get("roomID").asInt();
                     if(roomID == 0)
                         throw new ConfigurationException("[ROOM] RoomID 0 is reserved for garage.");
-                    if(this._roomMap.containsKey(roomID))
+                    if(roomIDSet.contains(roomID))
                         throw new ConfigurationException("[ROOM] Room with this ID already exists : " + roomID);
+                    roomIDSet.add(roomID);
 
+                    // check if room name is unique
                     String roomName = room.get("roomName").asText();
-                    int floorID = room.get("floorID").asInt();
+                    if(roomNameSet.contains(roomName))
+                        throw new ConfigurationException("[ROOM] Room with this name already exists : " + roomName);
+                    roomNameSet.add(roomName);
 
                     // check if floor of this id exists
+                    int floorID = room.get("floorID").asInt();
                     if(this._floorList.stream().noneMatch(floor -> floor.getFloorID() == floorID))
                         throw new ConfigurationException("[ROOM] Floor with ID " + floorID + " does not exist.");
 
+                    // create temp room and add it to the room map
                     Room tmpRoom = Room.roomBuilder()
                             .setRoomID(roomID)
                             .setRoomName(roomName)
                             .build();
-
-                    this._roomIDSet.add(roomID);
                     this._roomMap.computeIfAbsent(floorID, k -> new ArrayList<>())
                             .add(tmpRoom);
                 }
@@ -256,21 +282,30 @@ public class SimulationConfig {
                 log.info("[CONFIG][PARSING] Rooms successfully initialized.");
 
                 /* CONFIGURATION OF PETS */
+                Set<Integer> petIDSet = new HashSet<>();
+                Set<String> petNameSet = new HashSet<>();
                 // Create pets from config and add them to the pet config map
                 JsonNode pets = jsonObject.get("Pets");
                 for (JsonNode pet : pets) {
-                    int petID = pet.get("petID").asInt();
+
                     // check if petID is unique
-                    if(this._petConfigMap.containsKey(petID))
+                    int petID = pet.get("petID").asInt();
+                    if(petIDSet.contains(petID))
                         throw new ConfigurationException("[PET] Pet with this ID already exists : " + petID);
+                    petIDSet.add(petID);
 
+                    // check if pet name is unique
                     String petName = pet.get("petName").asText();
+                    if(petNameSet.contains(petName))
+                        throw new ConfigurationException("[PET] Pet with this name already exists : " + petName);
+                    petNameSet.add(petName);
 
-                    int petRoomID = pet.get("roomID").asInt();
                     // check if room of this roomID exists
-                    if(!this._roomIDSet.contains(petRoomID))
+                    int petRoomID = pet.get("roomID").asInt();
+                    if(!roomIDSet.contains(petRoomID))
                         throw new ConfigurationException("[PET] Room with ID " + petRoomID + " does not exist.");
 
+                    // create tmp pet and add it to the pet config map
                     Pet tmpPet = new Pet(petID, petName, null);
                     this._petConfigMap.computeIfAbsent(petRoomID, k -> new ArrayList<>())
                             .add(tmpPet);
@@ -279,21 +314,30 @@ public class SimulationConfig {
                 log.info("[CONFIG][PARSING] Pets successfully initialized.");
 
                 /* CONFIGURATION OF HUMANS */
+                Set<Integer> humanIDSet = new HashSet<>();
+                Set<String> humanNameSet = new HashSet<>();
                 // Create humans from config and add them to the human config map
                 JsonNode humans = jsonObject.get("Humans");
                 for (JsonNode human : humans) {
-                    int personID = human.get("personID").asInt();
+
                     // check if personID is unique
-                    if(this._humanConfigMap.containsKey(personID))
+                    int personID = human.get("personID").asInt();
+                    if(humanIDSet.contains(personID))
                         throw new ConfigurationException("[HUMAN] Human with this ID already exists : " + personID);
+                    humanIDSet.add(personID);
 
+                    // check if person name is unique
                     String personName = human.get("personName").asText();
+                    if(humanNameSet.contains(personName))
+                        throw new ConfigurationException("[HUMAN] Human with this name already exists : " + personName);
+                    humanNameSet.add(personName);
 
-                    int personRoomID = human.get("roomID").asInt();
                     // check if room of this roomID exists
-                    if(!this._roomIDSet.contains(personRoomID))
+                    int personRoomID = human.get("roomID").asInt();
+                    if(!roomIDSet.contains(personRoomID))
                         throw new ConfigurationException("[HUMAN] Room with ID " + personRoomID + " does not exist. " + personID);
 
+                    // create tmp human and add it to the human config map
                     Human tmpHuman = new Human(personID, personName, null, null);
                     this._humanConfigMap.computeIfAbsent(personRoomID, k -> new ArrayList<>())
                             .add(tmpHuman);
@@ -302,6 +346,7 @@ public class SimulationConfig {
                 log.info("[CONFIG][PARSING] Humans successfully initialized.");
 
                 /* CONFIGURATION OF DEVICE SYSTEMS */
+                Set<Integer> deviceSystemIDSet = new HashSet<>();
                 // Create device systems from config and add them to the device system config map
                 JsonNode deviceSystems = jsonObject.get("DeviceSystems");
                 for (JsonNode deviceSystem : deviceSystems) {
@@ -312,9 +357,9 @@ public class SimulationConfig {
 
                     String deviceSystemName = deviceSystem.get("systemName").asText();
 
-                    int deviceSystemRoomID = deviceSystem.get("roomID").asInt();
                     // check if room of this roomID exists
-                    if(deviceSystemRoomID != 0 && !this._roomIDSet.contains(deviceSystemRoomID))
+                    int deviceSystemRoomID = deviceSystem.get("roomID").asInt();
+                    if(deviceSystemRoomID != 0 && !roomIDSet.contains(deviceSystemRoomID))
                         throw new ConfigurationException("[DEVICESYSTEM] Room with ID " + deviceSystemRoomID + " does not exist.");
 
                     // Check if the room is found, then add the device system to the map
@@ -339,6 +384,10 @@ public class SimulationConfig {
             isLoaded = false;
         }
     }
+
+    /**
+     * Logs the configuration.
+     */
     private void logConfiguration() {
         log.info("Configuration:");
         log.info("House: " + _house.toString());
@@ -349,6 +398,10 @@ public class SimulationConfig {
         log.info("Device systems: " + _deviceSystemConfigMap.toString());
     }
 
+    /**
+     * Logs the configured house.
+     * @param house House to log
+     */
     private void logConfiguredHouse(House house) {
         log.info("Configured house: " + house.toString());
         house.getFloors().forEach(floor -> log.info("Floor: " + floor.toString()));
@@ -357,29 +410,49 @@ public class SimulationConfig {
         house.getFloors().forEach(floor -> floor.getRooms().forEach(room -> room.getAllPets().forEach(pet -> log.info("Pet: " + pet.toString()))));
         house.getFloors().forEach(floor -> floor.getRooms().forEach(room -> room.getAllDeviceSystems().forEach(deviceSystem -> log.info("Device system: " + deviceSystem.toString()))));
     }
-        private List<SportEquipment> createSportEquipmentList(int sportEquipmentCountBIKE, int sportEquipmentCountSKATES, int sportEquipmentCountSKIS) {
-            List<SportEquipment> sportEquipmentList = new ArrayList<>();
-            for (int i = 0; i < sportEquipmentCountBIKE; i++)
-                sportEquipmentList.add(new SportEquipment(SportEquipmentType.BIKE));
-            for (int i = 0; i < sportEquipmentCountSKATES; i++)
-                sportEquipmentList.add(new SportEquipment(SportEquipmentType.SKATES));
-            for (int i = 0; i < sportEquipmentCountSKIS; i++)
-                sportEquipmentList.add(new SportEquipment(SportEquipmentType.SKIS));
-            return sportEquipmentList;
-        }
-        private DeviceSystem createSystemByType(int roomID, int deviceSystemID, String deviceSystemName, Room room, Temperature internalTemp, Temperature externalTemp) throws ConfigurationException {
-            if( roomID != 0 && deviceSystemName.equals("GateControlSystem"))
-                throw new ConfigurationException("GateControlSystem can only be in the garage.");
 
-            DeviceSystemFactory factory = new DeviceSystemFactory();
-            return switch (deviceSystemName) {
-                case "FridgeSystem" -> factory.createFridgeSystem(deviceSystemID);
-                case "GateControlSystem" -> factory.createGateControlSystem(deviceSystemID);
-                case "HVACSystem" -> factory.createHVACSystem(deviceSystemID, internalTemp, externalTemp);
-                case "LightingSystem" -> factory.createLightingSystem(deviceSystemID,room);
-                case "SecuritySystem" -> factory.createSecuritySystem(deviceSystemID);
-                case "TVSystem" -> factory.createEntertainmentSystem(deviceSystemID);
-                default -> null;
-            };
-        }
+    /**
+     * Creates a list of sport equipment. {@link SportEquipment}
+     * @param sportEquipmentCountBIKE number of bikes
+     * @param sportEquipmentCountSKATES number of skates
+     * @param sportEquipmentCountSKIS number of skis
+     * @return List of sport equipment {@see SportEquipment}
+     */
+    private List<SportEquipment> createSportEquipmentList(int sportEquipmentCountBIKE, int sportEquipmentCountSKATES, int sportEquipmentCountSKIS) {
+        List<SportEquipment> sportEquipmentList = new ArrayList<>();
+        for (int i = 0; i < sportEquipmentCountBIKE; i++)
+            sportEquipmentList.add(new SportEquipment(SportEquipmentType.BIKE));
+        for (int i = 0; i < sportEquipmentCountSKATES; i++)
+            sportEquipmentList.add(new SportEquipment(SportEquipmentType.SKATES));
+        for (int i = 0; i < sportEquipmentCountSKIS; i++)
+            sportEquipmentList.add(new SportEquipment(SportEquipmentType.SKIS));
+        return sportEquipmentList;
+    }
+
+    /**
+     * Creates a device system by its type.
+     * @param roomID roomId (used to check if were creating a gate control system in the garage and nowhere else)
+     * @param deviceSystemID deviceSystemId
+     * @param deviceSystemName deviceSystemName
+     * @param room room (used to create a lighting system)
+     * @param internalTemp internalTemp
+     * @param externalTemp externalTemp
+     * @return DeviceSystem
+     * @throws ConfigurationException if the device system type is not recognized
+     */
+     private DeviceSystem createSystemByType(int roomID, int deviceSystemID, String deviceSystemName, Room room, Temperature internalTemp, Temperature externalTemp) throws ConfigurationException {
+         if( roomID != 0 && deviceSystemName.equals("GateControlSystem"))
+             throw new ConfigurationException("GateControlSystem can only be in the garage.");
+
+         DeviceSystemFactory factory = new DeviceSystemFactory();
+         return switch (deviceSystemName) {
+             case "FridgeSystem" -> factory.createFridgeSystem(deviceSystemID);
+             case "GateControlSystem" -> factory.createGateControlSystem(deviceSystemID);
+             case "HVACSystem" -> factory.createHVACSystem(deviceSystemID, internalTemp, externalTemp);
+             case "LightingSystem" -> factory.createLightingSystem(deviceSystemID,room);
+             case "SecuritySystem" -> factory.createSecuritySystem(deviceSystemID);
+             case "TVSystem" -> factory.createEntertainmentSystem(deviceSystemID);
+             default -> throw new ConfigurationException("Device system type not recognized.");
+         };
+     }
 }
