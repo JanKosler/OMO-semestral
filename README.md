@@ -146,6 +146,13 @@ Soubor **.json** je načítán ze složky "config" v kořenovém adresáři apli
 }
 ```
 
-Použité design patterny:
+## Použité design patterny:
 1) Facade - HouseFacade.java, agreguje načítání konfigurace, spuštění simulace a reporting.
-2) 
+2) Observer - MalfunctionObserver (Sleduje zprávy o poruše zařízení a zpracovává je), IDeviceObserver (Controller sleduje změny na Sensorech)
+3) Factory - DeviceSystemactory (Vytváří systémy zařízení)
+4) StateMachine - HVACState (Různé stavy zařízení HVAC - Vypnutý, Chladí, Ohřívá, Ventiluje)
+5) Visitor - ReportVisitor (vytváření reportů – přijde, získá informace, odejde – nic nezmění v rámci objektů)
+6) Template Method - Abstraktní třídy Sensor, Appliance a Controller (Třídy mají metody, které jsou přepsány v potomcích)
+7) Command - UserInputSensorCommand (Příkaz pro UserInputSensor), DeviceCommand (Příkazy, které Controllery posílají na Appliances)
+8) Singleton - Např. TickPublisher (Vytváří se jen jedna instance)
+9) Builder - GarageBuilder (Vytváří garáž)
