@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
+import java.net.StandardProtocolFamily;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +52,7 @@ public class SimulationConfig {
     private Map<Integer, List<Room>> _roomMap;
     private List<Floor> _floorList;
     private House _house;
+    private Garage _garage;
 
     private Temperature _internalTemperature, _externalTemperature;
 
@@ -128,9 +130,9 @@ public class SimulationConfig {
 
         }
         log.info("[CONFIG][HOUSE] Configured house successfully created.");
-        return new House(_house.getHouseID(), _house.getHouseNumber(), _house.getAddress(), _house.getInternalTemperature(), _house.getExternalTemperature(), configuredFloors);
-        // House configuredHouse = new House(_house.getHouseID(), _house.getHouseNumber(), _house.getAddress(), _house.getInternalTemperature(), _house.getExternalTemperature(), configuredFloors);
-        // return configuredHouse;
+        House configuredHouse = new House(_house.getHouseID(), _house.getHouseNumber(), _house.getAddress(), _house.getInternalTemperature(), _house.getExternalTemperature(), configuredFloors);
+        configuredHouse.setGarage(_garage);
+        return configuredHouse;
     }
 
     public void loadConfigIntoConfigMaps() {
@@ -168,6 +170,24 @@ public class SimulationConfig {
             this._house = new House(houseID, houseNumber, address, this._internalTemperature, this._externalTemperature);
 
             log.info("[CONFIG][PARSING] House successfully initialized.");
+
+            /** CONFIGURATION OF GARAGE */
+            // Create garage object
+            JsonNode garage = jsonObject.get("Garage");
+            int garageID = garage.get("garageID").asInt();
+            String garageName = garage.get("garageName").asText();
+            int garageHouseID = garage.get("garageHouseID").asInt();
+            int sportEquipmentCountBIKE = garage.get("sportEquipmentCountBIKE").asInt();
+            int sportEquipmentCountSKATES = garage.get("sportEquipmentCountSKATES").asInt();
+            int sportEquipmentCountSKIS = garage.get("sportEquipmentCountSKIS").asInt();
+            List<SportEquipment> sportEquipmentList = this.createSportEquipmentList(sportEquipmentCountBIKE, sportEquipmentCountSKATES, sportEquipmentCountSKIS);
+            this._garage = Garage.garageBuilder()
+                    .setRoomID(garageID)
+                    .setRoomName(garageName)
+                    .addSportEquipment(sportEquipmentList)
+                    .build();
+
+            log.info("[CONFIG][PARSING] Garage successfully initialized.");
 
             /** CONFIGURATION OF FLOORS */
             // Create floors from config and add them to the config map
@@ -271,7 +291,16 @@ public class SimulationConfig {
         house.getFloors().forEach(floor -> floor.getRooms().forEach(room -> room.getAllPets().forEach(pet -> log.info("Pet: " + pet.toString()))));
         house.getFloors().forEach(floor -> floor.getRooms().forEach(room -> room.getAllDeviceSystems().forEach(deviceSystem -> log.info("Device system: " + deviceSystem.toString()))));
     }
-
+        private List<SportEquipment> createSportEquipmentList(int sportEquipmentCountBIKE, int sportEquipmentCountSKATES, int sportEquipmentCountSKIS) {
+            List<SportEquipment> sportEquipmentList = new ArrayList<>();
+            for (int i = 0; i < sportEquipmentCountBIKE; i++)
+                sportEquipmentList.add(new SportEquipment(SportEquipmentType.BIKE));
+            for (int i = 0; i < sportEquipmentCountSKATES; i++)
+                sportEquipmentList.add(new SportEquipment(SportEquipmentType.SKATES));
+            for (int i = 0; i < sportEquipmentCountSKIS; i++)
+                sportEquipmentList.add(new SportEquipment(SportEquipmentType.SKIS));
+            return sportEquipmentList;
+        }
         private DeviceSystem createSystemByType(int deviceSystemID, String deviceSystemName, Room room, Temperature internalTemp, Temperature externalTemp) {
             DeviceSystemFactory factory = new DeviceSystemFactory();
             return switch (deviceSystemName) {

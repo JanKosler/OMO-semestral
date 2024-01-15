@@ -3,13 +3,14 @@ package cz.cvut.fel.omo.semestral.manual;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.Optional;
 
-
+/**
+ * Represents a repository of manuals.
+ */
 @Slf4j
 public class ManualRepoImpl implements ManualRepo {
     private final OfflineManualDatabase database;
-    private Map<String, Manual> manual;
+    private final Map<String, Manual> manual;
 
     /**
      * Creates a new manual repo.
@@ -36,7 +37,12 @@ public class ManualRepoImpl implements ManualRepo {
     @Override
     public Manual getManual(String deviceName) {
         if (!manual.containsKey(deviceName)) {
-            manual.put(deviceName, loadManualFromDb(deviceName));
+            Manual newManual = loadManualFromDb(deviceName);
+            if (newManual == null) {
+                log.warn("Manual for device {} not found", deviceName);
+                return null;
+            }
+            manual.put(deviceName, newManual);
         }
         return manual.get(deviceName);
     }

@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SemestralApplication {
 
 	public static void main(String[] args) {
-		//SpringApplication.run(SemestralApplication.class, args);
 		SimulationManager simulationManager = new SimulationManager();
 		simulationManager.runSimulation("testConfig1.json");
 	}

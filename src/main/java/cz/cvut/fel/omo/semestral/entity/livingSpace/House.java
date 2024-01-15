@@ -7,6 +7,7 @@ import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 import cz.cvut.fel.omo.semestral.reporting.Report;
 import cz.cvut.fel.omo.semestral.reporting.ReportVisitor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,12 @@ public class House implements ILivingSpace {
 
     /** List of floors in the house. */
     private List<Floor> floors;
+    @Setter
+    private Garage garage;
 
     private final Temperature internalTemperature;
     private final Temperature externalTemperature;
+
 
     public House(int houseID, int houseNumber, String address, Temperature internalTemperature, Temperature externalTemperature) {
         this.houseID = houseID;
@@ -37,6 +41,7 @@ public class House implements ILivingSpace {
         this.externalTemperature = externalTemperature;
         this.floors = new ArrayList<>();
     }
+
     public House(int houseID, int houseNumber, String address, Temperature internalTemperature, Temperature externalTemperature, List<Floor> floors) {
         this(houseID, houseNumber, address, internalTemperature, externalTemperature);
         for (Floor floor : floors) {

@@ -4,15 +4,16 @@ import cz.cvut.fel.omo.semestral.entity.beings.Being;
 import cz.cvut.fel.omo.semestral.entity.devices.IDevice;
 import cz.cvut.fel.omo.semestral.entity.systems.DeviceSystem;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class GarageBuilder implements IRoomBuilder<Garage> {
-    Map<SportEquipment, Integer> sportEquipment;
+    List<SportEquipment> sportEquipmentList;
     RoomBuilder roomBuilder;
     public GarageBuilder() {
         this.roomBuilder = new RoomBuilder();
-        sportEquipment = new java.util.HashMap<>();
+        sportEquipmentList = new ArrayList<>();
     }
     public GarageBuilder setRoomID(int roomID) {
         this.roomBuilder.setRoomID(roomID);
@@ -43,7 +44,7 @@ public class GarageBuilder implements IRoomBuilder<Garage> {
     }
 
     public GarageBuilder addSportEquipment(SportEquipment sportEquipment) {
-        this.sportEquipment.merge(sportEquipment, 1, Integer::sum);
+        this.sportEquipmentList.add(sportEquipment);
         return this;
     }
 
